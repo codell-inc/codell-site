@@ -15,6 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   </head>
   <body>
     <header class="site-header" data-header>
@@ -28,52 +29,40 @@
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" data-nav>
-        <a href="#services">サービス</a>
+        <a href="#about">Codellについて</a>
+        <a href="#strength">できること</a>
+        <a href="#process">流れ</a>
         <a href="#works">実績</a>
-        <a href="#features">Features</a>
-        <a href="#strength">選ばれる理由</a>
-        <a href="#process">進め方</a>
         <a href="#company">会社情報</a>
-        <a class="nav-contact" href="#contact">相談する</a>
+        <a class="nav-contact" href="./contact.html">相談する</a>
       </nav>
     </header>
 
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-media" aria-hidden="true"></div>
+        <div class="hero-media" aria-hidden="true">
+          <img src="./assets/main_visual.jpg" alt="" />
+        </div>
         <div class="hero-overlay"></div>
         <div class="hero-inner">
-          <p class="eyebrow">Field DX Implementation</p>
-          <h1 id="hero-title">現場を、<br><span class="accent">もう一度</span>設計する。</h1>
-          <span class="hero-en">We design field DX, from setup to operation.</span>
-          <p class="hero-copy">
-            Codellは、現場に定着するDXを設計から運用まで伴走する実装パートナーです。
-            必要に応じてARデバイスなどの手段も組み合わせ、現場の課題を解きます。
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="#contact">導入を相談する</a>
-            <a class="button secondary" href="#services">支援内容を見る</a>
+          <div class="hero-text">
+            <p class="eyebrow">Field DX Implementation</p>
+            <h1 id="hero-title">現場を、<br><span class="accent">もう一度</span>設計する。</h1>
+            <span class="hero-en">We design field DX, from setup to operation.</span>
+            <p class="hero-copy">
+              Codellは、AIなどの最新技術を用いて、あなたの現場を変えるパートナーです。
+              現場の緻密なヒアリングから、最適な解決策をご提案します。
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="./contact.html">導入を相談する</a>
+              <a class="button secondary" href="#strength">できることを見る</a>
+            </div>
+            <div class="hero-meta">SCROLL ↓</div>
           </div>
-          <div class="hero-meta">SCROLL ↓</div>
         </div>
       </section>
 
-      <section class="trust-strip" aria-label="Codellの特徴">
-        <div>
-          <strong>現場設計</strong>
-          <span>業務に合う仕組みを設計</span>
-        </div>
-        <div>
-          <strong>実装・拡張</strong>
-          <span>ARやアプリなど手段は柔軟に</span>
-        </div>
-        <div>
-          <strong>継続支援</strong>
-          <span>運用・保守・改善まで伴走</span>
-        </div>
-      </section>
-
-      <section class="section intro">
+      <section class="section intro" id="about">
         <div class="section-label">About Codell</div>
         <div class="intro-grid">
           <h2>気づきを、資産に変える。</h2>
@@ -85,118 +74,38 @@
         </div>
       </section>
 
-      <section class="section services" id="services" aria-labelledby="services-title">
-        <div class="section-heading">
-          <div>
-            <div class="section-label">Services</div>
-            <h2 id="services-title">現場で使えるところまで、伴走する。</h2>
-          </div>
-          <p>
-            現場の業務課題に合わせて、導入設計・パッケージ化・拡張・運用までを一貫で支援します。
-            必要に応じてARデバイスの選定・導入も伴走します。
-          </p>
-        </div>
-
-        <div class="service-grid">
-          <article class="service-card">
-            <span class="card-index">01</span>
-            <h3>現場設計</h3>
-            <p>業務をヒアリングし、課題と優先順位を整理して現場に合うDXを設計します。</p>
-          </article>
-          <article class="service-card">
-            <span class="card-index">02</span>
-            <h3>導入パッケージ</h3>
-            <p>設定・初期導入・操作説明など、現場で使い始めるために必要な準備をまとめて行います。</p>
-          </article>
-          <article class="service-card">
-            <span class="card-index">03</span>
-            <h3>拡張プログラム</h3>
-            <p>既存業務に合わせてアプリや機能を拡張し、より実務にフィットする活用へ育てます。</p>
-          </article>
-          <article class="service-card">
-            <span class="card-index">04</span>
-            <h3>保守・運用</h3>
-            <p>トラブル対応、改善提案、アップデートを継続し、導入後の活用を支えます。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section works" id="works" aria-labelledby="works-title">
-        <div class="section-heading">
-          <div>
-            <div class="section-label">Works</div>
-            <h2 id="works-title">介護の現場で、気づきを見逃さない仕組みへ。</h2>
-          </div>
-          <p>
-            KiDUKiは、介護現場で日々生まれる小さな気づきを記録・共有し、ケアの質とチーム連携を支えるための
-            現場DXソリューションです。
-          </p>
-        </div>
-
-        <article class="work-card">
-          <div class="work-media" aria-hidden="true">
-            <span>KiDUKi</span>
-          </div>
-          <div class="work-content">
-            <span class="work-tag">Care Industry Case</span>
-            <h3>KiDUKi</h3>
-            <p>
-              介護スタッフの観察、申し送り、ケア中の違和感を現場の資産として残せるように、
-              業務フローの設計と手段選定を組み合わせて支援します。
-            </p>
-            <dl class="work-points">
-              <div>
-                <dt>対象領域</dt>
-                <dd>介護施設・現場スタッフの情報共有</dd>
-              </div>
-              <div>
-                <dt>支援内容</dt>
-                <dd>現場DX設計、アプリ・ツール選定（AR含む）、運用・改善</dd>
-              </div>
-              <div>
-                <dt>目指す状態</dt>
-                <dd>気づきを蓄積し、ケア品質とチーム連携につなげる</dd>
-              </div>
-            </dl>
-          </div>
-        </article>
-      </section>
-
-      <section class="section features" id="features" aria-labelledby="features-title">
-        <div class="section-heading compact">
-          <div>
-            <div class="section-label">Features</div>
-            <h2 id="features-title">活動ピックアップ</h2>
-          </div>
-        </div>
-        <ul class="features-list" data-features-list></ul>
-      </section>
-
       <section class="section strength" id="strength" aria-labelledby="strength-title">
-        <div class="visual-panel">
-          <img
-            src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80"
-            alt="現場DXの導入について打ち合わせをするチーム"
-          />
+        <div class="section-heading">
+          <div class="section-label">Strength</div>
+          <h2 id="strength-title">Codellができること。</h2>
+          <p>
+            現場に寄り添い、設計から運用まで一気通貫で伴走します。
+          </p>
         </div>
-        <div class="strength-content">
-          <div class="section-label">Why Codell</div>
-          <h2 id="strength-title">現場DXの実装パートナーとして。</h2>
-          <ul class="check-list">
-            <li>現場の業務を読み解いて、適した手段を設計する</li>
-            <li>導入して終わりではなく、運用に乗るまで伴走する</li>
-            <li>必要に応じてARデバイスなどの手段も取り入れる</li>
-            <li>保守・改善を継続し、現場の気づきを資産化する</li>
-          </ul>
+        <div class="strength-grid">
+          <article>
+            <span class="card-index">01</span>
+            <h3>0から伴走</h3>
+            <p>現場ヒアリングから入り、業務システムの設計段階から支援します。</p>
+          </article>
+          <article>
+            <span class="card-index">02</span>
+            <h3>最新技術への対応</h3>
+            <p>AIやARなどの最新技術に精通。最適な手段を提案します。</p>
+          </article>
+          <article>
+            <span class="card-index">03</span>
+            <h3>継続支援</h3>
+            <p>システム実装後の運用・保守・改善まで伴走します。</p>
+          </article>
         </div>
       </section>
 
       <section class="section process" id="process" aria-labelledby="process-title">
-        <div class="section-heading compact">
-          <div>
-            <div class="section-label">Process</div>
-            <h2 id="process-title">初回相談から公開までの流れ</h2>
-          </div>
+        <div class="section-heading">
+          <div class="section-label">Process</div>
+          <h2 id="process-title">初回相談から公開までの流れ</h2>
+          <p>ヒアリングから保守・改善まで、4ステップで現場DXを実装します。</p>
         </div>
         <ol class="process-list">
           <li>
@@ -220,6 +129,15 @@
             <p>運用中の相談、トラブル対応、アップデートを継続して支援します。</p>
           </li>
         </ol>
+      </section>
+
+      <section class="section works" id="works" aria-labelledby="works-title">
+        <div class="section-heading">
+          <div class="section-label">Works</div>
+          <h2 id="works-title">実績</h2>
+          <p>Codellのこれまでの取り組みと認定。</p>
+        </div>
+        <ul class="features-list" data-features-list></ul>
       </section>
 
       <section class="section company" id="company" aria-labelledby="company-title">
@@ -252,14 +170,20 @@
       </section>
 
       <section class="contact" id="contact" aria-labelledby="contact-title">
-        <div>
+        <div class="contact-intro">
           <div class="section-label">Contact</div>
           <h2 id="contact-title">現場DXを始めるなら、まずは課題の整理から。</h2>
           <p>
             「何から手を付ければよいか」「現場で続けられるか」など、検討の最初期からご相談ください。
           </p>
+          <dl class="contact-meta">
+            <div><dt>Email</dt><dd>331misaki331@gmail.com</dd></div>
+            <div><dt>Address</dt><dd>徳島県名西郡神山町神領大埀地299-1</dd></div>
+          </dl>
         </div>
-        <a class="button primary light" href="mailto:331misaki331@gmail.com">メールで相談する</a>
+        <div class="contact-cta">
+          <a class="button primary light" href="./contact.html">お問い合わせフォームへ</a>
+        </div>
       </section>
     </main>
 
