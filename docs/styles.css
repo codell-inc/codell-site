@@ -19,7 +19,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overscroll-behavior-y: none; }
 
 body {
   margin: 0;
@@ -30,6 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "palt";
   letter-spacing: 0.01em;
+  overscroll-behavior-y: none;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -889,16 +890,36 @@ h3 {
 .form-status[data-state="loading"] { color: rgba(255, 255, 255, 0.6); }
 
 /* ── Contact page (standalone /contact.html) ───── */
-.page-contact { background: var(--soft, #f6f8f5); }
+.page-contact {
+  background: var(--soft, #f6f8f5);
+}
+
+/* Contactページではヘッダーを常に白背景として表示 */
+.page-contact .site-header {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(14px);
+}
+.page-contact .site-header .brand-mark { background: var(--ink); color: var(--white); }
+.page-contact .site-header .site-nav a { color: var(--sub); opacity: 1; }
+.page-contact .site-header .site-nav a:hover { color: var(--green-deep); }
+.page-contact .site-header .nav-contact {
+  background: var(--ink);
+  color: var(--white) !important;
+}
+.page-contact .site-header .nav-contact:hover { background: var(--green-deep); }
 
 .contact-page {
-  width: min(var(--max), calc(100% - 40px));
-  margin: 120px auto 120px;
-  display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 64px;
-  align-items: start;
+  width: min(720px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 120px 0 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
+
+.contact-page-head { display: flex; flex-direction: column; gap: 14px; }
 
 .contact-page-head { display: flex; flex-direction: column; gap: 18px; }
 .contact-page-head .eyebrow { color: var(--green); font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase; margin: 0; }
@@ -912,8 +933,26 @@ h3 {
   background: #fff;
   border: 1px solid var(--line, #e4ebe4);
   border-radius: 16px;
-  padding: 36px;
+  padding: 32px;
   box-shadow: 0 1px 0 rgba(14, 26, 20, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.contact-form.light .field { gap: 6px; display: flex; flex-direction: column; }
+.contact-form.light textarea { min-height: 140px; resize: vertical; }
+.contact-form.light .form-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+}
+.contact-form.light .form-foot .button { align-self: auto; margin-top: 0; min-width: 160px; }
+.contact-form.light .form-foot .form-status { margin: 0; flex: 1; }
+@media (max-width: 640px) {
+  .contact-form.light .form-foot { flex-direction: column-reverse; align-items: stretch; }
+  .contact-form.light .form-foot .button { width: 100%; }
 }
 .contact-form.light label { color: var(--ink); font-weight: 500; }
 .contact-form.light label span { color: var(--green); }
@@ -924,6 +963,13 @@ h3 {
   border: 1px solid var(--line, #e4ebe4);
   color: var(--ink);
   border-radius: 8px;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .contact-form.light input:focus,
 .contact-form.light select:focus,
@@ -933,16 +979,42 @@ h3 {
   box-shadow: 0 0 0 3px rgba(73, 175, 51, 0.12);
 }
 .contact-form.light select {
+  padding-right: 40px;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted, #5a6b5a) 50%), linear-gradient(135deg, var(--muted, #5a6b5a) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
 }
-.contact-form.light select option { color: var(--ink); }
+.contact-form.light select option { color: var(--ink); background: #fff; }
 .contact-form.light .form-status { color: var(--muted, #5a6b5a); }
 .contact-form.light .form-status[data-state="success"] { color: var(--green-deep, #2e7a1e); }
 .contact-form.light .form-status[data-state="error"] { color: #c0392b; }
 
 @media (max-width: 900px) {
-  .contact-page { grid-template-columns: 1fr; gap: 40px; margin: 80px auto 80px; }
+  .contact-page { padding: 100px 0 60px; gap: 32px; }
   .contact-form.light { padding: 24px; }
+}
+
+/* 横長 & 一定以上の高さ ⇒ 2カラム横並び・100vh固定レイアウト */
+@media (min-width: 1100px) and (min-height: 760px) and (min-aspect-ratio: 16/10) {
+  .page-contact { height: 100vh; overflow: hidden; }
+  .page-contact main { height: 100vh; }
+  .contact-page {
+    width: min(var(--max), calc(100% - 40px));
+    height: 100vh;
+    padding: 110px 0 32px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 56px;
+    align-items: center;
+    flex-direction: initial;
+  }
+  .contact-form.light {
+    max-height: calc(100vh - 160px);
+    box-sizing: border-box;
+    overflow: auto;
+  }
 }
 
 .contact::before {
