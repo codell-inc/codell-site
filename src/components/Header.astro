@@ -1,0 +1,26 @@
+---
+const { homeHref = "/", contactHref = "/contact/" } = Astro.props;
+
+const navItems = [
+  { href: "/#about", label: "Codellについて" },
+  { href: "/#strength", label: "できること" },
+  { href: "/#process", label: "流れ" },
+  { href: "/#works", label: "実績" },
+  { href: "/#company", label: "会社情報" },
+];
+---
+
+<header class="site-header" data-header>
+  <a class="brand" href={homeHref} aria-label="Codell トップへ">
+    <span class="brand-text">Codell</span>
+  </a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <nav class="site-nav" id="site-nav" data-nav>
+    {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    <a class="nav-contact" href={contactHref}>相談する</a>
+  </nav>
+</header>
