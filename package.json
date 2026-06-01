@@ -2,12 +2,12 @@
   "name": "codell-site",
   "version": "1.0.0",
   "description": "Codell company website",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
   },
-  "dependencies": {
-    "express": "^4.19.2"
+  "devDependencies": {
+    "astro": "^6.4.2"
   }
 }
