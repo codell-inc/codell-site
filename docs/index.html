@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Codellは、現場DXの導入・実装・拡張・保守を一気通貫で支援するパートナーです。ARデバイスなども必要に応じて取り入れます。" />
-  <title>Codell | 現場DXの実装パートナー</title>
+  <meta name="description" content="Codellは、社会の違和感を前進する力に変えるプロダクトカンパニーです。介護現場の気づきを支えるKiDUKiを紹介します。" />
+  <title>Codell | 社会の違和感を、前進する力に。</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -18,8 +18,7 @@
 <body>
   <header class="site-header" data-header>
     <a class="brand" href="#top" aria-label="Codell トップへ">
-      <span class="brand-mark">c</span>
-      <span>Codell</span>
+      <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
       <span></span>
@@ -27,187 +26,209 @@
       <span></span>
     </button>
     <nav class="site-nav" id="site-nav" data-nav>
-      <a href="#about">Codellについて</a>
-      <a href="#members">メンバー</a>
-      <a href="#strength">できること</a>
-      <a href="#process">流れ</a>
-      <a href="#works">実績</a>
-      <a href="#company">会社情報</a>
-      <a class="nav-contact" href="./contact.html">相談する</a>
+      <a href="#business">事業</a>
+      <a href="#work">業務内容</a>
+      <a href="#product">制作物</a>
+      <a href="#development-flow">開発の流れ</a>
+      <a href="#company">会社概要</a>
+      <a class="nav-contact" href="./contact.html">無料相談</a>
     </nav>
   </header>
 
   <main id="top">
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-media" aria-hidden="true">
-        <img src="./assets/main_visual.jpg" alt="" />
+      <div class="hero-symbol" aria-hidden="true">
+        <img src="./assets/codell-mark.svg" alt="" />
       </div>
-      <div class="hero-overlay"></div>
       <div class="hero-inner">
-        <div class="hero-text">
-          <p class="eyebrow">Field DX Implementation</p>
-          <h1 id="hero-title">現場を、<br><span class="hero-line"><span class="accent">もう一度</span>設計する。</span></h1>
-          <span class="hero-en">We design field DX, from setup to operation.</span>
-          <div class="hero-actions">
-            <a class="button primary" href="./contact.html">導入を相談する</a>
-            <a class="button secondary" href="#strength">できることを見る</a>
+        <img class="hero-logo" src="./assets/codell-logo.svg" alt="Codell" width="720" height="300" />
+        <p class="hero-mission">社会の違和感を、前進する力に。</p>
+        <h1 id="hero-title">現場の小さな違和感から、業界を変えるプロダクトをつくる。</h1>
+        <div class="hero-actions">
+          <a class="button primary" href="#product">プロダクトを確認する</a>
+          <a class="button secondary" href="./contact.html">相談する</a>
+        </div>
+      </div>
+      <a class="hero-scroll" href="#business">Scroll</a>
+    </section>
+
+    <section class="section business" id="business" aria-label="Codellの事業">
+      <div class="section-heading">
+        <p class="section-label">What We Do</p>
+      </div>
+      <p class="business-statement" aria-label="Codellは、業界を変えるサービスの開発を行う会社です。">
+        <span class="business-statement-prefix">Codellは、</span>
+        <strong>業界を変える<br />サービスの開発</strong>
+        <span class="business-statement-suffix">を行う会社です。</span>
+      </p>
+      <div class="business-belief">
+        <p>
+          私たちは、すべての会社に、「業界を変える起点となるような課題」が隠れていると考えます。その業界変革の種火を、御社の業界ノウハウと、Codellの技術力のちからで業界全体に広げます。
+        </p>
+        <div class="strength-equation" aria-label="御社の業界知見とCodellの技術力を掛け合わせ、業界変革へつなげます">
+          <div class="strength-shape strength-shape-knowledge"><span>御社の<br /><strong>業界知見</strong></span></div>
+          <span class="strength-cross" aria-hidden="true">×</span>
+          <div class="strength-shape strength-shape-technology"><span>Codellの<br /><strong>技術力</strong></span></div>
+          <span class="strength-result">業界変革へ</span>
+        </div>
+      </div>
+      <div class="development-flow" id="development-flow">
+        <div class="flow-heading">
+          <p class="section-label">Our Process</p>
+          <h3>業務プロセス</h3>
+        </div>
+        <div class="process-carousel" data-process-carousel aria-roledescription="carousel" aria-label="Codellの開発プロセス">
+          <div class="process-stage">
+            <div class="process-image">
+              <img class="is-active" src="./assets/main_visual.jpg" alt="現場の課題を見つけるイメージ" width="1200" height="800" loading="lazy" data-process-image aria-hidden="false" />
+              <img src="./assets/kiduki_rokid.png" alt="プロダクトを設計するイメージ" width="1200" height="675" loading="lazy" data-process-image aria-hidden="true" />
+              <img src="./assets/AikiKiduki.jpg" alt="現場でプロダクトを育てるイメージ" width="320" height="400" loading="lazy" data-process-image aria-hidden="true" />
+              <img src="./assets/EdaMisaki.jpg" alt="プロダクトを業界へ広げるイメージ" width="320" height="400" loading="lazy" data-process-image aria-hidden="true" />
+            </div>
+            <div class="process-panel">
+              <div class="process-track" data-process-track>
+                <article class="process-slide" id="process-slide-1" data-process-slide aria-hidden="false">
+                  <span class="process-index">01</span>
+                  <h4>課題を聞き切る</h4>
+                  <p>業務の背景、制約、現場の迷いまで深く整理します。まだ言葉になっていない違和感から、変革の起点を見つけます。</p>
+                </article>
+                <article class="process-slide" id="process-slide-2" data-process-slide aria-hidden="true">
+                  <span class="process-index">02</span>
+                  <h4>プロダクトにする</h4>
+                  <p>個別の課題を、業界に共通する価値へ変換して設計します。プロトタイプを通じて、使われる形を素早く確かめます。</p>
+                </article>
+                <article class="process-slide" id="process-slide-3" data-process-slide aria-hidden="true">
+                  <span class="process-index">03</span>
+                  <h4>現場で育てる</h4>
+                  <p>実際の使われ方を見ながら、業務に根づく形へ磨き込みます。導入後も現場の声を取り込み、価値を更新し続けます。</p>
+                </article>
+                <article class="process-slide" id="process-slide-4" data-process-slide aria-hidden="true">
+                  <span class="process-index">04</span>
+                  <h4>業界全体に拡大</h4>
+                  <p>一社から始まった変化を、同じ課題を持つ業界全体へ広げます。現場発のプロダクトを、新しい業界標準へ育てます。</p>
+                </article>
+              </div>
+            </div>
           </div>
-          <div class="hero-meta">SCROLL ↓</div>
+          <div class="process-controls">
+            <div class="process-tabs" role="tablist" aria-label="プロセスを選択">
+              <button type="button" role="tab" aria-selected="true" aria-controls="process-slide-1" data-process-tab="0">01</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="process-slide-2" data-process-tab="1">02</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="process-slide-3" data-process-tab="2">03</button>
+              <button type="button" role="tab" aria-selected="false" aria-controls="process-slide-4" data-process-tab="3">04</button>
+            </div>
+            <div class="process-arrows">
+              <button type="button" aria-label="前のプロセス" data-process-prev>←</button>
+              <button type="button" aria-label="次のプロセス" data-process-next>→</button>
+            </div>
+          </div>
+          <p class="sr-only" aria-live="polite" data-process-status>プロセス 1 / 4：課題を聞き切る</p>
         </div>
       </div>
     </section>
 
-    <section class="section intro" id="about">
-      <div class="section-label">About Codell</div>
-      <div class="intro-grid">
-        <h2>気づきを、資産に変える。</h2>
-        <p>
-          Codellは、AIなどの最新技術を用いて、あなたの現場を変えるパートナーです。
-          現場の緻密なヒアリングから、最適な解決策をご提案します。
-        </p>
-      </div>
-    </section>
-
-    <section class="section members" id="members" aria-labelledby="members-title">
+    <section class="section work" id="work" aria-labelledby="work-title">
       <div class="section-heading">
-        <div class="section-label">Members</div>
-        <h2 id="members-title">メンバー</h2>
-        <p>現場DXの実装を支えるCodellのチーム。</p>
+        <p class="section-label">Work</p>
+        <h2 id="work-title">業務内容</h2>
+        <p>ARアプリ、スマホアプリ、AI開発を通じて、現場や業界の課題を実際に使われるプロダクトへ変えます。</p>
       </div>
-      <ul class="members-grid">
-        <li class="member-card">
-          <img src="./assets/EdaMisaki.jpg" alt="江田岬毅" width="320" height="400" loading="lazy" />
-          <div class="member-info">
-            <p class="member-name">江田岬毅</p>
-            <p class="member-role">CEO</p>
-          </div>
-        </li>
-        <li class="member-card">
-          <img src="./assets/AikiKiduki.jpg" alt="相木絆煌" width="320" height="400" loading="lazy" />
-          <div class="member-info">
-            <p class="member-name">相木絆煌</p>
-            <p class="member-role">CTO</p>
-          </div>
-        </li>
-        <li class="member-card">
-          <img src="./assets/MiyanoShuta.jpg" alt="宮野柊太" width="320" height="400" loading="lazy" />
-          <div class="member-info">
-            <p class="member-name">宮野柊太</p>
-            <p class="member-role">COO</p>
-          </div>
-        </li>
-        <li class="member-card">
-          <img src="./assets/OzakiNico.jpg" alt="尾崎仁瑚" width="320" height="400" loading="lazy" />
-          <div class="member-info">
-            <p class="member-name">尾崎仁瑚</p>
-            <p class="member-role">CDO</p>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <section class="section strength" id="strength" aria-labelledby="strength-title">
-      <div class="section-heading">
-        <div class="section-label">Strength</div>
-        <h2 id="strength-title">Codellができること</h2>
-        <p>
-          現場に寄り添い、設計から運用まで一気通貫で伴走します。
-        </p>
-      </div>
-      <div class="strength-grid">
-        <article>
-          <span class="card-index">01</span>
-          <h3>0から伴走</h3>
-          <p>現場ヒアリングから入り、業務システムの設計段階から支援します。</p>
-        </article>
-        <article>
-          <span class="card-index">02</span>
-          <h3>最新技術への対応</h3>
-          <p>AIやARなどの最新技術に精通。最適な手段を提案します。</p>
-        </article>
-        <article>
-          <span class="card-index">03</span>
-          <h3>継続支援</h3>
-          <p>システム実装後の運用・保守・改善まで伴走します。</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section process" id="process" aria-labelledby="process-title">
-      <div class="section-heading">
-        <div class="section-label">Process</div>
-        <h2 id="process-title">初回相談から公開までの流れ</h2>
-        <p>ヒアリングから保守・改善まで、4ステップで現場DXを実装します。</p>
-      </div>
-      <ol class="process-list">
+      <ol class="work-list">
         <li>
-          <span>1</span>
-          <h3>現場整理</h3>
-          <p>利用シーン、課題、既存業務、導入体制を確認し、優先順位を合わせます。</p>
+          <h3>ARアプリ開発</h3>
+          <div class="work-description">
+            <p>ARグラスなどのスマートデバイスを、現場に実装できます。ハンズフリーの情報端末で、スマホやタブレットが適さない現場でも活躍できます。</p>
+          </div>
+          <img src="./assets/work-ar.png" alt="ARデバイスを装着して操作する人のイラスト" width="1080" height="1080" loading="lazy" />
         </li>
         <li>
-          <span>2</span>
-          <h3>導入設計</h3>
-          <p>デバイス、初期設定、説明内容、スケジュールを整理して提案します。</p>
+          <h3>スマホアプリ開発</h3>
+          <div class="work-description">
+            <p>業務改善に寄与する専用アプリの開発が可能です。アプリを公開し、関連企業やグループ企業へ簡単に提供できます。</p>
+          </div>
+          <img src="./assets/work-app.png" alt="スマートフォンを操作する人のイラスト" width="1080" height="1080" loading="lazy" />
         </li>
         <li>
-          <span>3</span>
-          <h3>導入・拡張</h3>
-          <p>現場で使い始められる状態をつくり、必要に応じて機能を拡張します。</p>
-        </li>
-        <li>
-          <span>4</span>
-          <h3>保守・改善</h3>
-          <p>運用中の相談、トラブル対応、アップデートを継続して支援します。</p>
+          <h3>AI開発</h3>
+          <div class="work-description">
+            <p>既存の業務ツールなどへのAI導入も検討可能です。検証から現場への導入まで、現場や業界に合わせた開発が可能です。</p>
+          </div>
+          <img src="./assets/work-ai.png" alt="AIチャットを活用するイラスト" width="1080" height="1080" loading="lazy" />
         </li>
       </ol>
     </section>
 
-    <section class="section works" id="works" aria-labelledby="works-title">
+    <section class="section product" id="product" aria-labelledby="product-title">
       <div class="section-heading">
-        <div class="section-label">Works</div>
-        <h2 id="works-title">実績</h2>
-        <p>Codellのこれまでの取り組みと認定。</p>
+        <p class="section-label">Product</p>
+        <h2 id="product-title">製品紹介</h2>
+        <p>KiDUKiは、介護現場の「気づき」を共有可能な知識へ変えるAR×AIプロダクトです。</p>
       </div>
-      <article class="work-card">
-        <div class="work-media">
-          <img src="./assets/kiduki_rokid.png" alt="Rokid ARグラス" width="800" height="800" loading="lazy" />
+      <article class="product-card" data-product-showcase>
+        <div class="product-media" aria-live="polite">
+          <img class="is-active" data-product-image="scouter" src="./assets/kiduki-feature-scouter.png"
+            alt="ARグラスに利用者情報を表示するスカウター機能のイメージ" width="1586" height="992" loading="lazy" />
+          <img data-product-image="voice" src="./assets/kiduki-feature-voice.png"
+            alt="ARグラスで音声を記録する機能のイメージ" width="1586" height="992" loading="lazy" aria-hidden="true" />
+          <img data-product-image="share" src="./assets/kiduki-feature-share.png"
+            alt="ARグラスの映像を遠隔担当者と共有する機能のイメージ" width="1586" height="992" loading="lazy" aria-hidden="true" />
+          <p class="product-media-caption"><span data-product-caption-index>01</span><span data-product-caption>スカウター機能</span></p>
         </div>
-        <div class="work-content">
+        <div class="product-content">
           <p class="work-tag">Flagship Product</p>
           <h3>KiDUKi</h3>
           <p>
-            介護の「気づき」を共有するARグラス型情報支援システム。入居者の顔を見るだけで、個別のケア情報や注意点をリアルタイムに表示します。AR×AIで「今・誰に・何をすべきか」を即座に可視化し、新人教育の負担軽減と介護サービスの質向上を目指します。
+            入居者の顔や状況を見たときに、必要なケア情報、注意点、申し送りをARグラス上へ表示する介護支援システムです。
+            ベテランの暗黙知を現場で再利用できる形にし、新人でも迷わず動ける状態を目指します。
           </p>
-          <dl class="work-points">
-            <div>
-              <dt>分野</dt>
-              <dd>介護DX / AR×AI</dd>
-            </div>
-            <div>
-              <dt>デバイス</dt>
-              <dd>Rokid ARグラス</dd>
-            </div>
-            <div>
-              <dt>受賞</dt>
-              <dd>文部科学大臣賞・トヨタ自動車賞（DCON2026）</dd>
-            </div>
-            <div>
-              <dt>企業評価額</dt>
-              <dd>2億4,000万円</dd>
-            </div>
-          </dl>
-          <a class="button secondary work-link" href="https://dcon.ai/teams/kamiyama2026/" target="_blank"
-            rel="noopener noreferrer">詳細を見る</a>
+          <div class="product-features" role="tablist" aria-label="KiDUKiの機能">
+            <button class="product-feature is-active" type="button" role="tab" aria-selected="true"
+              data-product-feature="scouter" data-feature-index="01">
+              <span class="product-feature-index">01</span>
+              <span class="product-feature-copy">
+                <strong>スカウター機能</strong>
+                <span>ARグラス上に利用者ごとの注意点やケア情報を表示し、視線を外さず確認できます。</span>
+              </span>
+            </button>
+            <button class="product-feature" type="button" role="tab" aria-selected="false" tabindex="-1"
+              data-product-feature="voice" data-feature-index="02">
+              <span class="product-feature-index">02</span>
+              <span class="product-feature-copy">
+                <strong>音声記録機能</strong>
+                <span>作業中の気づきや申し送りを音声で記録し、手を止めずに情報を残せます。</span>
+              </span>
+            </button>
+            <button class="product-feature" type="button" role="tab" aria-selected="false" tabindex="-1"
+              data-product-feature="share" data-feature-index="03">
+              <span class="product-feature-index">03</span>
+              <span class="product-feature-copy">
+                <strong>画面共有機能</strong>
+                <span>ARグラスの映像を遠隔の担当者と共有し、現場を見ながら指示を受けられます。</span>
+              </span>
+            </button>
+          </div>
+          <ul class="product-tags" aria-label="KiDUKiの分野">
+            <li>#介護</li>
+            <li>#AR実装</li>
+            <li>#遠隔指示</li>
+          </ul>
         </div>
       </article>
-      <ul class="features-list" data-features-list></ul>
+    </section>
+
+    <section class="cta" id="contact" aria-labelledby="cta-title">
+      <div class="cta-inner">
+        <p class="section-label">Contact</p>
+        <h2 id="cta-title">御社の課題が、業界を変えます。</h2>
+        <p>まずは無料でご相談ください。まだ言葉になっていない違和感から、一緒に整理します。</p>
+        <a class="button primary light" href="./contact.html">無料相談へ進む</a>
+      </div>
     </section>
 
     <section class="section company" id="company" aria-labelledby="company-title">
       <div>
-        <div class="section-label">Company</div>
-        <h2 id="company-title">会社情報</h2>
+        <p class="section-label">Company</p>
+        <h2 id="company-title">会社概要</h2>
       </div>
       <dl class="company-table">
         <div>
@@ -215,12 +236,20 @@
           <dd>Codell</dd>
         </div>
         <div>
+          <dt>Mission</dt>
+          <dd>社会の違和感を、前進する力に。</dd>
+        </div>
+        <div>
           <dt>設立日</dt>
           <dd>登記申請準備中</dd>
         </div>
         <div>
+          <dt>資本金</dt>
+          <dd>準備中</dd>
+        </div>
+        <div>
           <dt>事業内容</dt>
-          <dd>現場DXの導入・実装・拡張・運用保守、アプリ開発、ARデバイス販売</dd>
+          <dd>介護DXプロダクトの企画・開発、AI/ARを活用した業務支援システムの設計・実装</dd>
         </div>
         <div>
           <dt>所在地</dt>
@@ -232,35 +261,11 @@
         </div>
       </dl>
     </section>
-
-    <section class="contact" id="contact" aria-labelledby="contact-title">
-      <div class="contact-intro">
-        <div class="section-label">Contact</div>
-        <h2 id="contact-title">現場DXを始めるなら、まずは課題の整理から。</h2>
-        <p>
-          「何から手を付ければよいか」「現場で続けられるか」など、検討の最初期からご相談ください。
-        </p>
-        <dl class="contact-meta">
-          <div>
-            <dt>Email</dt>
-            <dd>codell.support@gmail.com</dd>
-          </div>
-          <div>
-            <dt>Address</dt>
-            <dd>徳島県名西郡神山町神領大埜地299-1</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="contact-cta">
-        <a class="button primary light" href="./contact.html">お問い合わせフォームへ</a>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
     <a class="brand" href="#top" aria-label="Codell トップへ">
-      <span class="brand-mark">c</span>
-      <span>Codell</span>
+      <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
     </a>
     <small>&copy; 2026 Codell. All rights reserved.</small>
   </footer>

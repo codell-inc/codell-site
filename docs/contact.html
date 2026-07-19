@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Codellへのお問い合わせ。現場DXの導入・運用に関するご相談はこちらから。"
+      content="Codellへのお問い合わせ。現場の違和感やKiDUKiに関する無料相談はこちらから。"
     />
     <title>お問い合わせ | Codell</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,8 +20,7 @@
   <body class="page-contact">
     <header class="site-header" data-header>
       <a class="brand" href="./index.html" aria-label="Codell トップへ">
-        <span class="brand-mark">c</span>
-        <span>Codell</span>
+        <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
         <span></span>
@@ -29,13 +28,12 @@
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" data-nav>
-        <a href="./index.html#about">Codellについて</a>
-        <a href="./index.html#members">メンバー</a>
-        <a href="./index.html#strength">できること</a>
-        <a href="./index.html#process">流れ</a>
-        <a href="./index.html#works">実績</a>
-        <a href="./index.html#company">会社情報</a>
-        <a class="nav-contact" href="./contact.html">相談する</a>
+        <a href="./index.html#business">事業</a>
+        <a href="./index.html#work">業務内容</a>
+        <a href="./index.html#product">制作物</a>
+        <a href="./index.html#development-flow">開発の流れ</a>
+        <a href="./index.html#company">会社概要</a>
+        <a class="nav-contact" href="./contact.html">無料相談</a>
       </nav>
     </header>
 
@@ -45,8 +43,8 @@
           <p class="eyebrow">Contact</p>
           <h1>お問い合わせ</h1>
           <p class="lead">
-            現場DXの導入・運用に関するご相談は、こちらのフォームよりお気軽にお寄せください。
-            内容を確認のうえ、担当者よりご連絡いたします。
+            現場の違和感、KiDUKiへの関心、新しいプロダクト化の相談などをお寄せください。
+            まずは無料相談として、内容を確認のうえ担当者よりご連絡いたします。
           </p>
           <dl class="contact-meta light">
             <div><dt>Email</dt><dd>codell.support@gmail.com</dd></div>
@@ -67,7 +65,9 @@
             <label for="contact-type">問い合わせ種別 <span aria-hidden="true">*</span></label>
             <select id="contact-type" name="type" required>
               <option value="" disabled selected>選択してください</option>
-              <option value="依頼">依頼</option>
+              <option value="無料相談">無料相談</option>
+              <option value="KiDUKiについて">KiDUKiについて</option>
+              <option value="プロダクト開発相談">プロダクト開発相談</option>
               <option value="その他">その他</option>
             </select>
           </div>
@@ -85,8 +85,7 @@
 
     <footer class="site-footer">
       <a class="brand" href="./index.html" aria-label="Codell トップへ">
-        <span class="brand-mark">c</span>
-        <span>Codell</span>
+        <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
       </a>
       <small>&copy; 2026 Codell. All rights reserved.</small>
     </footer>

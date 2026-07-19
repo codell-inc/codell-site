@@ -75,6 +75,118 @@ nav.addEventListener("click", (event) => {
 window.addEventListener("scroll", updateHeader, { passive: true });
 updateHeader();
 
+// ── Process carousel ─────────────────────────────────
+(function initProcessCarousel() {
+  const carousel = document.querySelector("[data-process-carousel]");
+  if (!carousel) return;
+
+  const slides = [...carousel.querySelectorAll("[data-process-slide]")];
+  const images = [...carousel.querySelectorAll("[data-process-image]")];
+  const tabs = [...carousel.querySelectorAll("[data-process-tab]")];
+  const previous = carousel.querySelector("[data-process-prev]");
+  const next = carousel.querySelector("[data-process-next]");
+  const status = carousel.querySelector("[data-process-status]");
+  const titles = slides.map((slide) => slide.querySelector("h4").textContent);
+  let activeIndex = 0;
+
+  const showProcess = (index, moveFocus = false) => {
+    activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+    carousel.style.setProperty("--process-index", activeIndex);
+
+    slides.forEach((slide, slideIndex) => {
+      slide.setAttribute("aria-hidden", String(slideIndex !== activeIndex));
+    });
+
+    images.forEach((image, imageIndex) => {
+      const isActive = imageIndex === activeIndex;
+      image.classList.toggle("is-active", isActive);
+      image.setAttribute("aria-hidden", String(!isActive));
+    });
+
+    tabs.forEach((tab, tabIndex) => {
+      const isActive = tabIndex === activeIndex;
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.tabIndex = isActive ? 0 : -1;
+    });
+
+    previous.disabled = activeIndex === 0;
+    next.disabled = activeIndex === slides.length - 1;
+    status.textContent = `プロセス ${activeIndex + 1} / ${slides.length}：${titles[activeIndex]}`;
+
+    if (moveFocus) tabs[activeIndex].focus();
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => showProcess(Number(tab.dataset.processTab)));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showProcess(activeIndex + 1, true);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showProcess(activeIndex - 1, true);
+      }
+    });
+  });
+
+  previous.addEventListener("click", () => showProcess(activeIndex - 1));
+  next.addEventListener("click", () => showProcess(activeIndex + 1));
+  showProcess(0);
+})();
+// ─────────────────────────────────────────────────────
+
+// ── Product feature showcase ─────────────────────────
+(function initProductShowcase() {
+  const showcase = document.querySelector("[data-product-showcase]");
+  if (!showcase) return;
+
+  const features = [...showcase.querySelectorAll("[data-product-feature]")];
+  const images = [...showcase.querySelectorAll("[data-product-image]")];
+  const captionIndex = showcase.querySelector("[data-product-caption-index]");
+  const caption = showcase.querySelector("[data-product-caption]");
+
+  const showFeature = (key, moveFocus = false) => {
+    const activeIndex = features.findIndex((feature) => feature.dataset.productFeature === key);
+    if (activeIndex < 0) return;
+
+    features.forEach((feature, index) => {
+      const isActive = index === activeIndex;
+      feature.classList.toggle("is-active", isActive);
+      feature.setAttribute("aria-selected", String(isActive));
+      feature.tabIndex = isActive ? 0 : -1;
+    });
+
+    images.forEach((image) => {
+      const isActive = image.dataset.productImage === key;
+      image.classList.toggle("is-active", isActive);
+      image.setAttribute("aria-hidden", String(!isActive));
+    });
+
+    const activeFeature = features[activeIndex];
+    captionIndex.textContent = activeFeature.dataset.featureIndex;
+    caption.textContent = activeFeature.querySelector("strong").textContent;
+    if (moveFocus) activeFeature.focus();
+  };
+
+  features.forEach((feature, index) => {
+    const activate = () => showFeature(feature.dataset.productFeature);
+    feature.addEventListener("pointerenter", activate);
+    feature.addEventListener("focus", activate);
+    feature.addEventListener("click", activate);
+    feature.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+      event.preventDefault();
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      const nextIndex = (index + direction + features.length) % features.length;
+      showFeature(features[nextIndex].dataset.productFeature, true);
+    });
+  });
+
+  showFeature(features[0].dataset.productFeature);
+})();
+// ─────────────────────────────────────────────────────
+
 // ── Contact form (EmailJS) ────────────────────────────
 const EMAILJS_CONFIG = {
   publicKey: "zW5BfPsT1UBqvxMTr",
@@ -150,4 +262,3 @@ const EMAILJS_CONFIG = {
     }
   });
 })();
-
