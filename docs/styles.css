@@ -796,7 +796,8 @@ h3 {
   background: var(--ink);
 }
 
-.product-media img {
+.product-media img,
+.product-media video {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -807,7 +808,8 @@ h3 {
   transition: opacity 420ms ease, transform 700ms ease;
 }
 
-.product-media img.is-active {
+.product-media img.is-active,
+.product-media video.is-active {
   z-index: 1;
   opacity: 1;
   transform: scale(1);

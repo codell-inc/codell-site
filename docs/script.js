@@ -142,7 +142,7 @@ updateHeader();
   if (!showcase) return;
 
   const features = [...showcase.querySelectorAll("[data-product-feature]")];
-  const images = [...showcase.querySelectorAll("[data-product-image]")];
+  const media = [...showcase.querySelectorAll("[data-product-media]")];
   const captionIndex = showcase.querySelector("[data-product-caption-index]");
   const caption = showcase.querySelector("[data-product-caption]");
 
@@ -157,10 +157,18 @@ updateHeader();
       feature.tabIndex = isActive ? 0 : -1;
     });
 
-    images.forEach((image) => {
-      const isActive = image.dataset.productImage === key;
-      image.classList.toggle("is-active", isActive);
-      image.setAttribute("aria-hidden", String(!isActive));
+    media.forEach((item) => {
+      const isActive = item.dataset.productMedia === key;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-hidden", String(!isActive));
+
+      if (item instanceof HTMLVideoElement) {
+        if (isActive) {
+          item.play().catch(() => {});
+        } else {
+          item.pause();
+        }
+      }
     });
 
     const activeFeature = features[activeIndex];

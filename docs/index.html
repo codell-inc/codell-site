@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=20260719-2" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
@@ -80,10 +80,10 @@
         <div class="process-carousel" data-process-carousel aria-roledescription="carousel" aria-label="Codellの開発プロセス">
           <div class="process-stage">
             <div class="process-image">
-              <img class="is-active" src="./assets/main_visual.jpg" alt="現場の課題を見つけるイメージ" width="1200" height="800" loading="lazy" data-process-image aria-hidden="false" />
-              <img src="./assets/kiduki_rokid.png" alt="プロダクトを設計するイメージ" width="1200" height="675" loading="lazy" data-process-image aria-hidden="true" />
-              <img src="./assets/AikiKiduki.jpg" alt="現場でプロダクトを育てるイメージ" width="320" height="400" loading="lazy" data-process-image aria-hidden="true" />
-              <img src="./assets/EdaMisaki.jpg" alt="プロダクトを業界へ広げるイメージ" width="320" height="400" loading="lazy" data-process-image aria-hidden="true" />
+              <img class="is-active" src="./assets/process-01-hearing.png" alt="介護現場で課題を聞く様子" width="577" height="370" loading="lazy" data-process-image aria-hidden="false" />
+              <img src="./assets/process-02-product.png" alt="介護現場でKiDUKiを使用する様子" width="976" height="902" loading="lazy" data-process-image aria-hidden="true" />
+              <img src="./assets/process-03-field-growth.png" alt="現場と開発チームがプロダクトを改善する様子" width="1456" height="1092" loading="lazy" data-process-image aria-hidden="true" />
+              <img src="./assets/process-04-industry.png" alt="複数の介護スタッフへプロダクトが広がる様子" width="1456" height="1092" loading="lazy" data-process-image aria-hidden="true" />
             </div>
             <div class="process-panel">
               <div class="process-track" data-process-track>
@@ -166,12 +166,18 @@
       </div>
       <article class="product-card" data-product-showcase>
         <div class="product-media" aria-live="polite">
-          <img class="is-active" data-product-image="scouter" src="./assets/kiduki-feature-scouter.png"
-            alt="ARグラスに利用者情報を表示するスカウター機能のイメージ" width="1586" height="992" loading="lazy" />
-          <img data-product-image="voice" src="./assets/kiduki-feature-voice.png"
-            alt="ARグラスで音声を記録する機能のイメージ" width="1586" height="992" loading="lazy" aria-hidden="true" />
-          <img data-product-image="share" src="./assets/kiduki-feature-share.png"
-            alt="ARグラスの映像を遠隔担当者と共有する機能のイメージ" width="1586" height="992" loading="lazy" aria-hidden="true" />
+          <video class="is-active" data-product-media="scouter" width="1280" height="720" autoplay muted loop playsinline
+            preload="metadata" poster="./assets/kiduki-scouter-poster.jpg" aria-label="スカウター機能のデモ動画">
+            <source src="./assets/kiduki-scouter.mp4" type="video/mp4" />
+          </video>
+          <video data-product-media="voice" width="1280" height="720" muted loop playsinline preload="none"
+            poster="./assets/kiduki-voice-poster.jpg" aria-label="音声記録機能のデモ動画" aria-hidden="true">
+            <source src="./assets/kiduki-voice.mp4" type="video/mp4" />
+          </video>
+          <video data-product-media="share" width="1280" height="720" muted loop playsinline preload="none"
+            poster="./assets/kiduki-share-poster.jpg" aria-label="画面共有機能のデモ動画" aria-hidden="true">
+            <source src="./assets/kiduki-share.mp4" type="video/mp4" />
+          </video>
           <p class="product-media-caption"><span data-product-caption-index>01</span><span data-product-caption>スカウター機能</span></p>
         </div>
         <div class="product-content">
@@ -257,7 +263,7 @@
         </div>
         <div>
           <dt>お問い合わせ</dt>
-          <dd>codell.support@gmail.com</dd>
+          <dd><a href="mailto:info@codell.jp">info@codell.jp</a></dd>
         </div>
       </dl>
     </section>
@@ -270,7 +276,7 @@
     <small>&copy; 2026 Codell. All rights reserved.</small>
   </footer>
 
-  <script src="./script.js"></script>
+  <script src="./script.js?v=20260719-2"></script>
 </body>
 
 </html>
