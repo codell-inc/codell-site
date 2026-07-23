@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Codellへのお問い合わせ。現場の違和感やKiDUKiに関する無料相談はこちらから。"
+      content="Codellへのお問い合わせ。現場の違和感、KiDUKi、ソノバデに関する無料相談はこちらから。"
     />
     <title>お問い合わせ | Codell</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./styles.css?v=20260719-2" />
+    <link rel="stylesheet" href="./styles.css?v=20260723-1" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   </head>
   <body class="page-contact">
@@ -22,12 +22,19 @@
       <a class="brand" href="./index.html" aria-label="Codell トップへ">
         <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
       </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle
+        aria-label="メニューを開く">
         <span></span>
         <span></span>
         <span></span>
       </button>
       <nav class="site-nav" id="site-nav" data-nav>
+        <details class="nav-services" data-nav-services>
+          <summary>サービス</summary>
+          <div class="nav-services-menu">
+            <a href="./sonovade/"><strong>ソノバデ</strong><span>介護住宅改修の見積・申請</span></a>
+          </div>
+        </details>
         <a href="./index.html#business">事業</a>
         <a href="./index.html#work">業務内容</a>
         <a href="./index.html#product">制作物</a>
@@ -43,12 +50,11 @@
           <p class="eyebrow">Contact</p>
           <h1>お問い合わせ</h1>
           <p class="lead">
-            現場の違和感、KiDUKiへの関心、新しいプロダクト化の相談などをお寄せください。
+            現場の違和感、KiDUKiやソノバデへの関心、新しいプロダクト化の相談などをお寄せください。
             まずは無料相談として、内容を確認のうえ担当者よりご連絡いたします。
           </p>
           <dl class="contact-meta light">
-            <div><dt>Email</dt><dd><a href="mailto:info@codell.jp">info@codell.jp</a></dd></div>
-            <div><dt>Address</dt><dd>徳島県名西郡神山町神領大埜地299-1</dd></div>
+            <div><dt>Address</dt><dd>徳島県名西郡神山町神領大埜地299-1<br />神山まるごと高専 ROOMS Base</dd></div>
           </dl>
         </div>
 
@@ -67,6 +73,7 @@
               <option value="" disabled selected>選択してください</option>
               <option value="無料相談">無料相談</option>
               <option value="KiDUKiについて">KiDUKiについて</option>
+              <option value="ソノバデについて">ソノバデについて</option>
               <option value="プロダクト開発相談">プロダクト開発相談</option>
               <option value="その他">その他</option>
             </select>
@@ -90,6 +97,6 @@
       <small>&copy; 2026 Codell. All rights reserved.</small>
     </footer>
 
-    <script src="./script.js?v=20260719-2"></script>
+    <script src="./script.js?v=20260723-1"></script>
   </body>
 </html>

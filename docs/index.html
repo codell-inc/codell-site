@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="./styles.css?v=20260719-2" />
+  <link rel="stylesheet" href="./styles.css?v=20260723-1" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
@@ -20,12 +20,19 @@
     <a class="brand" href="#top" aria-label="Codell トップへ">
       <img class="brand-logo" src="./assets/codell-logo.svg" alt="Codell" width="144" height="60" />
     </a>
-    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle
+      aria-label="メニューを開く">
       <span></span>
       <span></span>
       <span></span>
     </button>
     <nav class="site-nav" id="site-nav" data-nav>
+      <details class="nav-services" data-nav-services>
+        <summary>サービス</summary>
+        <div class="nav-services-menu">
+          <a href="./sonovade/"><strong>ソノバデ</strong><span>介護住宅改修の見積・申請</span></a>
+        </div>
+      </details>
       <a href="#business">事業</a>
       <a href="#work">業務内容</a>
       <a href="#product">制作物</a>
@@ -139,27 +146,27 @@
       <div class="section-heading">
         <p class="section-label">Work</p>
         <h2 id="work-title">業務内容</h2>
-        <p>ARアプリ、スマホアプリ、AI開発を通じて、現場や業界の課題を実際に使われるプロダクトへ変えます。</p>
+        <p>現場へのヒアリングと課題整理から、企画提案、ARアプリ・スマホアプリ・AIの開発、導入までを一体で進めます。</p>
       </div>
       <ol class="work-list">
         <li>
           <h3>ARアプリ開発</h3>
           <div class="work-description">
-            <p>ARグラスなどのスマートデバイスを、現場に実装できます。ハンズフリーの情報端末で、スマホやタブレットが適さない現場でも活躍できます。</p>
+            <p>現場の作業や制約を整理し、ARグラスなどのスマートデバイスを使った活用方法から提案します。ハンズフリーの情報端末で、スマホやタブレットが適さない現場にも実装します。</p>
           </div>
           <img src="./assets/work-ar.png" alt="ARデバイスを装着して操作する人のイラスト" width="1080" height="1080" loading="lazy" />
         </li>
         <li>
           <h3>スマホアプリ開発</h3>
           <div class="work-description">
-            <p>業務改善に寄与する専用アプリの開発が可能です。アプリを公開し、関連企業やグループ企業へ簡単に提供できます。</p>
+            <p>業務フローを整理し、改善につながる専用アプリを企画・開発します。公開後は関連企業やグループ企業へ展開しやすい形まで設計します。</p>
           </div>
           <img src="./assets/work-app.png" alt="スマートフォンを操作する人のイラスト" width="1080" height="1080" loading="lazy" />
         </li>
         <li>
           <h3>AI開発</h3>
           <div class="work-description">
-            <p>既存の業務ツールなどへのAI導入も検討可能です。検証から現場への導入まで、現場や業界に合わせた開発が可能です。</p>
+            <p>既存業務のどこにAIを活用すべきかを検討し、具体的な使い方をご提案します。小さな検証から現場導入まで、業界の実務に合わせて開発します。</p>
           </div>
           <img src="./assets/work-ai.png" alt="AIチャットを活用するイラスト" width="1080" height="1080" loading="lazy" />
         </li>
@@ -191,7 +198,8 @@
         </div>
         <div class="product-content">
           <p class="work-tag">Flagship Product</p>
-          <h3>KiDUKi</h3>
+          <h3 class="sr-only">KiDUKi</h3>
+          <img class="product-logo" src="./assets/kiduki-logo.svg" alt="KiDUKi" width="254" height="56" />
           <p>
             入居者の顔や状況を見たときに、必要なケア情報、注意点、申し送りをARグラス上へ表示する介護支援システムです。
             ベテランの暗黙知を現場で再利用できる形にし、新人でも迷わず動ける状態を目指します。
@@ -268,11 +276,7 @@
         </div>
         <div>
           <dt>所在地</dt>
-          <dd>徳島県名西郡神山町神領大埜地299-1</dd>
-        </div>
-        <div>
-          <dt>お問い合わせ</dt>
-          <dd><a href="mailto:info@codell.jp">info@codell.jp</a></dd>
+          <dd>徳島県名西郡神山町神領大埜地299-1<br />神山まるごと高専 ROOMS Base</dd>
         </div>
       </dl>
     </section>
@@ -285,7 +289,7 @@
     <small>&copy; 2026 Codell. All rights reserved.</small>
   </footer>
 
-  <script src="./script.js?v=20260719-2"></script>
+  <script src="./script.js?v=20260723-1"></script>
 </body>
 
 </html>

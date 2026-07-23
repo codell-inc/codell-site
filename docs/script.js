@@ -61,6 +61,7 @@ const updateHeader = () => {
 navToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(isOpen));
+  navToggle.setAttribute("aria-label", isOpen ? "メニューを閉じる" : "メニューを開く");
   header.classList.toggle("is-open", isOpen);
 });
 
@@ -68,8 +69,16 @@ nav.addEventListener("click", (event) => {
   if (event.target.matches("a")) {
     nav.classList.remove("is-open");
     navToggle.setAttribute("aria-expanded", "false");
+    navToggle.setAttribute("aria-label", "メニューを開く");
     header.classList.remove("is-open");
+    nav.querySelectorAll("details[open]").forEach((item) => item.removeAttribute("open"));
   }
+});
+
+document.addEventListener("click", (event) => {
+  nav.querySelectorAll("[data-nav-services][open]").forEach((item) => {
+    if (!item.contains(event.target)) item.removeAttribute("open");
+  });
 });
 
 window.addEventListener("scroll", updateHeader, { passive: true });
@@ -87,7 +96,10 @@ updateHeader();
   const next = carousel.querySelector("[data-process-next]");
   const status = carousel.querySelector("[data-process-status]");
   const titles = slides.map((slide) => slide.querySelector("h4").textContent);
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const autoplayDelay = 3200;
   let activeIndex = 0;
+  let autoplayTimer = null;
 
   const showProcess = (index, moveFocus = false) => {
     activeIndex = Math.max(0, Math.min(index, slides.length - 1));
@@ -116,8 +128,25 @@ updateHeader();
     if (moveFocus) tabs[activeIndex].focus();
   };
 
+  const stopAutoplay = () => {
+    window.clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  };
+
+  const startAutoplay = () => {
+    stopAutoplay();
+    if (prefersReducedMotion.matches || carousel.matches(":hover") || carousel.contains(document.activeElement)) return;
+
+    autoplayTimer = window.setInterval(() => {
+      showProcess((activeIndex + 1) % slides.length);
+    }, autoplayDelay);
+  };
+
   tabs.forEach((tab) => {
-    tab.addEventListener("click", () => showProcess(Number(tab.dataset.processTab)));
+    tab.addEventListener("click", () => {
+      showProcess(Number(tab.dataset.processTab));
+      startAutoplay();
+    });
     tab.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
@@ -130,9 +159,27 @@ updateHeader();
     });
   });
 
-  previous.addEventListener("click", () => showProcess(activeIndex - 1));
-  next.addEventListener("click", () => showProcess(activeIndex + 1));
+  previous.addEventListener("click", () => {
+    showProcess(activeIndex - 1);
+    startAutoplay();
+  });
+  next.addEventListener("click", () => {
+    showProcess(activeIndex + 1);
+    startAutoplay();
+  });
+  carousel.addEventListener("mouseenter", stopAutoplay);
+  carousel.addEventListener("mouseleave", startAutoplay);
+  carousel.addEventListener("focusin", stopAutoplay);
+  carousel.addEventListener("focusout", (event) => {
+    if (!carousel.contains(event.relatedTarget)) startAutoplay();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopAutoplay();
+    else startAutoplay();
+  });
+  prefersReducedMotion.addEventListener("change", startAutoplay);
   showProcess(0);
+  startAutoplay();
 })();
 // ─────────────────────────────────────────────────────
 

@@ -9,7 +9,6 @@
   --soft-blue: #eef4f8;
   --green: #49af33;
   --green-deep: #2e7a1e;
-  --aqua: #4eb8b1;
   --sun: #f3bf4f;
   --radius: 8px;
   --max: 1180px;
@@ -118,6 +117,91 @@ p { color: var(--text); }
   opacity: 1;
 }
 
+.nav-services {
+  position: relative;
+}
+
+.nav-services summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: inherit;
+  opacity: 0.88;
+  cursor: pointer;
+  list-style: none;
+  transition: color 160ms ease, opacity 160ms ease;
+}
+
+.nav-services summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-services summary::after {
+  width: 6px;
+  height: 6px;
+  content: "";
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.nav-services[open] summary,
+.nav-services summary:hover {
+  color: var(--green);
+  opacity: 1;
+}
+
+.nav-services[open] summary::after {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.nav-services-menu {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: 50%;
+  width: 250px;
+  padding: 8px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 48px rgba(0, 0, 30, 0.14);
+  transform: translateX(-50%);
+}
+
+.nav-services-menu::before {
+  position: absolute;
+  top: -19px;
+  right: 0;
+  left: 0;
+  height: 19px;
+  content: "";
+}
+
+.site-nav .nav-services-menu a {
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: 5px;
+  opacity: 1;
+}
+
+.site-nav .nav-services-menu a:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+
+.nav-services-menu strong {
+  font-size: 0.94rem;
+}
+
+.nav-services-menu span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
 .nav-contact {
   display: inline-flex;
   align-items: center;
@@ -139,6 +223,11 @@ p { color: var(--text); }
 .site-header.is-open .nav-contact,
 .page-contact .nav-contact {
   background: var(--ink);
+  color: var(--paper) !important;
+}
+
+.site-nav .nav-contact:hover {
+  background: var(--green-deep);
   color: var(--paper) !important;
 }
 
@@ -167,7 +256,7 @@ p { color: var(--text); }
   overflow: hidden;
   isolation: isolate;
   background:
-    linear-gradient(135deg, rgba(0, 0, 30, 0.94), rgba(6, 32, 38, 0.86)),
+    linear-gradient(135deg, rgba(0, 0, 30, 0.94), rgba(46, 122, 30, 0.84)),
     url("./assets/main_visual.jpg") center / cover;
   color: var(--paper);
 }
@@ -209,7 +298,7 @@ p { color: var(--text); }
 
 .hero-mission {
   margin: 0 auto 22px;
-  color: #d8f2d2;
+  color: var(--green);
   font-size: clamp(1.2rem, 2.5vw, 2rem);
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -268,6 +357,8 @@ p { color: var(--text); }
 }
 
 .button.primary:hover { background: var(--green-deep); }
+
+.button.primary.light:hover { color: var(--paper); }
 
 .button.secondary {
   background: rgba(255, 255, 255, 0.08);
@@ -336,7 +427,11 @@ h3 {
 }
 
 .business-statement {
-  position: relative;
+  display: grid;
+  grid-template-columns: minmax(110px, 0.35fr) minmax(0, 1.8fr) minmax(160px, 0.5fr);
+  align-content: center;
+  align-items: stretch;
+  gap: 18px;
   min-height: 340px;
   margin: 4px 0 82px;
   padding: 42px clamp(18px, 5vw, 72px);
@@ -347,13 +442,13 @@ h3 {
 
 .business-statement-prefix,
 .business-statement-suffix {
-  position: absolute;
   font-size: clamp(1rem, 1.8vw, 1.35rem);
   font-weight: 700;
+  white-space: nowrap;
 }
 
-.business-statement-prefix { top: 34px; left: 0; }
-.business-statement-suffix { right: 0; bottom: 34px; }
+.business-statement-prefix { align-self: start; }
+.business-statement-suffix { align-self: end; justify-self: end; }
 
 .business-statement strong {
   display: block;
@@ -379,12 +474,11 @@ h3 {
 }
 
 .strength-equation {
-  position: relative;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  min-height: 310px;
-  padding-right: 100px;
+  min-height: 360px;
 }
 
 .strength-shape {
@@ -417,11 +511,12 @@ h3 {
 }
 
 .strength-result {
-  position: absolute;
-  right: 0;
+  flex: 0 0 100%;
+  margin-top: 34px;
   color: var(--green-deep);
-  font-size: 1rem;
+  font-size: clamp(1.25rem, 2.3vw, 1.75rem);
   font-weight: 800;
+  text-align: center;
 }
 
 .strength-result::before { content: "→ "; }
@@ -495,7 +590,7 @@ h3 {
   z-index: 2;
   width: min(43vw, 460px);
   height: min(43vw, 460px);
-  background: var(--ink);
+  background: var(--green-deep);
 }
 
 .process-track {
@@ -518,10 +613,7 @@ h3 {
   color: var(--paper);
 }
 
-.process-slide:nth-child(1) { background: #3b7d2b; }
-.process-slide:nth-child(2) { background: var(--ink); }
-.process-slide:nth-child(3) { background: #286f66; }
-.process-slide:nth-child(4) { background: #315f25; }
+.process-slide { background: var(--green-deep); }
 
 .process-index {
   position: absolute;
@@ -542,6 +634,7 @@ h3 {
   margin: 0;
   color: var(--paper);
   font-size: clamp(1.65rem, 2.6vw, 2.35rem);
+  word-break: keep-all;
 }
 
 .process-slide p {
@@ -614,8 +707,8 @@ h3 {
 
 .process-arrows button:hover:not(:disabled) {
   color: var(--paper);
-  border-color: var(--ink);
-  background: var(--ink);
+  border-color: var(--green-deep);
+  background: var(--green-deep);
 }
 
 .process-arrows button:disabled { opacity: 0.28; cursor: default; }
@@ -879,6 +972,11 @@ h3 {
   line-height: 1;
 }
 
+.product-logo {
+  width: min(254px, 72%);
+  height: auto;
+}
+
 .product-content > p {
   margin: 16px 0 0;
   color: var(--muted);
@@ -1112,7 +1210,7 @@ dd {
   margin: 0;
   padding: 116px 20px;
   background:
-    linear-gradient(135deg, rgba(0, 0, 30, 0.95), rgba(6, 46, 52, 0.88)),
+    linear-gradient(135deg, rgba(0, 0, 30, 0.95), rgba(46, 122, 30, 0.88)),
     url("./assets/main_visual.jpg") center / cover;
   color: var(--paper);
 }
@@ -1125,7 +1223,7 @@ dd {
 
 .cta .section-label {
   justify-content: center;
-  color: #cdeec6;
+  color: var(--green);
 }
 
 .cta h2 {
@@ -1310,6 +1408,40 @@ dd {
     background: var(--soft);
   }
 
+  .nav-services {
+    width: 100%;
+  }
+
+  .nav-services summary {
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 14px;
+    border-radius: var(--radius);
+  }
+
+  .nav-services summary:hover {
+    background: var(--soft);
+  }
+
+  .nav-services-menu {
+    position: static;
+    width: auto;
+    margin: 0 8px 8px;
+    padding: 0;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .nav-services-menu::before {
+    display: none;
+  }
+
+  .site-nav .nav-services-menu a {
+    padding: 12px 14px;
+    background: var(--soft);
+  }
+
   .nav-contact {
     justify-content: center;
     margin-top: 8px;
@@ -1318,6 +1450,33 @@ dd {
   }
 
   .nav-toggle { display: block; }
+
+  .business-statement {
+    grid-template-columns: 90px minmax(0, 1fr) 130px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .business-statement strong {
+    font-size: clamp(2.8rem, 6.2vw, 5.5rem);
+  }
+
+  .process-image {
+    left: 0;
+    width: min(54vw, 500px);
+    height: min(54vw, 500px);
+  }
+
+  .process-panel {
+    right: 0;
+    width: min(56vw, 420px);
+    height: min(56vw, 420px);
+  }
+
+  .process-slide {
+    padding-right: 56px;
+    padding-left: 56px;
+  }
 
   .company,
   .contact-page {
@@ -1427,9 +1586,11 @@ dd {
   }
 
   .business-statement {
+    grid-template-columns: 1fr;
+    gap: 16px;
     min-height: 260px;
     margin-bottom: 60px;
-    padding: 54px 0;
+    padding: 36px 0;
   }
 
   .business-statement strong {
@@ -1437,14 +1598,14 @@ dd {
     text-align: left;
   }
 
-  .business-statement-prefix { top: 18px; }
-  .business-statement-suffix { right: 0; bottom: 18px; }
+  .business-statement-prefix { justify-self: start; }
+  .business-statement-suffix { justify-self: end; }
 
   .business-belief { gap: 36px; }
 
   .strength-equation {
     min-height: 330px;
-    padding: 0 0 52px;
+    padding: 0;
   }
 
   .strength-shape {
@@ -1454,7 +1615,7 @@ dd {
 
   .strength-shape-technology { margin-left: -44vw; margin-top: 116px; }
   .strength-cross { margin: 24px -18px 0; }
-  .strength-result { right: 0; bottom: 0; }
+  .strength-result { margin-top: 26px; }
 
   .development-flow { margin-top: 76px; padding-top: 58px; }
 
@@ -1496,7 +1657,7 @@ dd {
     right: 44px;
     font-size: 7.5rem;
   }
-  .process-slide h4 { font-size: 1.8rem; }
+  .process-slide h4 { font-size: clamp(1.45rem, 7vw, 1.8rem); }
   .process-slide p { margin-top: 16px; font-size: 0.9rem; }
 
   .process-controls {
