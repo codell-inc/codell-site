@@ -226,8 +226,6 @@ updateHeader();
 
   features.forEach((feature, index) => {
     const activate = () => showFeature(feature.dataset.productFeature);
-    feature.addEventListener("pointerenter", activate);
-    feature.addEventListener("focus", activate);
     feature.addEventListener("click", activate);
     feature.addEventListener("keydown", (event) => {
       if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;

@@ -428,7 +428,7 @@ h3 {
 
 .business-statement {
   display: grid;
-  grid-template-columns: minmax(110px, 0.35fr) minmax(0, 1.8fr) minmax(160px, 0.5fr);
+  grid-template-columns: 110px minmax(0, 1fr) 160px;
   align-content: center;
   align-items: stretch;
   gap: 18px;
@@ -453,10 +453,15 @@ h3 {
 .business-statement strong {
   display: block;
   color: var(--ink);
-  font-size: clamp(3rem, 7.4vw, 6.8rem);
+  font-size: clamp(3rem, 6vw, 5.5rem);
   line-height: 1.08;
   font-weight: 800;
   text-align: center;
+}
+
+.business-statement strong span {
+  display: block;
+  white-space: nowrap;
 }
 
 .business-belief {
@@ -1594,8 +1599,8 @@ dd {
   }
 
   .business-statement strong {
-    font-size: clamp(2.5rem, 14vw, 4rem);
-    text-align: left;
+    font-size: 2.4rem;
+    text-align: center;
   }
 
   .business-statement-prefix { justify-self: start; }
