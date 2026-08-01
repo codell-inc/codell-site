@@ -1,0 +1,13 @@
+---
+import { features } from "../../data/sonovade";
+---
+
+<ol class="feature-list">
+  {features.map((feature, index) => (
+    <li>
+      <span class="feature-index">{String(index + 1).padStart(2, "0")}</span>
+      <img src={feature.icon} alt="" width="124" height="124" loading="lazy" />
+      <h3>{feature.title}</h3><p>{feature.description}</p>
+    </li>
+  ))}
+</ol>

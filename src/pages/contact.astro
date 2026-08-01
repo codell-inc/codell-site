@@ -1,0 +1,23 @@
+---
+import ContactForm from "../components/contact/ContactForm.astro";
+import CorporateLayout from "../layouts/CorporateLayout.astro";
+
+const title = "お問い合わせ | Codell";
+const description = "Codellへのお問い合わせ。現場の違和感、KiDUKi、ソノバデに関する無料相談はこちらから。";
+---
+
+<CorporateLayout {title} {description} bodyClass="page-contact" canonicalPath="/contact.html">
+  <section class="contact-page">
+    <div class="contact-page-head">
+      <p class="eyebrow">Contact</p>
+      <h1>お問い合わせ</h1>
+      <p class="lead">現場の違和感、KiDUKiやソノバデへの関心、新しいプロダクト化の相談などをお寄せください。まずは無料相談として、内容を確認のうえ担当者よりご連絡いたします。</p>
+      <dl class="contact-meta light"><div><dt>Address</dt><dd>徳島県名西郡神山町神領大埜地299-1<br />神山まるごと高専 ROOMS Base</dd></div></dl>
+    </div>
+    <ContactForm />
+  </section>
+</CorporateLayout>
+
+<script>
+  import "../scripts/contact-form";
+</script>

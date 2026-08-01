@@ -1,0 +1,44 @@
+---
+import { processSteps } from "../../data/home";
+---
+
+<div class="development-flow" id="development-flow">
+  <div class="flow-heading">
+    <p class="section-label">Our Process</p>
+    <h3>業務プロセス</h3>
+  </div>
+  <div class="process-carousel" data-process-carousel aria-roledescription="carousel" aria-label="Codellの開発プロセス">
+    <div class="process-stage">
+      <div class="process-image">
+        {processSteps.map((step, index) => (
+          <img class:list={{ "is-active": index === 0 }} src={step.image} alt={step.alt} width={step.width} height={step.height} loading="lazy" data-process-image aria-hidden={index === 0 ? "false" : "true"} />
+        ))}
+      </div>
+      <div class="process-panel">
+        <div class="process-track" data-process-track>
+          {processSteps.map((step, index) => (
+            <article class="process-slide" id={`process-slide-${index + 1}`} data-process-slide aria-hidden={index === 0 ? "false" : "true"}>
+              <span class="process-index">{String(index + 1).padStart(2, "0")}</span>
+              <h4>{step.title}</h4>
+              <p>{step.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="process-controls">
+      <div class="process-tabs" role="tablist" aria-label="プロセスを選択">
+        {processSteps.map((_, index) => (
+          <button type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`process-slide-${index + 1}`} data-process-tab={index} tabindex={index === 0 ? 0 : -1}>
+            {String(index + 1).padStart(2, "0")}
+          </button>
+        ))}
+      </div>
+      <div class="process-arrows">
+        <button type="button" aria-label="前のプロセス" data-process-prev>←</button>
+        <button type="button" aria-label="次のプロセス" data-process-next>→</button>
+      </div>
+    </div>
+    <p class="sr-only" aria-live="polite" data-process-status>プロセス 1 / {processSteps.length}：{processSteps[0].title}</p>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+---
+import { values } from "../../data/sonovade";
+---
+
+<ol class="value-list">
+  {values.map((value, index) => (
+    <li>
+      <div class="value-copy">
+        <span>{String(index + 1).padStart(2, "0")}</span>
+        <h3>{value.titleLines[0]}<br />{value.titleLines[1]}</h3>
+        <p>{value.description}</p>
+      </div>
+      <figure><img src={value.image} alt={value.alt} width={value.width} height={value.height} loading="lazy" /></figure>
+    </li>
+  ))}
+</ol>

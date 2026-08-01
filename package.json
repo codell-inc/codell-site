@@ -2,12 +2,19 @@
   "name": "codell-site",
   "version": "1.0.0",
   "description": "Codell company website",
-  "main": "server.js",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "astro dev",
+    "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs",
+    "preview": "astro preview",
+    "check": "astro check"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "@emailjs/browser": "^4.4.1",
+    "astro": "^7.1.6"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
   }
 }

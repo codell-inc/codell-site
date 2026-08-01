@@ -1,0 +1,29 @@
+---
+import { productFeatures } from "../../data/home";
+---
+
+<article class="product-card" data-product-showcase>
+  <div class="product-media" aria-live="polite">
+    {productFeatures.map((feature, index) => (
+      <video class:list={{ "is-active": index === 0 }} data-product-media={feature.key} width="1280" height="720" autoplay={index === 0} muted loop playsinline preload={index === 0 ? "metadata" : "none"} poster={feature.poster} aria-label={`${feature.title}のデモ動画`} aria-hidden={index === 0 ? undefined : "true"}>
+        <source src={feature.video} type="video/mp4" />
+      </video>
+    ))}
+    <p class="product-media-caption"><span data-product-caption-index>01</span><span data-product-caption>{productFeatures[0].title}</span></p>
+  </div>
+  <div class="product-content">
+    <p class="work-tag">Flagship Product</p>
+    <h3 class="sr-only">KiDUKi</h3>
+    <img class="product-logo" src="/assets/kiduki-logo.svg" alt="KiDUKi" width="254" height="56" />
+    <p>入居者の顔や状況を見たときに、必要なケア情報、注意点、申し送りをARグラス上へ表示する介護支援システムです。ベテランの暗黙知を現場で再利用できる形にし、新人でも迷わず動ける状態を目指します。</p>
+    <div class="product-features" role="tablist" aria-label="KiDUKiの機能">
+      {productFeatures.map((feature, index) => (
+        <button class:list={["product-feature", { "is-active": index === 0 }]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1} data-product-feature={feature.key} data-feature-index={String(index + 1).padStart(2, "0")}>
+          <span class="product-feature-index">{String(index + 1).padStart(2, "0")}</span>
+          <span class="product-feature-copy"><strong>{feature.title}</strong><span>{feature.description}</span></span>
+        </button>
+      ))}
+    </div>
+    <ul class="product-tags" aria-label="KiDUKiの分野"><li>#介護</li><li>#AR実装</li><li>#遠隔指示</li></ul>
+  </div>
+</article>

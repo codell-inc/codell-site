@@ -1,0 +1,13 @@
+---
+import { workItems } from "../../data/home";
+---
+
+<ol class="work-list">
+  {workItems.map((item) => (
+    <li>
+      <h3>{item.title}</h3>
+      <div class="work-description"><p>{item.description}</p></div>
+      <img src={item.image} alt={item.alt} width="1080" height="1080" loading="lazy" />
+    </li>
+  ))}
+</ol>

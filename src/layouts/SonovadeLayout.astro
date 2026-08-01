@@ -1,0 +1,26 @@
+---
+import SonovadeFooter from "../components/sonovade/SonovadeFooter.astro";
+import SonovadeHeader from "../components/sonovade/SonovadeHeader.astro";
+import "../styles/sonovade.css";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const fontHref = "https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap";
+---
+
+<BaseLayout {title} {description} {fontHref} canonicalPath="/sonovade/">
+  <SonovadeHeader />
+  <main>
+    <slot />
+  </main>
+  <SonovadeFooter />
+</BaseLayout>
+
+<script>
+  import "../scripts/sonovade-nav";
+</script>
