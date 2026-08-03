@@ -1,0 +1,30 @@
+---
+import CorporateFooter from "../components/corporate/CorporateFooter.astro";
+import CorporateHeader from "../components/corporate/CorporateHeader.astro";
+import "../styles/corporate.css";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  isHome?: boolean;
+  bodyClass?: string;
+  canonicalPath?: string;
+}
+
+const { title, description, isHome = false, bodyClass, canonicalPath } = Astro.props;
+const fontHref = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap";
+---
+
+<BaseLayout {title} {description} {bodyClass} {fontHref} {canonicalPath}>
+  <style is:inline slot="head">:root { --main-visual: url("/assets/main_visual.jpg"); }</style>
+  <CorporateHeader {isHome} />
+  <main id="top">
+    <slot />
+  </main>
+  <CorporateFooter {isHome} />
+</BaseLayout>
+
+<script>
+  import "../scripts/corporate-nav";
+</script>

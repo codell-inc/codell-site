@@ -1,0 +1,78 @@
+---
+import MembersGrid from "../components/corporate/MembersGrid.astro";
+import ProcessCarousel from "../components/corporate/ProcessCarousel.astro";
+import ProductShowcase from "../components/corporate/ProductShowcase.astro";
+import WorkList from "../components/corporate/WorkList.astro";
+import CorporateLayout from "../layouts/CorporateLayout.astro";
+
+const title = "Codell | 社会の違和感を、前進する力に。";
+const description = "Codellは、社会の違和感を前進する力に変えるプロダクトカンパニーです。介護現場の気づきを支えるKiDUKiを紹介します。";
+---
+
+<CorporateLayout {title} {description} isHome>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-symbol" aria-hidden="true"><img src="/assets/codell-mark.svg" alt="" /></div>
+    <div class="hero-inner">
+      <img class="hero-logo" src="/assets/codell-logo.svg" alt="Codell" width="720" height="300" />
+      <p class="hero-mission">社会の違和感を、前進する力に。</p>
+      <h1 id="hero-title">現場の小さな違和感から、業界を変えるプロダクトをつくる。</h1>
+      <div class="hero-actions"><a class="button primary" href="#product">プロダクトを確認する</a><a class="button secondary" href="/contact.html">相談する</a></div>
+    </div>
+    <a class="hero-scroll" href="#business">Scroll</a>
+  </section>
+
+  <section class="section business" id="business" aria-label="Codellの事業">
+    <div class="section-heading"><p class="section-label">What We Do</p></div>
+    <p class="business-statement" aria-label="Codellは、業界を変えるサービスの開発を行う会社です。">
+      <span class="business-statement-prefix">Codellは、</span>
+      <strong><span>業界を変える</span><span>サービスの開発</span></strong>
+      <span class="business-statement-suffix">を行う会社です。</span>
+    </p>
+    <div class="business-belief">
+      <p>私たちは、すべての会社に、「業界を変える起点となるような課題」が隠れていると考えます。その業界変革の種火を、御社の業界ノウハウと、Codellの技術力で業界全体に広げます。</p>
+      <div class="strength-equation" aria-label="御社の業界知見とCodellの技術力を掛け合わせ、業界変革へつなげます">
+        <div class="strength-shape strength-shape-knowledge"><span>御社の<br /><strong>業界知見</strong></span></div>
+        <span class="strength-cross" aria-hidden="true">×</span>
+        <div class="strength-shape strength-shape-technology"><span>Codellの<br /><strong>技術力</strong></span></div>
+        <span class="strength-result">業界変革へ</span>
+      </div>
+    </div>
+    <ProcessCarousel />
+  </section>
+
+  <section class="section work" id="work" aria-labelledby="work-title">
+    <div class="section-heading"><p class="section-label">Work</p><h2 id="work-title">業務内容</h2><p>現場へのヒアリングと課題整理から、企画提案、ARアプリ・スマホアプリ・AIの開発、導入までを一体で進めます。</p></div>
+    <WorkList />
+  </section>
+
+  <section class="section members" id="members" aria-labelledby="members-title">
+    <div class="section-heading"><p class="section-label">Members</p><h2 id="members-title">メンバー</h2><p>現場の声を聞き、形にし、使われ続けるところまで持っていくチームです。</p></div>
+    <MembersGrid />
+  </section>
+
+  <section class="section product" id="product" aria-labelledby="product-title">
+    <div class="section-heading"><p class="section-label">Product</p><h2 id="product-title">製品紹介</h2><p>KiDUKiは、介護現場の「気づき」を共有可能な知識へ変えるAR×AIプロダクトです。</p></div>
+    <ProductShowcase />
+  </section>
+
+  <section class="cta" id="contact" aria-labelledby="cta-title">
+    <div class="cta-inner"><p class="section-label">Contact</p><h2 id="cta-title">御社の課題が、業界を変えます。</h2><p>まずは無料でご相談ください。まだ言葉になっていない違和感から、一緒に整理します。</p><a class="button primary light" href="/contact.html">無料相談へ進む</a></div>
+  </section>
+
+  <section class="section company" id="company" aria-labelledby="company-title">
+    <div><p class="section-label">Company</p><h2 id="company-title">会社概要</h2></div>
+    <dl class="company-table">
+      <div><dt>名称</dt><dd>株式会社Codell</dd></div>
+      <div><dt>Mission</dt><dd>社会の違和感を、前進する力に。</dd></div>
+      <div><dt>設立日</dt><dd>2026/07/30</dd></div>
+      <div><dt>資本金</dt><dd>10万円</dd></div>
+      <div><dt>事業内容</dt><dd>介護DXプロダクトの企画・開発、AI/ARを活用した業務支援システムの設計・実装</dd></div>
+      <div><dt>所在地</dt><dd>徳島県名西郡神山町神領大埜地299-1<br />神山まるごと高専 ROOMS Base</dd></div>
+    </dl>
+  </section>
+</CorporateLayout>
+
+<script>
+  import "../scripts/process-carousel";
+  import "../scripts/product-showcase";
+</script>

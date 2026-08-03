@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  bodyClass?: string;
+  fontHref: string;
+  canonicalPath?: string;
+}
+
+const { title, description, bodyClass, fontHref, canonicalPath } = Astro.props;
+const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, Astro.site) : undefined;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    <link rel="icon" href="/assets/codell-mark.svg?v=20260801-2" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={fontHref} rel="stylesheet" />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

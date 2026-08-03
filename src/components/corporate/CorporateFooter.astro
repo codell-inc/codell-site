@@ -1,0 +1,14 @@
+---
+interface Props {
+  isHome?: boolean;
+}
+
+const { isHome = false } = Astro.props;
+---
+
+<footer class="site-footer">
+  <a class="brand" href={isHome ? "#top" : "/"} aria-label="Codell トップへ">
+    <img class="brand-logo" src="/assets/codell-logo.svg" alt="Codell" width="144" height="60" />
+  </a>
+  <small>&copy; 2026 Codell. All rights reserved.</small>
+</footer>

@@ -1,0 +1,16 @@
+---
+import { members } from "../../data/home";
+---
+
+<ul class="members-grid">
+  {members.map((member) => (
+    <li class="member-card">
+      <img src={member.image} alt={member.name} width="320" height="400" loading="lazy" />
+      <div class="member-info">
+        <p class="member-name">{member.name}</p>
+        <p class="member-role">{member.role}</p>
+        <p class="member-description">{member.description}</p>
+      </div>
+    </li>
+  ))}
+</ul>
