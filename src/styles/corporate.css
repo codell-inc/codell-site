@@ -1082,6 +1082,22 @@ h3 {
   opacity: 1;
 }
 
+.product-features:has(.product-feature:hover) .product-feature.is-active:not(:hover) {
+  padding-left: 8px;
+  color: var(--muted);
+  background: transparent;
+}
+
+.product-features:has(.product-feature:hover) .product-feature.is-active:not(:hover)::before {
+  transform: scaleY(0);
+}
+
+.product-features:has(.product-feature:hover) .product-feature.is-active:not(:hover) .product-feature-copy > span {
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+}
+
 /* Retained for archived product data variants. */
 .product-points {
   display: grid;

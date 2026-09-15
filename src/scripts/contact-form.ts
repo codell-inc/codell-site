@@ -31,6 +31,7 @@ if (form && status && submitButton) {
 
     try {
       await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+        company_name: formData.get("company_name"),
         name: formData.get("name"),
         email: formData.get("email"),
         type: formData.get("type"),
