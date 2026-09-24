@@ -9,6 +9,9 @@ const EMAILJS_CONFIG = {
 const form = document.querySelector<HTMLFormElement>("#contact-form");
 const status = document.querySelector<HTMLElement>("#contact-status");
 const submitButton = document.querySelector<HTMLButtonElement>("#contact-submit");
+const discoverySelect = document.querySelector<HTMLSelectElement>("#contact-discovery");
+const discoveryOtherField = document.querySelector<HTMLElement>("#contact-discovery-other-field");
+const discoveryOtherInput = document.querySelector<HTMLInputElement>("#contact-discovery-other");
 
 if (form && status && submitButton) {
   emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
@@ -17,6 +20,17 @@ if (form && status && submitButton) {
     status.textContent = message;
     status.dataset.state = state;
   };
+
+  const updateDiscoveryOther = () => {
+    if (!discoverySelect || !discoveryOtherField || !discoveryOtherInput) return;
+    const isOther = discoverySelect.value === "その他";
+    discoveryOtherField.hidden = !isOther;
+    discoveryOtherInput.required = isOther;
+    if (!isOther) discoveryOtherInput.value = "";
+  };
+
+  discoverySelect?.addEventListener("change", updateDiscoveryOther);
+  updateDiscoveryOther();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -35,11 +49,14 @@ if (form && status && submitButton) {
         name: formData.get("name"),
         email: formData.get("email"),
         type: formData.get("type"),
+        discovery_source: formData.get("discovery_source"),
+        discovery_other: formData.get("discovery_other"),
         message: formData.get("message"),
         reply_to: formData.get("email"),
       });
       setStatus("送信が完了しました。担当者よりご連絡いたします。", "success");
       form.reset();
+      updateDiscoveryOther();
     } catch (error) {
       console.error("EmailJS send failed", error);
       setStatus("送信に失敗しました。時間をおいて再度お試しください。", "error");
