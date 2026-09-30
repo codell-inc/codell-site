@@ -23,8 +23,9 @@ const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, A
     <meta property="og:description" content={description} />
     {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
-    <link rel="icon" href="/assets/codell-favicon.png?v=20260929-1" type="image/png" sizes="512x512" />
-    <link rel="apple-touch-icon" href="/assets/codell-favicon.png?v=20260929-1" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href={fontHref} rel="stylesheet" />
