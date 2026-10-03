@@ -761,6 +761,10 @@ h3 {
   margin: 0;
 }
 
+.footer-legal { display: grid; gap: 8px; }
+.footer-legal a { text-decoration: underline; text-underline-offset: 4px; }
+.footer-legal a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
 @media (max-width: 980px) {
   .site-header {
     padding: 0 24px;
