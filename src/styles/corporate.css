@@ -70,7 +70,8 @@ p { color: var(--text); }
 
 .site-header.is-scrolled,
 .site-header.is-open,
-.page-contact .site-header {
+.page-contact .site-header,
+.page-privacy .site-header {
   background: rgba(255, 255, 255, 0.94);
   border-bottom-color: var(--line);
   box-shadow: 0 8px 28px rgba(0, 0, 30, 0.06);
@@ -94,6 +95,7 @@ p { color: var(--text); }
 .site-header.is-scrolled .brand-logo,
 .site-header.is-open .brand-logo,
 .page-contact .brand-logo,
+.page-privacy .brand-logo,
 .site-footer .brand-logo {
   filter: none;
 }
@@ -221,7 +223,8 @@ p { color: var(--text); }
 
 .site-header.is-scrolled .nav-contact,
 .site-header.is-open .nav-contact,
-.page-contact .nav-contact {
+.page-contact .nav-contact,
+.page-privacy .nav-contact {
   background: var(--ink);
   color: var(--paper) !important;
 }
@@ -1282,6 +1285,22 @@ dd {
   color: var(--muted);
   font-family: "Inter", sans-serif;
   font-size: 0.8rem;
+}
+
+.footer-privacy,
+.form-privacy a {
+  color: var(--green-deep);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.footer-privacy { font-size: 0.875rem; }
+.form-privacy { margin: 0; font-size: 0.875rem; }
+
+.footer-privacy:focus-visible,
+.form-privacy a:focus-visible {
+  outline: 2px solid var(--green-deep);
+  outline-offset: 4px;
 }
 
 .page-contact {

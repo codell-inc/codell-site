@@ -10,6 +10,6 @@ for (const [source, target] of compatibilityRoutes) {
   await copyFile(new URL(source, outputRoot), new URL(target, outputRoot));
 }
 
-for (const requiredPath of ["index.html", "contact.html", "sonovade/index.html", "CNAME", ".nojekyll"]) {
+for (const requiredPath of ["index.html", "contact.html", "privacy/index.html", "sonovade/index.html", "CNAME", ".nojekyll"]) {
   await access(fileURLToPath(new URL(requiredPath, outputRoot)));
 }

@@ -1,0 +1,84 @@
+---
+import CorporateLayout from "../layouts/CorporateLayout.astro";
+
+const title = "プライバシーポリシー | Codell";
+const description = "株式会社Codellのウェブサイト、お問い合わせ、広告のフォームにおける個人情報の取得・利用・管理と、お問い合わせ窓口について。";
+---
+
+<CorporateLayout {title} {description} bodyClass="page-privacy" canonicalPath="/privacy/">
+  <article class="privacy-page" aria-labelledby="privacy-title">
+    <header class="privacy-heading">
+      <h1 id="privacy-title">プライバシーポリシー</h1>
+      <p>株式会社Codell（以下「当社」）は、当社ウェブサイトへのお問い合わせや、当社の広告に設置されたフォームを通じて取得する個人情報を、以下の方針に基づいて取り扱います。</p>
+    </header>
+
+    <section aria-labelledby="collection-title">
+      <h2 id="collection-title">取得する情報</h2>
+      <p>お問い合わせフォームでは、会社名、氏名、メールアドレス、問い合わせ種別、当社を知ったきっかけ、お問い合わせ内容を取得します。広告のフォームでは、氏名、会社名、メールアドレス、電話番号など、そのフォームに表示された項目のうち、ご本人が送信した情報を取得します。</p>
+    </section>
+
+    <section aria-labelledby="purpose-title">
+      <h2 id="purpose-title">利用目的</h2>
+      <p>取得した個人情報は、お問い合わせへの回答、ご希望の資料やサービス情報の提供、ご相談内容に応じた提案・連絡のために利用します。法令で認められる場合を除き、ご本人の同意なく、この目的の範囲を超えて利用しません。</p>
+    </section>
+
+    <section aria-labelledby="sharing-title">
+      <h2 id="sharing-title">第三者への提供と業務の委託</h2>
+      <p>法令で認められる場合を除き、ご本人の同意なく個人データを第三者へ提供することはありません。利用目的の達成に必要な範囲で個人情報の取扱いを委託する場合は、委託先を適切に選定し、必要な監督を行います。</p>
+      <p>当社ウェブサイトのお問い合わせフォームには、メール送信サービス EmailJS を使用しています。送信された情報は、同サービスを経由して当社へ届けられます。広告のフォームに入力する情報の取扱いについては、フォームを提供する広告事業者のプライバシーポリシーもご確認ください。</p>
+    </section>
+
+    <section aria-labelledby="security-title">
+      <h2 id="security-title">個人情報の管理</h2>
+      <p>当社は、個人情報の漏えい、紛失、不正アクセス等を防ぐため、取扱担当者とアクセス権限の管理、委託先の監督など、必要かつ適切な安全管理措置を講じます。利用目的に照らして保管が不要となった個人情報は、法令により保存が必要な場合を除き、削除または廃棄します。</p>
+    </section>
+
+    <section aria-labelledby="external-title">
+      <h2 id="external-title">外部サービスの利用</h2>
+      <p>当社ウェブサイトは、書体の表示に Google Fonts を利用しています。ページの閲覧時にブラウザが Google のサーバーへ接続し、IPアドレスやブラウザの情報等が送信されます。詳しくは、<a href="https://developers.google.com/fonts/faq/privacy?hl=ja">Google Fonts のプライバシーに関する説明</a>をご覧ください。</p>
+      <p>広告事業者のサイトやフォームでは、Cookie 等が使用される場合があります。これらの情報の利用目的や設定方法は、各事業者のプライバシーポリシーで確認できます。</p>
+    </section>
+
+    <section aria-labelledby="rights-title">
+      <h2 id="rights-title">開示・訂正・利用停止等の請求</h2>
+      <p>当社が保有する個人データについて、利用目的の通知、開示、訂正・追加・削除、利用停止・消去、第三者への提供停止、第三者提供記録の開示をご希望の場合は、下記の窓口へご連絡ください。請求に必要な手続きは窓口からご案内し、ご本人であることを確認したうえで、法令に従って対応します。</p>
+    </section>
+
+    <section aria-labelledby="contact-title">
+      <h2 id="contact-title">お問い合わせ窓口</h2>
+      <address>
+        株式会社Codell<br />
+        徳島県名西郡神山町神領大埜地299-1<br />
+        神山まるごと高専 ROOMS Base<br />
+        メール：<a href="mailto:info@codell.jp">info@codell.jp</a><br />
+        <a href="/contact.html">お問い合わせフォーム</a>
+      </address>
+    </section>
+
+    <section aria-labelledby="changes-title">
+      <h2 id="changes-title">本ポリシーの変更</h2>
+      <p>個人情報の取扱いや法令の変更に応じて、本ポリシーを見直します。変更した内容は、このページに掲載します。</p>
+    </section>
+  </article>
+</CorporateLayout>
+
+<style>
+  .privacy-page {
+    width: min(800px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 140px 0 88px;
+    overflow-wrap: anywhere;
+  }
+  .privacy-heading { margin-bottom: 44px; }
+  h1 { margin-bottom: 24px; font-size: clamp(1.7rem, 4vw, 2.5rem); }
+  section + section { margin-top: 36px; }
+  h2 { margin-bottom: 12px; font-size: 1.2rem; }
+  p { margin-bottom: 16px; }
+  address { font-style: normal; }
+  a { color: var(--green-deep); text-decoration: underline; text-underline-offset: 4px; }
+  a:focus-visible { outline: 2px solid var(--green-deep); outline-offset: 4px; }
+  @media (max-width: 640px) {
+    .privacy-page { width: calc(100% - 40px); padding: 112px 0 64px; }
+    .privacy-heading { margin-bottom: 32px; }
+  }
+</style>
