@@ -6,6 +6,23 @@ const EMAILJS_CONFIG = {
   templateId: import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID ?? "codell_template",
 };
 
+const GOOGLE_ADS_CONTACT_SEND_TO =
+  import.meta.env.PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO ?? "AW-18448674355/3cp0COiC5ZAdELPcgd1E";
+
+const trackContactConversion = () => {
+  if (!GOOGLE_ADS_CONTACT_SEND_TO) return;
+  try {
+    const gtag = (window as Window & {
+      gtag?: (command: "event", event: "conversion", parameters: { send_to: string }) => void;
+    }).gtag;
+    if (typeof gtag === "function") {
+      gtag("event", "conversion", { send_to: GOOGLE_ADS_CONTACT_SEND_TO });
+    }
+  } catch {
+    // Tracking must not change the result of a completed email submission.
+  }
+};
+
 const form = document.querySelector<HTMLFormElement>("#contact-form");
 const status = document.querySelector<HTMLElement>("#contact-status");
 const submitButton = document.querySelector<HTMLButtonElement>("#contact-submit");
@@ -15,6 +32,7 @@ const discoveryOtherInput = document.querySelector<HTMLInputElement>("#contact-d
 
 if (form && status && submitButton) {
   emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
+  let isSubmitting = false;
 
   const setStatus = (message: string, state = "") => {
     status.textContent = message;
@@ -34,12 +52,14 @@ if (form && status && submitButton) {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (isSubmitting) return;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
     const formData = new FormData(form);
+    isSubmitting = true;
     submitButton.disabled = true;
     setStatus("送信中…", "loading");
 
@@ -57,10 +77,12 @@ if (form && status && submitButton) {
       setStatus("送信が完了しました。担当者よりご連絡いたします。", "success");
       form.reset();
       updateDiscoveryOther();
+      trackContactConversion();
     } catch (error) {
       console.error("EmailJS send failed", error);
       setStatus("送信に失敗しました。時間をおいて再度お試しください。", "error");
     } finally {
+      isSubmitting = false;
       submitButton.disabled = false;
     }
   });
