@@ -52,6 +52,7 @@ if (form && status && submitButton) {
     if (!discoverySelect || !discoveryOtherField || !discoveryOtherInput) return;
     const isOther = discoverySelect.value === "その他";
     discoveryOtherField.hidden = !isOther;
+    discoveryOtherInput.required = isOther;
     if (!isOther) discoveryOtherInput.value = "";
   };
 

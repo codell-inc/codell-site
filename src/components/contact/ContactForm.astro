@@ -22,9 +22,11 @@
     </select>
   </div>
   <div class="field">
-    <label for="contact-discovery">Codellを知ったきっかけ（任意）</label>
-    <select id="contact-discovery" name="discovery_source">
-      <option value="" selected>選択しない</option>
+    <label for="contact-discovery">Codellを知ったきっかけ <span aria-hidden="true">*</span></label>
+    <select id="contact-discovery" name="discovery_source" required>
+      <option value="" disabled selected>選択してください</option>
+      <option value="検索">検索（Google・Yahoo!など）</option>
+      <option value="広告">広告</option>
       <option value="イベントから">イベントから</option>
       <option value="友人から">友人から</option>
       <option value="新聞から">新聞から</option>
@@ -32,7 +34,7 @@
     </select>
   </div>
   <div class="field" id="contact-discovery-other-field" hidden>
-    <label for="contact-discovery-other">その他のきっかけ（任意）</label>
+    <label for="contact-discovery-other">その他のきっかけ <span aria-hidden="true">*</span></label>
     <input type="text" id="contact-discovery-other" name="discovery_other" />
   </div>
   <div class="field">
