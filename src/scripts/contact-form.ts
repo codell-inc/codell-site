@@ -26,11 +26,20 @@ const trackContactConversion = () => {
 const form = document.querySelector<HTMLFormElement>("#contact-form");
 const status = document.querySelector<HTMLElement>("#contact-status");
 const submitButton = document.querySelector<HTMLButtonElement>("#contact-submit");
+const typeSelect = document.querySelector<HTMLSelectElement>("#contact-type");
 const discoverySelect = document.querySelector<HTMLSelectElement>("#contact-discovery");
 const discoveryOtherField = document.querySelector<HTMLElement>("#contact-discovery-other-field");
 const discoveryOtherInput = document.querySelector<HTMLInputElement>("#contact-discovery-other");
 
 if (form && status && submitButton) {
+  if (typeSelect && new URLSearchParams(window.location.search).get("product") === "sonovade") {
+    const option = Array.from(typeSelect.options).find((option) => option.value === "ソノバデについて");
+    if (option) {
+      for (const candidate of Array.from(typeSelect.options)) candidate.defaultSelected = candidate === option;
+      option.selected = true;
+    }
+  }
+
   emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey });
   let isSubmitting = false;
 
