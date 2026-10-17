@@ -10,7 +10,7 @@ const compiled = ts.transpileModule(source.replaceAll("import.meta.env.", "TEST_
 }).outputText;
 const destination = "AW-18448674355/test-success-label";
 
-function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination } = {}) {
+function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination, search = "" } = {}) {
   const conversions = [];
   const sends = [];
   const errors = [];
@@ -25,12 +25,14 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     reset() { this.resets++; },
     addEventListener(name, listener) { listeners[name] = listener; },
   };
-  const elements = { "#contact-form": form, "#contact-status": status, "#contact-submit": button };
+  const options = ["", "ソノバデについて", "KiDUKiについて", "プロダクト開発相談", "その他"].map((value) => ({ value, selected: value === "", defaultSelected: value === "" }));
+  const typeSelect = { options };
+  const elements = { "#contact-form": form, "#contact-status": status, "#contact-submit": button, "#contact-type": typeSelect };
   const emailjs = {
     init() {},
     send(...args) { sends.push(args); return send(...args); },
   };
-  const window = {};
+  const window = { location: { search } };
   if (tag === "present") window.gtag = (...args) => conversions.push(JSON.parse(JSON.stringify(args)));
   if (tag === "throws") window.gtag = () => { throw new Error("Tracking unavailable"); };
   vm.runInNewContext(compiled, {
@@ -40,9 +42,10 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     document: { querySelector: (selector) => elements[selector] ?? null },
     FormData: class { get(name) { return `${name}:private-input`; } },
     window,
+    URLSearchParams,
     console: { error: (...args) => errors.push(args) },
   });
-  return { form, status, button, conversions, sends, errors, submit: () => listeners.submit({ preventDefault() {} }) };
+  return { typeSelect, form, status, button, conversions, sends, errors, submit: () => listeners.submit({ preventDefault() {} }) };
 }
 
 test("conversion occurs once after email resolves, with only the destination", async () => {
@@ -112,4 +115,21 @@ test("default destination matches the configured Google Ads action", async () =>
   assert.deepEqual(fixture.conversions, [["event", "conversion", {
     send_to: "AW-18448674355/3cp0COiC5ZAdELPcgd1E",
   }]]);
+});
+
+// Product context must survive the form reset after a successful submission.
+test("Sonovade landing-page context preselects the product and its reset default", () => {
+  const fixture = setup({ search: "?product=sonovade" });
+  const product = fixture.typeSelect.options.find((option) => option.value === "ソノバデについて");
+  assert.equal(product.selected, true);
+  assert.equal(product.defaultSelected, true);
+  assert.equal(fixture.typeSelect.options.filter((option) => option.defaultSelected).length, 1);
+});
+
+test("generic contact and unknown product keep the initial product prompt", () => {
+  for (const search of ["", "?product=unknown"]) {
+    const fixture = setup({ search });
+    assert.equal(fixture.typeSelect.options[0].selected, true);
+    assert.equal(fixture.typeSelect.options[1].selected, false);
+  }
 });
