@@ -2,6 +2,22 @@
 
 移管先: https://github.com/codell-inc/codell-site/pull/14  /  受入後の旧 source cleanup: https://github.com/codell-inc/kiduki/pull/462
 
+## Current handover status
+
+- 新管理元の main `600942a828f18d543aa1960fe4f2e10e202cf6db` は build → staging → production の [自動配信](https://github.com/codell-inc/codell-site/actions/runs/39423761360) に成功済み。旧 repository の Landing workflows は削除済みで、cleanup は [kiduki #468](https://github.com/codell-inc/kiduki/pull/468) から main にも反映された。
+- 2026-10-21 JST、所有者の承認で staging LP 専用の Basic 認証情報を更新した。保管元は Infisical の **staging `/kiduki/landing`**、キーは `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD`。Cloudflare Pages `kiduki-landing-staging` の **production slot** に同じ2値を `secret_text` として設定する。`production_branch=staging` のため、この slot が staging 公開サイトである。preview slot や本番 LP の認証設定ではない。
+- 既存の検証済み artifact（version `1792499914494`）だけを staging に再配備し、deployment `f6d144f4-a9f3-4afe-aad6-be65f88ae09a` の成功と source SHA を読み戻して確認した。認証あり200、匿名401、Chromeの実表示・動画自動再生・seek・1440/390px表示が成功した。以前の「認証後200は未確認」という残項目はこの範囲で解消した。
+- 本番LPの配備、Home/Careの認証、DNS、API tokenの発行・権限は変更していない。本番の公開200・同じartifact version・MP4全バイト一致も再確認した。
+- [HTTP結果](../kiduki/evidence/staging-auth-acceptance/http-results.json) / [Chrome結果](../kiduki/evidence/staging-auth-acceptance/browser-results.json) / [1440px画面](../kiduki/evidence/staging-auth-acceptance/staging-authenticated-1440.png) / [390px画面](../kiduki/evidence/staging-auth-acceptance/staging-authenticated-390.png)。Safari/iOS実機と低速回線の未バッファ区間seekは未検証のままであり、Chrome結果で代用しない。
+
+### Credential maintenance
+
+Cloudflare の設定済み Secret は値を読み戻せないため、取得・更新の正は上記の Infisical 保管元とする。値をチャット、PR、log、artifact、コマンド引数や通常ファイルへ出さない。Infisical CLI は、存在しない指定キーも exit 0 / `*not found*` として返すことがある。空でない値だけでは存在を判定せず、この sentinel を欠落として拒否する。
+
+再更新するときは、対象を staging LP の2キーだけに限定し、先にInfisicalへ保存して同じ値を読み戻し確認してから、Pagesのproduction slotを更新する。project名・`production_branch=staging`・既存domainをGETで確認し、その他のbinding/configurationを変更しない。今回の実測では、projectのsecret更新だけでは既存deploymentの認証値が切り替わらず、新しい値でも401だった。**同じ検証済みartifactとmainのSHAを確認してからstagingだけを再配備し、認証あり200と匿名401を両方確認する。** 値を復元するために認証を無効化したり、診断endpointへsecretを露出させたりしない。
+
+stagingの認証更新のために通常の `Deploy KiDUKi` 全体を再実行するとproductionにも配備される。stagingだけの更新では、既存artifactを再利用し、既存 `prepare:staging` / GET-only preflight / `wrangler pages deploy` のstaging経路を使用する。今回の対応もこの経路であり、production jobは実行していない。
+
 ## Scope and public URLs
 
 KiDUKi の公開 LP を `codell-inc/kiduki/apps/landing/web` から `codell-inc/codell-site/kiduki` に移管する。会社サイトは従来の Astro / GitHub Pages `main/docs` を維持し、サービスメニューと既存 KiDUKi 製品紹介から公開 LP へ案内する。Sonovade の項目・レイアウトと既存 KiDUKi logo / demo 素材を使用し、現行 LP の介護・家事代行向け説明に合わせる。Care/Home のアプリ・Glass・release 処理は移管しない。
@@ -28,9 +44,9 @@ workflow 全体を `kiduki-main-deploy` concurrency group で直列化し、進�
 
 production には Basic 認証の Functions・`_routes.json`・`_worker.js` を含めない。staging middleware は全パスを保護し、secret 不在時は 503 で閉じる。preflight は provision、domain/DNS 変更、secret 変更をしない。既存資源が見つからない、所有が違う、認証が足りない場合は失敗する。
 
-## One-time setup before merging #14
+## One-time setup before merging #14（初回調査の履歴）
 
-既存 credential の接続設定は、所有者の明示承認後に完了した。残る未実行作業は旧 writer 停止、merge、remote deploy と配備後受入。DNS/resource は変更していない。
+以下は初回調査時点の履歴であり、未実行という記述を現時点の状態として扱わない。現在の受入・残項目・Basic認証情報の保管元は上の Current handover status を正とする。初回の接続設定と以後のBasic認証更新は別の承認・操作である。
 
 2026-10-20 の初期 read-only 確認では、codell-site の repository secrets/variables は空、Environment は `github-pages` のみだった。旧 kiduki の staging/production には `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_API_TOKEN` の名前を確認した。値は取得していない。organization secrets の適用範囲確認は GitHub API の 403（org admin / actions-secrets 権限不足）で拒否されたため、organization から継承できるかは未確定。再試行・権限拡張はしない。
 
@@ -53,7 +69,7 @@ production には Basic 認証の Functions・`_routes.json`・`_worker.js` を�
 4. 自動 job の結果に加え、既存 Basic 認証での staging 200、production の匿名 200、動画の再生/seek、画像・リンク、desktop/mobile を実 URL で受け入れ、SHA/deployment ID と証跡を記録する。匿名 staging 401 の自動チェックは認証後の本文確認の代用にはしない。
 5. **両環境の受入後だけ #462 を staging に merge する。** 旧 source、LP 専用 CI/deploy/helper を削除する。main 反映は既存の通常 release 手順。共有 auth/tokens/Care/Home 用 helper は残す。旧 root bun.lock はアプリ deploy の path filter に含まれるため、cleanup merge/release 日程は運用担当が調整する。LP のためにアプリ release 条件や Glass 配信を変更しない。
 
-#462 の受入前 merge は不可。初回の接続設定は実設定と metadata で確認済みだが、旧 workflow 停止はまだ完了していない。新 repo の標準 GITHUB_TOKEN は private な旧 repo の workflow 停止を検証する権限を持たないため、停止の証跡は運用担当が確認する。このための cross-repo token は作成しない。
+上記は初回切替の要求順序であり、実施済みの順序の証明ではない。旧writerの停止とrun終了、#462/#468の反映は確認済み。初回の旧writer停止は#14のmerge後であり、「#14より前に停止済み」とは扱わない。新repoの標準GITHUB_TOKENには旧repoのworkflowを検証する権限を追加せず、運用担当による確認記録を使用した。このためのcross-repo tokenは作成しない。
 
 ## Rollback
 
@@ -70,7 +86,7 @@ preflight 前に止まれば現行配信は変わらない。配備後の smoke 
 
 移管時に確認済みの media: static 9 files は元と byte-identical、MP4 9,853,505 bytes、SHA-256 `c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9`。LP の local Chrome 1440/390/320px は横はみ出し・画像欠落なし、video paused=false / readyState=4 / error=null。local MP4 Range は206/1024 bytes。先行移管の [screenshots](../kiduki/evidence/) と [旧公開記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) は baseline として保持する。追加指示に対応した最終結果は PR #14 の CI/表示証跡に記録する。
 
-Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。今回の自動配信はまだ remote 実行していない。初回の credential 設定と GET-only preflight は完了したが、旧 writer 停止・配備後受入は未実施。
+Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。初回のlocal検証時点ではremote配信・切替は未実施だったが、その後の自動配信・旧writer停止・受入の結果は Current handover status のとおりである。
 
 追加 UI の最終確認: 会社サイト 1440/390px は scrollWidth と viewport が一致し、320px の scrollWidth=327 は移行前の origin/main 出力でも同じ。追加したサービスメニュー（left=37/right=283）と製品紹介要素は320px内に収まり、画像欠落は全幅0。サービスの KiDUKi リンクをクリックして既存公開 LP へ遷移することも確認した。[390px screenshot](../kiduki/evidence/company-navigation/services-390.png) / [320px screenshot](../kiduki/evidence/company-navigation/services-320.png) / [測定記録](../kiduki/evidence/company-navigation/browser-metrics.json)。
 
