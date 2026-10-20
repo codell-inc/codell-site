@@ -233,6 +233,7 @@ h3 {
 }
 
 .hero-name {
+  display: block;
   margin: 15px 0 26px;
   color: var(--ink);
   font-size: clamp(3.8rem, 7vw, 6.7rem);
@@ -240,7 +241,8 @@ h3 {
   line-height: 1;
 }
 
-.hero h1 {
+.hero-tagline {
+  margin-bottom: 0;
   font-size: clamp(2rem, 3.25vw, 3.25rem);
   font-weight: 600;
   line-height: 1.5;
@@ -820,6 +822,10 @@ h3 {
     gap: 26px;
   }
 
+  .hero-tagline {
+    font-size: 1.5rem;
+  }
+
   .feature-list {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -888,7 +894,7 @@ h3 {
     font-size: 3.75rem;
   }
 
-  .hero h1 {
+  .hero-tagline {
     font-size: 1.625rem;
     line-height: 1.55;
   }
@@ -1071,7 +1077,7 @@ h3 {
     width: calc(100% - 32px);
   }
 
-  .hero h1,
+  .hero-tagline,
   .section-heading h2,
   .contact-cta h2 {
     font-size: 1.3rem;

@@ -3,8 +3,8 @@ import FeatureList from "../../components/sonovade/FeatureList.astro";
 import ValueList from "../../components/sonovade/ValueList.astro";
 import SonovadeLayout from "../../layouts/SonovadeLayout.astro";
 
-const title = "ソノバデ | 介護保険住宅改修の見積・申請書類作成システム";
-const description = "ソノバデは、介護保険住宅改修の図面、見積もり、申請書類を現地で作成できる見積・申請書類作成システムです。";
+const title = "ソノバデ | 介護保険住宅改修の見積・図面作成ソフト";
+const description = "介護保険住宅改修の現地調査から、図面・見積書・申請書類の作成まで。ソノバデはスマホ・タブレットで使える業務支援ソフトです。手すりの施工箇所・寸法入力、部材・原価計算、写真管理をまとめて進め、帰社後の転記や計算を減らします。株式会社Codellが開発。";
 ---
 
 <SonovadeLayout {title} {description}>
@@ -12,16 +12,16 @@ const description = "ソノバデは、介護保険住宅改修の図面、見�
     <img class="hero-ring" src="/sonovade/assets/sonovade-ring.svg" alt="" width="626" height="626" aria-hidden="true" />
     <div class="hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">介護保険住宅改修向け</p><p class="hero-name">ソノバデ</p>
-        <h1 id="hero-title">その場で、見積もり。<br />その場で、申請書類作成。</h1>
-        <p class="hero-lead">住宅改修の図面作成から部材計算、見積書・申請書類の準備まで。スマホやタブレットひとつで、現地調査中に完結します。</p>
+        <h1 id="hero-title"><span class="eyebrow">介護保険住宅改修の見積・図面作成ソフト</span><span class="hero-name">ソノバデ</span></h1>
+        <p class="hero-tagline">その場で、見積もり。<br />その場で、申請書類作成。</p>
+        <p class="hero-lead">ソノバデは、介護保険住宅改修に携わる事業者向けの業務支援ソフトです。図面作成から部材計算、見積書・申請書類の準備まで、スマホやタブレットひとつで現地調査中に進められます。</p>
         <div class="hero-actions"><a class="button button-primary" href="#features">できることを見る<span aria-hidden="true">→</span></a><a class="button button-secondary" href="/contact.html?product=sonovade">先行導入を相談する<span aria-hidden="true">↗</span></a></div>
         <div class="hero-metric" aria-label="図面と書類を1人が約3分で作成"><span>図面も書類も</span><strong>1人 約3分</strong><span>で作成</span></div>
       </div>
       <div class="hero-product" aria-label="ソノバデの施工箇所図面と見積書画面">
         <div class="hero-product-screens">
-          <figure class="hero-product-screen hero-product-screen--plan"><img src="/sonovade/assets/top-floor-plan.png" alt="住宅の間取りに手すりと寸法を入力したソノバデの施工箇所図面画面" width="2236" height="1674" /></figure>
-          <figure class="hero-product-screen hero-product-screen--estimate"><img src="/sonovade/assets/top-estimate.png" alt="部材と金額を一覧表示したソノバデの見積書画面" width="2236" height="1674" /></figure>
+          <figure class="hero-product-screen hero-product-screen--plan"><img src="/sonovade/assets/top-floor-plan-1280.webp" srcset="/sonovade/assets/top-floor-plan-640.webp 640w, /sonovade/assets/top-floor-plan-1280.webp 1280w" sizes="(max-width: 720px) 80vw, (max-width: 980px) 340px, 430px" alt="住宅の間取りに手すりと寸法を入力したソノバデの施工箇所図面画面" width="3276" height="2507" fetchpriority="high" /></figure>
+          <figure class="hero-product-screen hero-product-screen--estimate"><img src="/sonovade/assets/top-estimate-1280.webp" srcset="/sonovade/assets/top-estimate-640.webp 640w, /sonovade/assets/top-estimate-1280.webp 1280w" sizes="(max-width: 720px) 80vw, (max-width: 980px) 340px, 430px" alt="部材と金額を一覧表示したソノバデの見積書画面" width="3280" height="2507" decoding="async" /></figure>
         </div>
         <p><span>現地調査</span><strong>図面作成</strong><span>概算見積</span></p>
       </div>
@@ -39,7 +39,7 @@ const description = "ソノバデは、介護保険住宅改修の図面、見�
 
   <section class="features" id="features" aria-labelledby="features-title">
     <div class="section features-inner">
-      <div class="section-heading"><p class="section-kicker">Core Functions</p><h2 id="features-title">現地調査から書類作成まで、<br />ひとつの流れに。</h2><p>案件情報と施工内容を一度入力すれば、図面・写真・部材・金額を同じ案件の中で管理できます。</p></div>
+      <div class="section-heading"><p class="section-kicker">Core Functions</p><h2 id="features-title">住宅改修の図面・見積書作成を、<br />ひとつの流れに。</h2><p>案件情報と施工内容を一度入力すれば、間取り図・手すりの施工箇所・写真・部材・金額を同じ案件の中で管理できます。現地調査の記録を、見積書や申請書類の準備へつなげます。</p></div>
       <FeatureList />
     </div>
   </section>
