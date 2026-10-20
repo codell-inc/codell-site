@@ -30,9 +30,9 @@ production には Basic 認証の Functions・`_routes.json`・`_worker.js` を�
 
 ## One-time setup before merging #14
 
-以下は **未実行の運用作業**。今回の作業では merge、remote deploy、workflow 停止、Environment/secret/variable 設定、DNS 変更を実行していない。
+既存 credential の接続設定は、所有者の明示承認後に完了した。残る未実行作業は旧 writer 停止、merge、remote deploy と配備後受入。DNS/resource は変更していない。
 
-2026-10-20 の read-only 確認では、codell-site の repository secrets/variables は空、Environment は `github-pages` のみ。旧 kiduki の staging/production には `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_API_TOKEN` の名前を確認した。値は取得していない。organization secrets の適用範囲確認は GitHub API の 403（org admin / actions-secrets 権限不足）で拒否されたため、organization から継承できるかは未確定。再試行・権限拡張はしない。
+2026-10-20 の初期 read-only 確認では、codell-site の repository secrets/variables は空、Environment は `github-pages` のみだった。旧 kiduki の staging/production には `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_API_TOKEN` の名前を確認した。値は取得していない。organization secrets の適用範囲確認は GitHub API の 403（org admin / actions-secrets 権限不足）で拒否されたため、organization から継承できるかは未確定。再試行・権限拡張はしない。
 
 新 repo に本当に必要なのは次の接続設定だけ。
 
@@ -41,19 +41,19 @@ production には Basic 認証の Functions・`_routes.json`・`_worker.js` を�
 - `production` Environment の `CLOUDFLARE_API_TOKEN`: 既存 Worker `kiduki-landing` の参照・配備に使う既存資格情報。
 - Environment を main の配備に適用する。毎回の手動承認を必須にする保護設定では自動配信が approval 待ちになるため、所有者は意図する保護ポリシーを確認する。
 
-**既存 credential の新 repo への永続的な複製・設定には、その操作前の具体的な承認が必要。現在未承認・未実行。** GitHub の secret API は値を返さないため、既存の安全な保管元または所有者による設定が必要。新 token 作成や既存権限の拡張を前提にしない。不足なら配備を停止し、別途判断する。secret 値を会話・PR・artifact・log へ出さない。
+**既存 credential の新 repo への永続的な複製・設定は、所有者の具体的な承認を得て完了した。** GitHub の secret API は値を返さないため、既存の安全な保管元から有効な API token と Account ID をプロセス内だけで取得した。両 target の GET-only preflight 成功後、codell-site の staging / production 各 Environment に `CLOUDFLARE_API_TOKEN` secret と `CLOUDFLARE_ACCOUNT_ID` variable を設定し、secret 名・variable一致・main branchだけの配備制約を読み取り確認した。毎回の reviewer / wait は追加していない。両環境で同じ検証済み既存資格情報を使用し、新 token 作成、既存 token の権限拡張、他 repo の設定変更は行っていない。secret 値は会話・PR・artifact・log・ファイルへ出していない。GitHub 上の secret 値の読み戻しと、実配備による書込権限の確認は未実施。
 
 `CLOUDFLARE_ZONE_ID`、`CUSTOM_DOMAINS_ACTIVE`、`KIDUKI_DEPLOY_OWNER`、新しい DNS/domain は不要。Pages の `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` は既存 Pages production slot のまま使い、GitHub へ複製しない。
 
 ## Safe merge and handover order
 
-1. **#14 を merge する前に**、所有者が上記の既存接続設定を利用可能にする。会社サイトの既存 GitHub Pages 設定は変更しない。
+1. **#14 を merge する前に**、上記の既存接続設定が利用可能なことを確認する。この設定は承認後に完了し、両 target の GET-only preflight は成功した。会社サイトの既存 GitHub Pages 設定は変更していない。
 2. **初回だけ旧 writer を停止する。** kiduki の `Deploy Landing staging` / `Deploy Landing production` を運用担当が無効化し、実行中・待機中 run の終了を確認する。旧 LP 編集を凍結し、移管元以降に LP 更新があれば同期する。現在の Worker version / Pages deployment ID を rollback 用に記録する。旧アプリ・Glass workflow は止めない。
 3. **#14 を main に merge する。** 追加された service link は既に公開中の LP を向く。新自動 pipeline は verify → staging → production を同じ artifact で実行する。資格情報が不足すれば preflight で止まり、既存配信は維持される。停止した旧 workflow を同時に再有効化しない。
 4. 自動 job の結果に加え、既存 Basic 認証での staging 200、production の匿名 200、動画の再生/seek、画像・リンク、desktop/mobile を実 URL で受け入れ、SHA/deployment ID と証跡を記録する。匿名 staging 401 の自動チェックは認証後の本文確認の代用にはしない。
 5. **両環境の受入後だけ #462 を staging に merge する。** 旧 source、LP 専用 CI/deploy/helper を削除する。main 反映は既存の通常 release 手順。共有 auth/tokens/Care/Home 用 helper は残す。旧 root bun.lock はアプリ deploy の path filter に含まれるため、cleanup merge/release 日程は運用担当が調整する。LP のためにアプリ release 条件や Glass 配信を変更しない。
 
-#462 の受入前 merge は不可。初回の接続設定と旧 workflow 停止をコードで完了したようには扱わない。新 repo の標準 GITHUB_TOKEN は private な旧 repo の workflow 停止を検証する権限を持たないため、停止の証跡は運用担当が確認する。このための cross-repo token は作成しない。
+#462 の受入前 merge は不可。初回の接続設定は実設定と metadata で確認済みだが、旧 workflow 停止はまだ完了していない。新 repo の標準 GITHUB_TOKEN は private な旧 repo の workflow 停止を検証する権限を持たないため、停止の証跡は運用担当が確認する。このための cross-repo token は作成しない。
 
 ## Rollback
 
@@ -70,6 +70,6 @@ preflight 前に止まれば現行配信は変わらない。配備後の smoke 
 
 移管時に確認済みの media: static 9 files は元と byte-identical、MP4 9,853,505 bytes、SHA-256 `c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9`。LP の local Chrome 1440/390/320px は横はみ出し・画像欠落なし、video paused=false / readyState=4 / error=null。local MP4 Range は206/1024 bytes。先行移管の [screenshots](../kiduki/evidence/) と [旧公開記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) は baseline として保持する。追加指示に対応した最終結果は PR #14 の CI/表示証跡に記録する。
 
-Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。今回の自動配信はまだ remote 実行しておらず、初回の credential 設定・旧 writer 停止・配備後受入は未実施。
+Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。今回の自動配信はまだ remote 実行していない。初回の credential 設定と GET-only preflight は完了したが、旧 writer 停止・配備後受入は未実施。
 
 追加 UI の最終確認: 会社サイト 1440/390px は scrollWidth と viewport が一致し、320px の scrollWidth=327 は移行前の origin/main 出力でも同じ。追加したサービスメニュー（left=37/right=283）と製品紹介要素は320px内に収まり、画像欠落は全幅0。サービスの KiDUKi リンクをクリックして既存公開 LP へ遷移することも確認した。[390px screenshot](../kiduki/evidence/company-navigation/services-390.png) / [320px screenshot](../kiduki/evidence/company-navigation/services-320.png) / [測定記録](../kiduki/evidence/company-navigation/browser-metrics.json)。
