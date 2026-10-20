@@ -22,7 +22,7 @@ LP の `/images/*`、`/videos/*`、`/kiduki-logo.svg`、`/manus-routes.json` と
 
 1. `verify`: 会社サイトの既存 tests/build と、LP の frozen install、lint、tests、check、static build、staging Functions compile、production dry-run を実行。失敗時はどの環境にも配備しない。検証した `build/` を commit SHA 名の artifact として保存する。
 2. `staging`: 同じ SHA の artifact を取得し、旧 commit の再実行なら現在の main との SHA 比較で停止する。既存 project/branch/domain と Pages production-slot の Basic 認証 secret 名を GET のみで検証してから配備する。匿名 HTML/画像/動画/scripts が 401・Basic challenge・no-store であることを確認する。
-3. `production`: staging job が成功した場合だけ、**同じ artifact** を使用する。最新 main と既存 Worker/domain・workers.dev/preview 無効を確認し、Static Assets を更新する。公開 HTML、artifact と同じ `/_app/version.json`、画像/logo/WebM の 200、MP4 の Range 206 を確認する。
+3. `production`: staging job が成功した場合だけ、**同じ artifact** を使用する。最新 main と既存 Worker/domain・workers.dev/preview 無効を確認し、Static Assets を更新する。公開 HTML、artifact と同じ `/_app/version.json`、画像/logo/WebM の 200、MP4 の Range 応答、または検証済み artifact と全バイト一致する200応答を確認する。
 
 workflow 全体を `kiduki-main-deploy` concurrency group で直列化し、進行中の配備は cancel しない。旧 SHA の rerun が新しい main を後から上書きすることも防ぐ。旧 repository の concurrency は別スコープのため、初回の旧 writer 停止は下記の必須条件である。
 
@@ -65,7 +65,7 @@ preflight 前に止まれば現行配信は変わらない。配備後の smoke 
 - LP 既存 tests は copy/link/video/observer と 25 MiB 上限。追加した `KiDUKi feature imagery` は scouter が alt に合う `feature-01.jpg` を使い、Hero poster は従来値を保つことを検証。旧設定で Red を確認して修正する。
 - `tests/deployment.test.mjs`: GET-only の既存 target/secret 検証と、staging Functions・production static 出力分離。所有不在/branch不一致/pending/secret不在/403 は拒否。
 - `tests/staging-auth.test.ts`: 各 public path の匿名401、正しい Basic200、不正401、設定不在503。
-- `tests/publication.test.mjs`: 匿名 staging 401/challenge/no-store、公開 production HTML/画像/動画 Range、検証済み artifact version を模擬 HTTP で確認。public staging、challenge欠落、誤ったHTML、Range非対応、古いversionを拒否。実装前に missing module で Red を確認。
+- `tests/publication.test.mjs`: 匿名 staging 401/challenge/no-store、公開 production HTML/画像/動画 Range・完全応答、検証済み artifact version を模擬 HTTP で確認。public staging、challenge欠落、誤ったHTML、Range非対応、古いversionを拒否。実装前に missing module で Red を確認。
 - actionlint で main push（path filterなし）・verify→staging→production・artifact連携を含む追加 workflow を検証する。PR CI は remote deploy せず、Functions compile / Worker dry-run まで確認する。
 
 移管時に確認済みの media: static 9 files は元と byte-identical、MP4 9,853,505 bytes、SHA-256 `c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9`。LP の local Chrome 1440/390/320px は横はみ出し・画像欠落なし、video paused=false / readyState=4 / error=null。local MP4 Range は206/1024 bytes。先行移管の [screenshots](../kiduki/evidence/) と [旧公開記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) は baseline として保持する。追加指示に対応した最終結果は PR #14 の CI/表示証跡に記録する。
@@ -73,3 +73,11 @@ preflight 前に止まれば現行配信は変わらない。配備後の smoke 
 Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。今回の自動配信はまだ remote 実行していない。初回の credential 設定と GET-only preflight は完了したが、旧 writer 停止・配備後受入は未実施。
 
 追加 UI の最終確認: 会社サイト 1440/390px は scrollWidth と viewport が一致し、320px の scrollWidth=327 は移行前の origin/main 出力でも同じ。追加したサービスメニュー（left=37/right=283）と製品紹介要素は320px内に収まり、画像欠落は全幅0。サービスの KiDUKi リンクをクリックして既存公開 LP へ遷移することも確認した。[390px screenshot](../kiduki/evidence/company-navigation/services-390.png) / [320px screenshot](../kiduki/evidence/company-navigation/services-320.png) / [測定記録](../kiduki/evidence/company-navigation/browser-metrics.json)。
+
+## Production media smoke check recovery (2026-10-20)
+
+初回 main 配信 [run 39421593300](https://github.com/codell-inc/codell-site/actions/runs/39421593300) は build / staging と production asset upload が成功し、最後の MP4 Range 206 必須チェックだけで停止した。実測では `Range: bytes=0-0` / `bytes=0-1023`、Accept-Encoding identity、cache MISS/HIT のいずれでも video/mp4 の200完全応答（9,853,505 bytes）が返り、SHA-256は元ファイルと一致した。サイト全体や認証の失敗ではない。
+
+[公式 Static Assets handler](https://github.com/cloudflare/workers-sdk/blob/main/packages/workers-shared/asset-worker/src/handler.ts) は asset body を200として構築している。この実装と実測から、汎用CDNのRange仕様だけをStatic Assetsの必須条件にした検証の前提が不適切と判断した。配信設定・動画・DNS・キャッシュルールは変更せず、200時にはContent-Type、Content-Length、実受信byte数、検証済みbuildのSHA-256をすべて確認する。途中切断・余分なbytes・同サイズの破損は拒否し、25MiBを超えるfallbackは許可しない。206時もContent-Rangeと実体1byteを確認する。バイト一致はブラウザでの再生・seek受入の代用にしない。
+
+`tests/publication.test.mjs` の完全応答acceptance testは旧コードでRed、修正後Greenを確認。既存の古いversion・認証不備・無検証200拒否を維持し、完全応答の破損・切断・MIME/長さ不一致も検証する。
