@@ -11,6 +11,7 @@ const steps = [
 ];
 ---
 <SonovadeLayout {title} {description}>
+  <!-- 文言はFigma 42:165を基準とし、CTAのみ最新指示を優先。削除済みの注記や独自の言い換えを追加しない。 -->
   <!-- PC版Figmaの編集内容を基準に実装。現場写真で対象業務を伝え、PCは100vh・透明ヘッダーにする。 -->
   <section class="hero" id="top" aria-labelledby="hero-title">
     <img class="hero-photo" src="/sonovade/assets/lp/hero.jpg" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
@@ -19,7 +20,7 @@ const steps = [
         <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
         <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />住宅改修の新常識</p>
         <a class="button" href={contact}>30分の無料相談を申し込む</a>
-        <a class="movie-link" href="#movie">操作動画を見る（約30秒）</a>
+        <a class="movie-link" href="#movie">操作動画を見る（30秒）</a>
       </div>
     </div>
     <a class="scroll-cue" href="#workflow" aria-label="使い方を見る"><span aria-hidden="true">↓</span></a>
@@ -63,20 +64,18 @@ const steps = [
     </div>
   </section>
 
-  <!-- 2時間→10分は依頼者指定の想定値。グラフ入口に明記し、棒の比率は120:10を守る。 -->
+  <!-- 2時間→10分は依頼者指定の想定値。棒の比率は120:10を守る。 -->
   <section class="impact band" aria-labelledby="impact-title">
     <div class="container impact-grid">
       <div>
         <p class="kicker">ソノバデなら、</p>
-        <p class="impact-intro">転記、手書き、部材計算がアプリ内で完結！</p>
+        <p class="impact-intro">転記,手書き,部材計算がアプリ内で完結！</p>
         <h2 id="impact-title">だから早い！</h2>
         <p>PCでも、タブレットでも使えるから、<br />現地完結でも、事務所作業でも、あらゆるケースに対応可能！</p>
       </div>
       <figure class="time-chart">
-        <figcaption>図面作成〜見積書出力の比較イメージ<br /><strong>想定例・実測値ではありません</strong></figcaption>
         <div class="chart-row"><strong class="chart-value">2時間</strong><div class="chart-track"><span>紙・Excelでの作業</span><div class="chart-bar chart-bar--before" aria-hidden="true"></div></div></div>
         <div class="chart-row"><strong class="chart-value">10分</strong><div class="chart-track"><span>ソノバデ</span><div class="chart-bar chart-bar--after" aria-hidden="true"></div></div></div>
-        <p class="chart-note">案件内容・設定・操作習熟度により異なります。</p>
       </figure>
     </div>
   </section>
@@ -103,7 +102,7 @@ const steps = [
         <Tablet image="photo" alt="施工箇所にひもづけた改修前後の写真を管理する画面" />
         <div class="photo-copy">
           <img class="feature-icon" src="/sonovade/assets/lp/photo-icon.svg" width="36" height="36" alt="" loading="lazy" />
-          <h3>ここの写真、<wbr />どこに置いたっけ…<br />をなくす！</h3>
+          <h3>ここの写真、<wbr />どこに置いたっけ...<br />をなくす！</h3>
           <p>写真を施工箇所ごとに整理。<br />改修前・改修後の写真や注釈を、<br />図面と一緒に管理できます。</p>
         </div>
       </div>
@@ -117,11 +116,10 @@ const steps = [
         <article>
           <p class="feature-label"><img src="/sonovade/assets/lp/plan-icon.svg" width="28" height="28" alt="" loading="lazy" />基本情報の反映</p>
           <Tablet image="information" alt="利用者情報や物件情報を案件ごとに登録する画面" />
-          <h3>氏名、住所…繰り返す手間を、一度の登録に！</h3>
+          <h3>氏名、住所...繰り返す手間を、一度の登録に！</h3>
           <p>利用者・物件情報を案件にまとめ、対応する書類の項目へ反映します。</p>
         </article>
       </div>
-      <p class="conditions">※申請書類は、対応する自治体様式の選択と必要事項の入力が必要です。商品・単価・施工費などの事前設定、計算・書類出力時の通信が必要です。</p>
     </div>
   </section>
 
