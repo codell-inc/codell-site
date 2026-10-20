@@ -46,6 +46,10 @@ h2 { font-size: 44px; line-height: 1.4; }
 .hero-copy { width: 100%; max-width: 640px; }
 .hero h1 { font-size: 48px; line-height: 1.4; }
 .hero-lead { margin-top: 24px; font-size: 20px; font-weight: 500; }
+/* Keep the approved white text strips over the photo; only the top header is transparent. */
+@media (min-width: 761px) {
+  .hero h1, .hero-lead { width: fit-content; max-width: 100%; padding: 8px 16px; background: var(--paper); }
+}
 .hero .button { min-width: 360px; margin-top: 40px; }
 .movie-link { display: block; width: fit-content; margin-top: 12px; font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 .mobile-break { display: none; }
