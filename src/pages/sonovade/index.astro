@@ -80,11 +80,11 @@ const steps = [
     </div>
   </section>
 
-  <!-- 数字の後に実際の操作動画を見せる。クリック時のみ再生し、音声の自動再生と先行ダウンロードを避ける。 -->
+  <!-- 動画が見える位置に来たらミュートで自動再生し、音声と一時停止は標準コントロールで操作できるようにする。 -->
   <section class="movie band" id="movie" aria-label="動画でわかるソノバデ">
     <div class="container">
       <div class="movie-player" data-movie>
-        <video controls playsinline preload="none" poster="/sonovade/assets/lp/movie-poster.jpg" aria-label="約30秒でわかるソノバデの操作紹介">
+        <video controls muted playsinline preload="metadata" poster="/sonovade/assets/lp/movie-poster.jpg" aria-label="約30秒でわかるソノバデの操作紹介">
           <source src="/sonovade/assets/lp/sonovade-pr-v1.mp4" type="video/mp4" />
           <p>動画を再生できない場合は<a href="/sonovade/assets/lp/sonovade-pr-v1.mp4">動画ファイルを開いてください</a>。</p>
         </video>

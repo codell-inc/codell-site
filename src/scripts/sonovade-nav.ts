@@ -37,19 +37,31 @@ updateHeader();
 const video = document.querySelector<HTMLVideoElement>("[data-movie] video");
 const playButton = document.querySelector<HTMLButtonElement>("[data-play]");
 if (video && playButton) {
-  // Keep native controls as the no-JS/error fallback; show the designed play affordance initially.
-  video.controls = false;
-  playButton.hidden = false;
-  playButton.addEventListener("click", async () => {
-    video.controls = true;
+  video.controls = true;
+  video.muted = true;
+  playButton.hidden = true;
+  const startPlayback = async (focus = false) => {
     playButton.hidden = true;
     try {
       await video.play();
-      video.focus();
+      if (focus) video.focus();
     } catch {
       playButton.hidden = false;
     }
-  });
+  };
+  playButton.addEventListener("click", () => startPlayback(true));
+  // Attempt once on arrival, so scrolling cannot override a visitor's later pause.
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting && entry.intersectionRatio >= 0.25)) return;
+      observer.disconnect();
+      void startPlayback();
+    }, { threshold: 0.25 });
+    observer.observe(video);
+  } else {
+    void startPlayback();
+  }
+  video.addEventListener("playing", () => { playButton.hidden = true; });
   video.addEventListener("error", () => {
     video.controls = true;
     playButton.hidden = true;

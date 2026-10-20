@@ -28,7 +28,7 @@ function element() {
   };
 }
 
-function setup({ play = async () => {}, withVideo = true } = {}) {
+function setup({ play = async () => {}, withVideo = true, withObserver = true } = {}) {
   const header = element(), nav = element(), toggle = element(), body = element();
   const video = Object.assign(element(), { controls: true, play });
   const playButton = Object.assign(element(), { hidden: true });
@@ -42,9 +42,15 @@ function setup({ play = async () => {}, withVideo = true } = {}) {
     })[selector] ?? null,
   };
   const media = element();
-  const window = Object.assign(element(), { scrollY: 0, matchMedia: () => media });
-  vm.runInNewContext(compiled, { exports: {}, document, window });
-  return { header, nav, toggle, body, video, playButton, document, window, media };
+  let observer;
+  class IntersectionObserver {
+    constructor(callback) { this.callback = callback; observer = this; }
+    observe(target) { this.target = target; }
+    disconnect() { this.disconnected = true; }
+  }
+  const window = Object.assign(element(), { scrollY: 0, matchMedia: () => media }, withObserver ? { IntersectionObserver } : {});
+  vm.runInNewContext(compiled, { exports: {}, document, window, IntersectionObserver });
+  return { header, nav, toggle, body, video, playButton, document, window, media, observer };
 }
 
 test("header is transparent at top and switches back after scrolling", () => {
@@ -73,21 +79,41 @@ test("mobile menu closes on Escape and when crossing the breakpoint", () => {
   assert.equal(f.body.classList.contains("nav-open"), false);
 });
 
-test("video only starts on explicit click, then exposes native controls", async () => {
+test("video starts muted on entering the viewport, without stealing focus", async () => {
   let plays = 0;
   const f = setup({ play: async () => { plays++; } });
   assert.equal(plays, 0);
-  assert.equal(f.playButton.hidden, false);
-  assert.equal(f.video.controls, false);
-  await f.playButton.handlers.click();
+  assert.equal(f.playButton.hidden, true);
+  assert.equal(f.video.controls, true);
+  assert.equal(f.video.muted, true);
+  f.observer.callback([{ isIntersecting: false, intersectionRatio: 0 }]);
+  assert.equal(plays, 0);
+  f.observer.callback([{ isIntersecting: true, intersectionRatio: 0.25 }]);
+  await Promise.resolve();
   assert.equal(plays, 1);
+  assert.equal(f.observer.disconnected, true);
+  assert.equal(f.video.focused, false);
   assert.equal(f.playButton.hidden, true);
   assert.equal(f.video.controls, true);
 });
 
 test("rejected playback remains retryable with native controls", async () => {
-  const f = setup({ play: async () => { throw new Error("Playback blocked"); } });
-  await f.playButton.handlers.click();
+  let attempts = 0;
+  const f = setup({ play: async () => { if (++attempts === 1) throw new Error("Playback blocked"); } });
+  f.observer.callback([{ isIntersecting: true, intersectionRatio: 1 }]);
+  await new Promise(setImmediate);
   assert.equal(f.playButton.hidden, false);
   assert.equal(f.video.controls, true);
+  await f.playButton.handlers.click();
+  assert.equal(attempts, 2);
+  assert.equal(f.playButton.hidden, true);
+  assert.equal(f.video.focused, true);
+});
+
+test("autoplay falls back without IntersectionObserver", async () => {
+  let plays = 0;
+  const f = setup({ withObserver: false, play: async () => { plays++; } });
+  await Promise.resolve();
+  assert.equal(plays, 1);
+  assert.equal(f.video.muted, true);
 });
