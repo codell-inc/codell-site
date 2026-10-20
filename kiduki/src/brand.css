@@ -1,0 +1,24 @@
+/* KiDUKi landing brand palette, migrated from codell-inc/kiduki. */
+:root {
+  --kiduki-green-500: #49af33;
+  --kiduki-green-400: #6dbf5c;
+  --kiduki-green-300: #92cf85;
+  --kiduki-green-200: #b6dfad;
+  --kiduki-green-100: #dbefd6;
+  --kiduki-neutral-950: #000000;
+  --kiduki-neutral-200: #d9d9d9;
+  --kiduki-neutral-000: #ffffff;
+  --kiduki-status-attention: #f3c11b;
+  --kiduki-status-attention-soft: #fdf4d1;
+  --kiduki-status-warning: #f34545;
+  --kiduki-status-warning-soft: #fde3e3;
+  --kiduki-brand-primary: var(--kiduki-green-500);
+  --kiduki-logo-primary: var(--kiduki-green-500);
+  --kiduki-logo-monochrome: var(--kiduki-neutral-950);
+  --kiduki-logo-reverse: var(--kiduki-neutral-000);
+  --kiduki-motif-pixel-primary: var(--kiduki-green-500);
+  --kiduki-motif-pixel-strong: var(--kiduki-green-400);
+  --kiduki-motif-pixel-mid: var(--kiduki-green-300);
+  --kiduki-motif-pixel-light: var(--kiduki-green-200);
+  --kiduki-motif-pixel-lightest: var(--kiduki-green-100);
+}

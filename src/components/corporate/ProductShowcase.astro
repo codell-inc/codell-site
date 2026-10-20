@@ -15,7 +15,7 @@ import { productFeatures } from "../../data/home";
     <p class="work-tag">Flagship Product</p>
     <h3 class="sr-only">KiDUKi</h3>
     <img class="product-logo" src="/assets/kiduki-logo.svg" alt="KiDUKi" width="254" height="56" />
-    <p>入居者の顔や状況を見たときに、必要なケア情報、注意点、申し送りをARグラス上へ表示する介護支援システムです。ベテランの暗黙知を現場で再利用できる形にし、新人でも迷わず動ける状態を目指します。</p>
+    <p>ARグラス × AI で、介護・家事代行の現場を支えるプロダクトです。利用者ごとの注意点の表示、音声記録、画面共有により、新人でも迷わず動ける現場を目指します。</p>
     <div class="product-features" role="tablist" aria-label="KiDUKiの機能">
       {productFeatures.map((feature, index) => (
         <button class:list={["product-feature", { "is-active": index === 0 }]} type="button" role="tab" aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1} data-product-feature={feature.key} data-feature-index={String(index + 1).padStart(2, "0")}>
@@ -24,6 +24,7 @@ import { productFeatures } from "../../data/home";
         </button>
       ))}
     </div>
-    <ul class="product-tags" aria-label="KiDUKiの分野"><li>#介護</li><li>#AR実装</li><li>#遠隔指示</li></ul>
+    <ul class="product-tags" aria-label="KiDUKiの分野"><li>#介護</li><li>#家事代行</li><li>#AR実装</li><li>#遠隔指示</li></ul>
+    <a class="button secondary" href="https://kiduki.codell.jp/">KiDUKiのサイトへ</a>
   </div>
 </article>
