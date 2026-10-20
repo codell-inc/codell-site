@@ -12,7 +12,7 @@ interface Props {
 const { title, description } = Astro.props;
 const pageUrl = new URL("/sonovade/", Astro.site).href;
 const companyUrl = new URL("/", Astro.site).href;
-const imageUrl = new URL("/sonovade/assets/top-floor-plan.png", Astro.site).href;
+const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", Astro.site).href;
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -40,8 +40,8 @@ const structuredData = {
       primaryImageOfPage: {
         "@type": "ImageObject",
         url: imageUrl,
-        width: 3276,
-        height: 2507,
+        width: 1194,
+        height: 834,
       },
     },
   ],
@@ -54,9 +54,9 @@ const fontHref = "https://fonts.googleapis.com/css2?family=Inter:wght@500;600;70
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Codell" />
     <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="3276" />
-    <meta property="og:image:height" content="2507" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1194" />
+    <meta property="og:image:height" content="834" />
     <meta property="og:image:alt" content="ソノバデで手すりの施工箇所と寸法を入力した住宅改修図面" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />

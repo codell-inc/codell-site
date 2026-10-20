@@ -1,0 +1,7 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon-photo">
+<path id="photo" d="M28.5 1.5H1.50004V22.5H28.5V1.5Z" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke="#087F76"/>
+<path id="photo_2" d="M1.50004 18L10.5 10.5L18 18L22.5 13.5L28.5 19.5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke="#087F76"/>
+<path id="photo_3" d="M11.25 8.25C11.25 9.49264 10.2427 10.5 9.00004 10.5C7.7574 10.5 6.75004 9.49264 6.75004 8.25C6.75004 7.00736 7.7574 6 9.00004 6C10.2427 6 11.25 7.00736 11.25 8.25Z" stroke-width="3" stroke="#087F76"/>
+</g>
+</svg>

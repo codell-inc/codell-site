@@ -1,56 +1,147 @@
 ---
-import FeatureList from "../../components/sonovade/FeatureList.astro";
-import ValueList from "../../components/sonovade/ValueList.astro";
+import Tablet from "../../components/sonovade/Tablet.astro";
 import SonovadeLayout from "../../layouts/SonovadeLayout.astro";
-
 const title = "ソノバデ | 介護保険住宅改修の見積・図面作成ソフト";
-const description = "介護保険住宅改修の現地調査から、図面・見積書・申請書類の作成まで。ソノバデはスマホ・タブレットで使える業務支援ソフトです。手すりの施工箇所・寸法入力、部材・原価計算、写真管理をまとめて進め、帰社後の転記や計算を減らします。株式会社Codellが開発。";
+const description = "図面に引いた手すりや扉を、そのまま見積に。ソノバデは、介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成をタブレットやPCで進める業務支援ソフトです。30分の無料相談で実際の画面をご覧いただけます。";
+const contact = "/contact.html?product=sonovade";
+const steps = [
+  { number: "01", title: "引くだけ簡単手すり配置", image: "plan", alt: "図面上に手すりを配置するソノバデの画面" },
+  { number: "02", title: "アプリ内で部材、施工費調整", image: "parts", alt: "手すりの部材と施工費を調整するソノバデの画面" },
+  { number: "03", title: "自動で見積書に反映！", image: "estimate", alt: "入力内容を反映したソノバデの見積書画面" },
+];
 ---
-
 <SonovadeLayout {title} {description}>
+  <!-- PC版Figmaの編集内容を基準に実装。現場写真で対象業務を伝え、PCは100vh・透明ヘッダーにする。 -->
   <section class="hero" id="top" aria-labelledby="hero-title">
-    <img class="hero-ring" src="/sonovade/assets/sonovade-ring.svg" alt="" width="626" height="626" aria-hidden="true" />
-    <div class="hero-inner">
+    <img class="hero-photo" src="/sonovade/assets/lp/hero.jpg" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
+    <div class="hero-content container">
       <div class="hero-copy">
-        <h1 id="hero-title"><span class="eyebrow">介護保険住宅改修の見積・図面作成ソフト</span><span class="hero-name">ソノバデ</span></h1>
-        <p class="hero-tagline">その場で、見積もり。<br />その場で、申請書類作成。</p>
-        <p class="hero-lead">ソノバデは、介護保険住宅改修に携わる事業者向けの業務支援ソフトです。図面作成から部材計算、見積書・申請書類の準備まで、スマホやタブレットひとつで現地調査中に進められます。</p>
-        <div class="hero-actions"><a class="button button-primary" href="#features">できることを見る<span aria-hidden="true">→</span></a><a class="button button-secondary" href="/contact.html?product=sonovade">先行導入を相談する<span aria-hidden="true">↗</span></a></div>
-        <div class="hero-metric" aria-label="図面と書類を1人が約3分で作成"><span>図面も書類も</span><strong>1人 約3分</strong><span>で作成</span></div>
+        <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
+        <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />住宅改修の新常識</p>
+        <a class="button" href={contact}>30分の画面デモを申し込む</a>
+        <a class="movie-link" href="#movie">操作動画を見る（約30秒）</a>
       </div>
-      <div class="hero-product" aria-label="ソノバデの施工箇所図面と見積書画面">
-        <div class="hero-product-screens">
-          <figure class="hero-product-screen hero-product-screen--plan"><img src="/sonovade/assets/top-floor-plan-1280.webp" srcset="/sonovade/assets/top-floor-plan-640.webp 640w, /sonovade/assets/top-floor-plan-1280.webp 1280w" sizes="(max-width: 720px) 80vw, (max-width: 980px) 340px, 430px" alt="住宅の間取りに手すりと寸法を入力したソノバデの施工箇所図面画面" width="3276" height="2507" fetchpriority="high" /></figure>
-          <figure class="hero-product-screen hero-product-screen--estimate"><img src="/sonovade/assets/top-estimate-1280.webp" srcset="/sonovade/assets/top-estimate-640.webp 640w, /sonovade/assets/top-estimate-1280.webp 1280w" sizes="(max-width: 720px) 80vw, (max-width: 980px) 340px, 430px" alt="部材と金額を一覧表示したソノバデの見積書画面" width="3280" height="2507" decoding="async" /></figure>
+    </div>
+    <a class="scroll-cue" href="#workflow" aria-label="使い方を見る"><span aria-hidden="true">↓</span></a>
+  </section>
+
+  <!-- 同じ横タブレット枠と最新実画面で、操作の順序を比べられるようにする。 -->
+  <section class="workflow band band--mist" id="workflow" aria-labelledby="workflow-title">
+    <div class="container">
+      <p class="kicker">現地で使う、3つの操作</p>
+      <h2 id="workflow-title"><span>タブレットひとつ、</span><span>現地で3ステップ</span></h2>
+      <ol class="steps">
+        {steps.map((step) => <li>
+          <div class="step-heading"><span aria-hidden="true">{step.number}</span><h3>{step.title}</h3></div>
+          <Tablet image={step.image} alt={step.alt} />
+        </li>)}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 操作の理解を導入メリットにつなぐ。全3点を同じソコスト線画・色・面積で統一。 -->
+  <section class="benefits band" id="benefits" aria-labelledby="benefits-title">
+    <div class="container">
+      <h2 class="benefits-title" id="benefits-title"><span>ソノバデを導入する</span><strong>3つのメリット</strong></h2>
+      <div class="benefits-grid">
+        <article>
+          <div class="benefit-art"><img src="/sonovade/assets/lp/benefit-tablet.svg" alt="" width="141" height="190" loading="lazy" /></div>
+          <h3>図面を描くだけ<br /><strong>そのまま見積</strong>に！</h3>
+          <p>図面上に引いた手すり、つけた扉が<br />そのまま見積に。申請書類づくりも、<br />入力した情報から進められます。</p>
+        </article>
+        <article>
+          <div class="benefit-art"><img src="/sonovade/assets/lp/benefit-pc.svg" alt="" width="227" height="190" loading="lazy" /></div>
+          <h3>細かい作業は<br /><strong>PCでもOK</strong>！</h3>
+          <p>部材の細かな調整など、<br />会社に合わせて柔軟に対応可能。</p>
+        </article>
+        <article>
+          <div class="benefit-art"><img src="/sonovade/assets/lp/benefit-files.svg" alt="" width="185" height="190" loading="lazy" /></div>
+          <h3>案件ごとの情報を<br /><strong>ひとまとめに</strong>！</h3>
+          <p>申請に必要な写真や理由書のあれこれ。<br />「あの情報、どこだっけ？」をなくします。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2時間→10分は依頼者指定の想定値。グラフ入口に明記し、棒の比率は120:10を守る。 -->
+  <section class="impact band" aria-labelledby="impact-title">
+    <div class="container impact-grid">
+      <div>
+        <p class="kicker">ソノバデなら、</p>
+        <p class="impact-intro">転記、手書き、部材計算がアプリ内で完結！</p>
+        <h2 id="impact-title">だから早い！</h2>
+        <p>PCでも、タブレットでも使えるから、<br />現地完結でも、事務所作業でも、あらゆるケースに対応可能！</p>
+      </div>
+      <figure class="time-chart">
+        <figcaption>図面作成〜見積書出力の比較イメージ<br /><strong>想定例・実測値ではありません</strong></figcaption>
+        <div class="chart-row"><strong class="chart-value">2時間</strong><div class="chart-track"><span>紙・Excelでの作業</span><div class="chart-bar chart-bar--before" aria-hidden="true"></div></div></div>
+        <div class="chart-row"><strong class="chart-value">10分</strong><div class="chart-track"><span>ソノバデ</span><div class="chart-bar chart-bar--after" aria-hidden="true"></div></div></div>
+        <p class="chart-note">案件内容・設定・操作習熟度により異なります。</p>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 数字の後に実際の操作動画を見せる。クリック時のみ再生し、音声の自動再生と先行ダウンロードを避ける。 -->
+  <section class="movie band" id="movie" aria-label="動画でわかるソノバデ">
+    <div class="container">
+      <div class="movie-player" data-movie>
+        <video controls playsinline preload="none" poster="/sonovade/assets/lp/movie-poster.jpg" aria-label="約30秒でわかるソノバデの操作紹介">
+          <source src="/sonovade/assets/lp/sonovade-pr-v1.mp4" type="video/mp4" />
+          <p>動画を再生できない場合は<a href="/sonovade/assets/lp/sonovade-pr-v1.mp4">動画ファイルを開いてください</a>。</p>
+        </video>
+        <button class="movie-play" type="button" aria-label="ソノバデの紹介動画を再生（約30秒）" data-play hidden><img src="/sonovade/assets/lp/play.svg" width="28" height="28" alt="" /></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 写真整理を大きく、申請書類と基本情報を同じサイズで並べ、周辺業務とのつながりを実画面で示す。 -->
+  <section class="capabilities band band--mist" id="features" aria-labelledby="features-title">
+    <div class="container">
+      <p class="kicker">住宅改修の書類作成を、ひとつに。</p>
+      <h2 id="features-title">申請書類作成に必要な<wbr />機能が勢揃い</h2>
+      <div class="photo-feature">
+        <Tablet image="photo" alt="施工箇所にひもづけた改修前後の写真を管理する画面" />
+        <div class="photo-copy">
+          <img class="feature-icon" src="/sonovade/assets/lp/photo-icon.svg" width="36" height="36" alt="" loading="lazy" />
+          <h3>ここの写真、<wbr />どこに置いたっけ…<br />をなくす！</h3>
+          <p>写真を施工箇所ごとに整理。<br />改修前・改修後の写真や注釈を、<br />図面と一緒に管理できます。</p>
         </div>
-        <p><span>現地調査</span><strong>図面作成</strong><span>概算見積</span></p>
+      </div>
+      <div class="supporting-grid">
+        <article>
+          <p class="feature-label"><img src="/sonovade/assets/lp/document-icon.svg" width="28" height="28" alt="" loading="lazy" />自治体の申請書類</p>
+          <Tablet image="forms" alt="登録済み自治体の住宅改修申請書類を作成する画面" />
+          <h3>お客様情報を、そのまま申請書類へ！</h3>
+          <p>登録済みの自治体様式に合わせて作成。様式ごとの追加項目も入力できます。</p>
+        </article>
+        <article>
+          <p class="feature-label"><img src="/sonovade/assets/lp/plan-icon.svg" width="28" height="28" alt="" loading="lazy" />基本情報の反映</p>
+          <Tablet image="information" alt="利用者情報や物件情報を案件ごとに登録する画面" />
+          <h3>氏名、住所…繰り返す手間を、一度の登録に！</h3>
+          <p>利用者・物件情報を案件にまとめ、対応する書類の項目へ反映します。</p>
+        </article>
+      </div>
+      <p class="conditions">※申請書類は、対応する自治体様式の選択と必要事項の入力が必要です。商品・単価・施工費などの事前設定、計算・書類出力時の通信が必要です。</p>
+    </div>
+  </section>
+
+  <!-- 無料相談コピーをPC版から採用。30分で確認できる内容を既存問い合わせ導線の近くに置く。 -->
+  <section class="demo band" id="demo" aria-labelledby="demo-title">
+    <div class="container demo-grid">
+      <div><p class="kicker">ソノバデの導入相談</p><h2 id="demo-title">まずは御社で使えるか、<br />無料でご相談ください。</h2></div>
+      <div class="demo-booking">
+        <ul>
+          <li><img src="/sonovade/assets/lp/plan-icon.svg" width="24" height="24" alt="" />実際の操作を確認</li>
+          <li><img src="/sonovade/assets/lp/document-icon.svg" width="24" height="24" alt="" />自社の書類に使えるか</li>
+          <li><img src="/sonovade/assets/lp/yen-icon.svg" width="24" height="24" alt="" />料金・導入の相談</li>
+        </ul>
+        <a class="button" href={contact}>30分の無料相談を申し込む</a>
+        <p>導入のご相談もこちらからお願いいたします。</p>
       </div>
     </div>
-    <a class="hero-scroll" href="#problem">Scroll</a>
   </section>
-
-  <section class="problem section" id="problem" aria-labelledby="problem-title">
-    <div class="section-heading"><p class="section-kicker">What We Build</p><h2 id="problem-title">住宅改修の書類作成を、<br />現地で終わらせます。</h2></div>
-    <div class="problem-layout">
-      <div class="problem-question"><p>こんな悩みはありませんか？</p><ul><li><span>01</span>見積もりに時間がかかる</li><li><span>02</span>補助金の申請準備に手間取る</li><li><span>03</span>部品ごとの計算が複雑</li></ul></div>
-      <div class="problem-answer"><p class="problem-answer-label">ソノバデなら</p><p class="problem-answer-context">図面も、見積もりも、申請書類も</p><strong class="problem-answer-result">現地で完結</strong><span>帰社後の転記や計算を減らし、その場でお客様へ概算を提示できます。</span></div>
-    </div>
-  </section>
-
-  <section class="features" id="features" aria-labelledby="features-title">
-    <div class="section features-inner">
-      <div class="section-heading"><p class="section-kicker">Core Functions</p><h2 id="features-title">住宅改修の図面・見積書作成を、<br />ひとつの流れに。</h2><p>案件情報と施工内容を一度入力すれば、間取り図・手すりの施工箇所・写真・部材・金額を同じ案件の中で管理できます。現地調査の記録を、見積書や申請書類の準備へつなげます。</p></div>
-      <FeatureList />
-    </div>
-  </section>
-
-  <section class="value section" id="value" aria-labelledby="value-title">
-    <div class="section-heading"><p class="section-kicker">On Site Value</p><h2 id="value-title">ソノバデを使うメリット</h2></div>
-    <ValueList />
-  </section>
-
-  <section class="contact-cta" aria-labelledby="contact-title">
-    <div><p class="section-kicker">Contact</p><h2 id="contact-title">住宅改修の現地調査を、<br />その場で次の工程へ。</h2><p>先行導入や機能について、現在の業務フローを伺いながらご案内します。</p></div>
-    <a class="button button-primary" href="/contact.html?product=sonovade">ソノバデの導入を相談する<span aria-hidden="true">↗</span></a>
-  </section>
+  <dialog class="screen-dialog" data-screen-dialog aria-label="ソノバデの画面拡大">
+    <button type="button" class="dialog-close" aria-label="拡大画面を閉じる" data-close>×</button>
+    <img alt="" data-dialog-image />
+  </dialog>
 </SonovadeLayout>

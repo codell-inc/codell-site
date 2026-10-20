@@ -1,0 +1,8 @@
+---
+interface Props { footer?: boolean }
+const { footer = false } = Astro.props;
+---
+<a class:list={["brand", { "brand--footer": footer }]} href="#top" aria-label="ソノバデ トップへ">
+  <img src="/sonovade/assets/lp/logo-symbol.svg" width="29" height="35" alt="" />
+  <img src="/sonovade/assets/lp/logo-wordmark.svg" width="127" height="27" alt="ソノバデ" />
+</a>

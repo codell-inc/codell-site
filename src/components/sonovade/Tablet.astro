@@ -1,0 +1,7 @@
+---
+interface Props { image: string; alt: string }
+const { image, alt } = Astro.props;
+---
+<button class="tablet" type="button" data-screen aria-label={`${alt}を拡大`}>
+  <img src={`/sonovade/assets/lp/${image}.jpg`} alt={alt} width="1194" height="834" loading="lazy" decoding="async" />
+</button>
