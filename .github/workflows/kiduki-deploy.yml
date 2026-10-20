@@ -1,42 +1,71 @@
-name: Deploy KiDUKi (manual handover)
+name: Deploy KiDUKi
 
-# No push trigger: merging the source migration must not change live hosting.
+# No path filter: the migration's first merge and every later main commit run.
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
-    inputs:
-      target:
-        description: Existing KiDUKi target
-        required: true
-        type: choice
-        options: [staging, production]
 
 permissions:
   contents: read
 
+# Serializes staging + production together. Never cancel a deploy in flight.
 concurrency:
-  group: kiduki-deploy-${{ inputs.target }}
+  group: kiduki-main-deploy
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  verify:
     if: github.ref == 'refs/heads/main'
+    name: Verify and build release
     runs-on: ubuntu-latest
-    environment: ${{ inputs.target }}
+    defaults:
+      run:
+        working-directory: kiduki
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Verify company site
+        working-directory: .
+        run: |
+          npm ci
+          node --test tests/*.test.mjs
+          npm run build
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run test
+      - run: bun run check
+      - run: bun run build
+      - run: bun run prepare:staging
+      - name: Compile staging auth locally
+        run: ./node_modules/.bin/wrangler pages functions build .pages-deploy/functions --outfile .pages-deploy/_worker.js
+      - run: bun run prepare:production
+      - name: Validate production configuration without deploying
+        run: ./node_modules/.bin/wrangler deploy --dry-run --config wrangler.production.jsonc
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kiduki-${{ github.sha }}
+          path: kiduki/build/
+          if-no-files-found: error
+          retention-days: 7
+
+  staging:
+    name: Deploy staging
+    needs: verify
+    runs-on: ubuntu-latest
+    environment: staging
     defaults:
       run:
         working-directory: kiduki
     env:
-      KIDUKI_DEPLOY_OWNER: ${{ vars.KIDUKI_DEPLOY_OWNER }}
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
-      - name: Require the explicit handover gate
-        working-directory: .
-        run: |
-          test "$KIDUKI_DEPLOY_OWNER" = 'codell-site' || {
-            echo 'Complete docs/kiduki-migration.md before enabling this repository as deploy owner.'
-            exit 1
-          }
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -45,18 +74,55 @@ jobs:
         with:
           bun-version: '1.4.0'
       - run: bun install --frozen-lockfile
-      - run: bun run lint
-      - run: bun run test
-      - run: bun run check
-      - name: Verify existing target without changing infrastructure
-        run: node scripts/preflight.mjs '${{ inputs.target }}'
-      - run: bun run build
-      - name: Prepare target output
-        run: node scripts/prepare-output.mjs '${{ inputs.target }}'
+      - uses: actions/download-artifact@v4
+        with:
+          name: kiduki-${{ github.sha }}
+          path: kiduki/build/
+      - name: Reject superseded main commits
+        run: |
+          latest="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$GITHUB_SHA" = "$latest" || { echo 'Main advanced; deploy the newer run.'; exit 1; }
+      - name: Verify existing staging target
+        run: node scripts/preflight.mjs staging
+      - run: bun run prepare:staging
       - name: Deploy existing staging Pages project
-        if: inputs.target == 'staging'
         working-directory: kiduki/.pages-deploy
         run: ../node_modules/.bin/wrangler pages deploy . --project-name kiduki-landing-staging --branch staging
+      - name: Verify staging authentication on public paths
+        run: node scripts/verify-publication.mjs staging
+
+  production:
+    name: Deploy production
+    needs: staging
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: kiduki
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - run: bun install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: kiduki-${{ github.sha }}
+          path: kiduki/build/
+      - name: Reject superseded main commits
+        run: |
+          latest="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$GITHUB_SHA" = "$latest" || { echo 'Main advanced; deploy the newer run.'; exit 1; }
+      - name: Verify existing production target
+        run: node scripts/preflight.mjs production
+      - run: bun run prepare:production
       - name: Deploy existing production Worker assets
-        if: inputs.target == 'production'
         run: ./node_modules/.bin/wrangler deploy --config wrangler.production.jsonc
+      - name: Verify public HTML, release version and media
+        run: node scripts/verify-publication.mjs production

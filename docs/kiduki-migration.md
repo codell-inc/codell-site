@@ -1,64 +1,73 @@
-# KiDUKi LP のリポジトリ移管
+# KiDUKi LP の移管・自動配信
 
-移管先 PR: https://github.com/codell-inc/codell-site/pull/14  /  受入後の旧 source cleanup: https://github.com/codell-inc/kiduki/pull/462
+移管先: https://github.com/codell-inc/codell-site/pull/14  /  受入後の旧 source cleanup: https://github.com/codell-inc/kiduki/pull/462
 
-## Scope and acceptance
+## Scope and public URLs
 
-KiDUKi の公開 LP を `codell-inc/kiduki/apps/landing/web` から `codell-inc/codell-site/kiduki` に移管する。会社サイト、Sonovade、問い合わせ、privacy と GitHub Pages `main/docs` は維持する。Care/Home のアプリ・Glass・リリース処理は移管しない。
+KiDUKi の公開 LP を `codell-inc/kiduki/apps/landing/web` から `codell-inc/codell-site/kiduki` に移管する。会社サイトは従来の Astro / GitHub Pages `main/docs` を維持し、サービスメニューと既存 KiDUKi 製品紹介から公開 LP へ案内する。Sonovade の項目・レイアウトと既存 KiDUKi logo / demo 素材を使用し、現行 LP の介護・家事代行向け説明に合わせる。Care/Home のアプリ・Glass・release 処理は移管しない。
 
-| 公開対象 | URL / path | 維持する配信先 |
+| 対象 | URL | 維持する配信先 |
 | --- | --- | --- |
-| 会社サイト | `https://codell.jp/` | GitHub Pages、`main/docs` |
+| 会社サイト | `https://codell.jp/` | GitHub Pages `main/docs` |
 | LP production | `https://kiduki.codell.jp/` | Worker `kiduki-landing`、Static Assets |
 | LP staging | `https://staging.kiduki.codell.jp/` | Pages `kiduki-landing-staging`、`production_branch=staging`、Basic 認証 |
-| LP assets | `/videos/*`、`/images/*`、`/kiduki-logo.svg`、`/manus-routes.json`、`/_app/*` | LP の各 hostname の root から配信 |
 
-移管元は staging `8ad0c28c90d3f43611907fb9e13e6c25fc6bc035`、production/main `8ed756558c3fc8c9d056eee4ba590043ba45f8ad`。LP source/config の両 branch 間差分はない。全 static asset とページ component/copy を維持し、共有 palette のみ LP 内へ移す。新しい `codell.jp/kiduki` やリダイレクトは追加しない。
+LP の `/images/*`、`/videos/*`、`/kiduki-logo.svg`、`/manus-routes.json` と `/_app/*` は各 LP hostname の root から配信する。`codell.jp/kiduki` や新しい redirect は追加しない。Astro の `docs/` と LP の `build/` は分離し、依存と型検査も独立させる。
 
-独立した SvelteKit ビルドにより root 相対 URL と既存描画を維持する。Astro の `tsconfig.json` では `kiduki` を除外し、別 TypeScript 設定で検査する。会社サイトの依存・ページ・生成物は変更しない。
+移管元は staging `8ad0c28c90d3f43611907fb9e13e6c25fc6bc035`、production/main `8ed756558c3fc8c9d056eee4ba590043ba45f8ad`。LP source/config は両 branch で同一。static 9 files はバイト単位で保持する。レビューで確認した scouter 画像の不一致だけを修正し、最初の機能は `feature-01.jpg`、Hero poster は従来の `hero-poster.jpg` に分離する。
+
+## Automatic delivery contract
+
+`.github/workflows/kiduki-deploy.yml` は **main の全 push** で自動実行する。path filter がないため、この移管 PR の初回 merge も対象となる。以後、毎回の workflow_dispatch や所有者変数の設定は不要。workflow_dispatch は復旧時に main の pipeline を再実行する任意の経路として残す。
+
+1. `verify`: 会社サイトの既存 tests/build と、LP の frozen install、lint、tests、check、static build、staging Functions compile、production dry-run を実行。失敗時はどの環境にも配備しない。検証した `build/` を commit SHA 名の artifact として保存する。
+2. `staging`: 同じ SHA の artifact を取得し、旧 commit の再実行なら現在の main との SHA 比較で停止する。既存 project/branch/domain と Pages production-slot の Basic 認証 secret 名を GET のみで検証してから配備する。匿名 HTML/画像/動画/scripts が 401・Basic challenge・no-store であることを確認する。
+3. `production`: staging job が成功した場合だけ、**同じ artifact** を使用する。最新 main と既存 Worker/domain・workers.dev/preview 無効を確認し、Static Assets を更新する。公開 HTML、artifact と同じ `/_app/version.json`、画像/logo/WebM の 200、MP4 の Range 206 を確認する。
+
+workflow 全体を `kiduki-main-deploy` concurrency group で直列化し、進行中の配備は cancel しない。旧 SHA の rerun が新しい main を後から上書きすることも防ぐ。旧 repository の concurrency は別スコープのため、初回の旧 writer 停止は下記の必須条件である。
+
+production には Basic 認証の Functions・`_routes.json`・`_worker.js` を含めない。staging middleware は全パスを保護し、secret 不在時は 503 で閉じる。preflight は provision、domain/DNS 変更、secret 変更をしない。既存資源が見つからない、所有が違う、認証が足りない場合は失敗する。
+
+## One-time setup before merging #14
+
+以下は **未実行の運用作業**。今回の作業では merge、remote deploy、workflow 停止、Environment/secret/variable 設定、DNS 変更を実行していない。
+
+2026-10-20 の read-only 確認では、codell-site の repository secrets/variables は空、Environment は `github-pages` のみ。旧 kiduki の staging/production には `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_API_TOKEN` の名前を確認した。値は取得していない。organization secrets の適用範囲確認は GitHub API の 403（org admin / actions-secrets 権限不足）で拒否されたため、organization から継承できるかは未確定。再試行・権限拡張はしない。
+
+新 repo に本当に必要なのは次の接続設定だけ。
+
+- `CLOUDFLARE_ACCOUNT_ID`: repository variable で共通設定、または各 Environment の variable / 既存 secret を使用できる。
+- `staging` Environment の `CLOUDFLARE_API_TOKEN`: 既存 Pages `kiduki-landing-staging` の参照・配備に使う既存資格情報。
+- `production` Environment の `CLOUDFLARE_API_TOKEN`: 既存 Worker `kiduki-landing` の参照・配備に使う既存資格情報。
+- Environment を main の配備に適用する。毎回の手動承認を必須にする保護設定では自動配信が approval 待ちになるため、所有者は意図する保護ポリシーを確認する。
+
+**既存 credential の新 repo への永続的な複製・設定には、その操作前の具体的な承認が必要。現在未承認・未実行。** GitHub の secret API は値を返さないため、既存の安全な保管元または所有者による設定が必要。新 token 作成や既存権限の拡張を前提にしない。不足なら配備を停止し、別途判断する。secret 値を会話・PR・artifact・log へ出さない。
+
+`CLOUDFLARE_ZONE_ID`、`CUSTOM_DOMAINS_ACTIVE`、`KIDUKI_DEPLOY_OWNER`、新しい DNS/domain は不要。Pages の `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` は既存 Pages production slot のまま使い、GitHub へ複製しない。
 
 ## Safe merge and handover order
 
-以下は将来の運用手順であり、この PR 作成作業では merge、配備、workflow 停止、Environment/secret/変数の設定、DNS 変更を一切実行していない。
+1. **#14 を merge する前に**、所有者が上記の既存接続設定を利用可能にする。会社サイトの既存 GitHub Pages 設定は変更しない。
+2. **初回だけ旧 writer を停止する。** kiduki の `Deploy Landing staging` / `Deploy Landing production` を運用担当が無効化し、実行中・待機中 run の終了を確認する。旧 LP 編集を凍結し、移管元以降に LP 更新があれば同期する。現在の Worker version / Pages deployment ID を rollback 用に記録する。旧アプリ・Glass workflow は止めない。
+3. **#14 を main に merge する。** 追加された service link は既に公開中の LP を向く。新自動 pipeline は verify → staging → production を同じ artifact で実行する。資格情報が不足すれば preflight で止まり、既存配信は維持される。停止した旧 workflow を同時に再有効化しない。
+4. 自動 job の結果に加え、既存 Basic 認証での staging 200、production の匿名 200、動画の再生/seek、画像・リンク、desktop/mobile を実 URL で受け入れ、SHA/deployment ID と証跡を記録する。匿名 staging 401 の自動チェックは認証後の本文確認の代用にはしない。
+5. **両環境の受入後だけ #462 を staging に merge する。** 旧 source、LP 専用 CI/deploy/helper を削除する。main 反映は既存の通常 release 手順。共有 auth/tokens/Care/Home 用 helper は残す。旧 root bun.lock はアプリ deploy の path filter に含まれるため、cleanup merge/release 日程は運用担当が調整する。LP のためにアプリ release 条件や Glass 配信を変更しない。
 
-1. **この codell-site PR を先にレビュー・マージする。** `kiduki-deploy.yml` は `workflow_dispatch` のみ、`main` 限定。さらに `KIDUKI_DEPLOY_OWNER=codell-site` の明示 gate があり、merge だけでは公開環境を変更しない。会社サイトの既存 Pages 公開は通常どおり。
-2. **既存アクセスの移管準備を運用担当が行う。** codell-site には現在 `github-pages` Environment だけが存在する。LP 用の `staging` / `production` の保護設定と、既存アカウントの `CLOUDFLARE_ACCOUNT_ID`（variable または既存 secret）・`CLOUDFLARE_API_TOKEN` を利用できるか確認する。この作業で credentials の新規作成・secret のコピー/変更・権限拡大はしない。既存権限で利用できなければ移管を止め、旧配信を継続する。
-3. **旧 writer を止める。** kiduki の `Deploy Landing staging` / `Deploy Landing production` を運用担当が無効化し、実行中・待機中の deploy run がないことを確認する。二つの repository の concurrency group は相互排他にならない。LP 専用 workflow 以外やアプリ/Glass の workflow は変更しない。切替中の LP 編集を凍結し、移管元 SHA 以降に LP 更新があれば先に同期する。Worker の既存 version と Pages deployment ID を rollback 用に記録する。
-4. **staging の owner gate を有効にし、codell-site/main から staging を手動配備する。** preflight は既存 project、branch、active domain と production-slot の `BASIC_AUTH_USER` / `BASIC_AUTH_PASSWORD` secret 名を読むだけ。Pages の branch `staging` が production slot なので、secret 値を GitHub や新コードへ移す必要はない。匿名の `/`・画像・動画・`/_app` が 401、既存認証で 200、動画の再生・seek・画像・リンク・各幅の表示を確認する。欠落 secret は preflight で停止し、middleware 自体も 503 で閉じる。
-5. **staging の受入後だけ production の owner gate を有効にし、本番を手動配備する。** preflight は `kiduki.codell.jp` の既存 Worker 所有と workers.dev / preview 無効を GET で検証する。domain を付け替える helper、routes、zone/DNS API は持ち込まない。既存 Worker の assets だけを更新する。匿名 `/` が 200、WWW-Authenticate なし、動画/画像/リンクと desktop/mobile を確認する。既存 asset URL を変えず、動画 Range/seek も確認する。
-6. **両環境の実 URL の受入証跡を残した後だけ kiduki の cleanup PR をマージする。** cleanup は staging を対象とし、通常の承認済みリリースで main に反映する。旧 repo の source、LP 専用 CI/deploy/helper を削除する。共有 auth、tokens、Care/Home 用出力 helper は残す。bun.lock 整理は旧 repo の既存アプリ deploy の path filter にも該当するため、運用担当は通常の staging/main 配備日程を確認する。LP 移管のためにアプリ release 条件や Glass 配信を変更しない。
-
-受入前の cleanup merge は不可。旧 source が残る期間は無停止切替・rollback に必要であり、恒久的な二重管理にはしない。新 workflow の自動 push 配備はこの移管には含めない。
+#462 の受入前 merge は不可。初回の接続設定と旧 workflow 停止をコードで完了したようには扱わない。新 repo の標準 GITHUB_TOKEN は private な旧 repo の workflow 停止を検証する権限を持たないため、停止の証跡は運用担当が確認する。このための cross-repo token は作成しない。
 
 ## Rollback
 
-配備前の preflight/権限検証で止まった場合は既存配信がそのまま残る。新配備後に不具合があれば新 workflow の gate を外し、進行中 run の終了を確認してから、記録した Worker version / Pages deployment を既存の承認済み運用経路で戻す。新旧 writer を同時に有効にしない。cleanup 前なら旧 LP workflow を運用担当が再有効化し、既知の SHA を既存経路で配備できる。cleanup 後は必要な旧 commit の復元 PR を作り、レビューしてから配備する。DNS、domain、resource、secret を削除しない。
+preflight 前に止まれば現行配信は変わらない。配備後の smoke failure は「配備自体が失敗した」と同義ではないため、workflow の deploy step と実 URL / version を先に確認する。新自動 workflow を運用担当が停止し、進行中 run の終了を待ってから、記録した Worker version / Pages deployment を承認済み経路で復元する。新旧 writer を同時に有効にしない。cleanup 前は旧 source を保持し、必要なら旧 workflow だけを戻せる。cleanup 後は既知 commit の復元 PR をレビューしてから配備する。DNS/domain/resource/secret は削除しない。
 
-## Verification design
+## Verification design and evidence
 
-- `kiduki/tests/deployment.test.mjs`: API mock で GET だけが実行されること、Worker/domain の所有、Pages branch/domain、production slot の secret 名を確認。所有不在・異なる branch・pending domain・secret 不在・403 では失敗し、provisioning しない。fixture build に既存 media と古い function marker を置き、staging 出力は全パス auth を含み、production 再生成では Functions と marker が残らず、media の bytes を保つことを検証する。
-- `kiduki/tests/staging-auth.test.ts`: 匿名 HTML/画像/動画/scripts/well-known は 401、正しい Basic 認証（password の colon 含む）は 200、不正/壊れた header は 401、設定不在は 503。production output にはこの middleware 自体が存在しないことを出力テストで別に確認する。
-- 既存 LP の 12 テスト: copy、CTA、法務リンク、hero 動画・header の契約、IntersectionObserver の callback/解除、static files の 25 MiB 上限を移管先でも検証する。
-- 会社サイトの既存 13 テスト、Astro check/build、既存 `docs/` の差分ゼロを確認する。
-- CI では二つの build/check と LP lint/test、staging Functions の local compile、production Worker の `--dry-run` を実行し、deploy は行わない。
+- 会社サイトの既存13 tests、Astro check/build。PC/スマホでサービスメニューの Sonovade と KiDUKi、公開 LP へのリンク、既存の素材を使う製品紹介 CTA を確認する。`docs/` の HTML は生成元を直して再生成する。
+- LP 既存 tests は copy/link/video/observer と 25 MiB 上限。追加した `KiDUKi feature imagery` は scouter が alt に合う `feature-01.jpg` を使い、Hero poster は従来値を保つことを検証。旧設定で Red を確認して修正する。
+- `tests/deployment.test.mjs`: GET-only の既存 target/secret 検証と、staging Functions・production static 出力分離。所有不在/branch不一致/pending/secret不在/403 は拒否。
+- `tests/staging-auth.test.ts`: 各 public path の匿名401、正しい Basic200、不正401、設定不在503。
+- `tests/publication.test.mjs`: 匿名 staging 401/challenge/no-store、公開 production HTML/画像/動画 Range、検証済み artifact version を模擬 HTTP で確認。public staging、challenge欠落、誤ったHTML、Range非対応、古いversionを拒否。実装前に missing module で Red を確認。
+- actionlint で main push（path filterなし）・verify→staging→production・artifact連携を含む追加 workflow を検証する。PR CI は remote deploy せず、Functions compile / Worker dry-run まで確認する。
 
-## Execution evidence and remaining checks
+移管時に確認済みの media: static 9 files は元と byte-identical、MP4 9,853,505 bytes、SHA-256 `c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9`。LP の local Chrome 1440/390/320px は横はみ出し・画像欠落なし、video paused=false / readyState=4 / error=null。local MP4 Range は206/1024 bytes。先行移管の [screenshots](../kiduki/evidence/) と [旧公開記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) は baseline として保持する。追加指示に対応した最終結果は PR #14 の CI/表示証跡に記録する。
 
-この節には PR 作成時点の実施結果を追記する。リモート配備、DNS/TLS、実 URL の新 repo からの受入は手順 4–5 まで未実施であり、local build の成功で代用しない。
-
-2026-10-20、ユーザーの Mac の独立した checkout で以下を確認した。
-
-| 検証 | 実測結果 |
-| --- | --- |
-| 会社サイト | 既存テスト 13 件成功、Astro check は 0 error / warning / hint、4 routes の build 成功。既存 `src/`・`public/`・`docs/` 生成物・root lockfile の差分なし |
-| LP | Bun 1.4.0 frozen install、Biome lint、既存12件＋auth4件＋配備/出力8件の計24テスト、svelte-check（0 error / warning）、Vite static build が成功 |
-| 配備準備 | staging Functions local compile 成功。production の出力は Function marker なし。Wrangler 4.135.0 の dry-run は assets 33 files、binding なしで成功。remote deploy は未実施 |
-| GitHub Actions | actionlint 1.7.12 で追加 workflow 2本の検証成功 |
-| 素材・表示データ | static 9 files、`src/lib` 5 files、`src/routes` 3 files が元とバイト単位で一致。MP4 SHA-256 `c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9` |
-| local HTTP | LP と会社トップ・Sonovade は 200。MP4 Range 0–1023 は 206、Content-Range `bytes 0-1023/9853505`、1024 bytes |
-| Chrome 実ブラウザ | DevTools の responsive viewport 1440・390・320px。全幅で `innerWidth == document.documentElement.scrollWidth`、読み込み不良画像0、video `paused=false / readyState=4 / error=null`。見出し、CTA、画像、全体 layout を目視確認 |
-| 現公開の baseline | production の匿名 HEAD は 200 / Basic challenge なし、staging は 401 / Basic challenge / no-store。既存サイトを変更していない |
-
-移管後の local screenshots: [desktop](../kiduki/evidence/after-1440.png)、[390px](../kiduki/evidence/after-390.png)、[320px](../kiduki/evidence/after-320.png)。移管前の公開受入 screenshots は [元の production 記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) を参照。動画の frame は撮影時刻で異なる。
-
-ローカル shell の Node は 26.5.0、CI と配備 workflow は元の運用と同じ 22.22.2 に固定している。初回 CI では Vitest の推移依存だけが Vite 8 に解決され、会社サイトの依存がない job で親 Astro tsconfig の読み込みに失敗した。LP の `overrides.vite=6.4.3` で build/test の Vite を統一した。会社サイトの node_modules を一時退避し、LP も新 lock からクリーン再 install して Red → Green（24テスト、check/build）を確認した。単独ビルドの config 探索時に親 Astro tsconfig の不在 warning は出るが、LP の型検査・build は成功する。Wrangler の local log は workspace 外書込を避けるため一時フォルダへ出力した。
+Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_modules を退避した LP 単独のクリーン検証も成功している。単独 config 探索時の親 Astro 不在 warning と、LP 自体の型検査成功を区別する。今回の自動配信はまだ remote 実行しておらず、初回の credential 設定・旧 writer 停止・配備後受入は未実施。

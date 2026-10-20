@@ -12,7 +12,7 @@ export function isConfiguredHref(href: string): boolean {
 
 const featureScenes = {
   scouter: {
-    image: "/images/hero-poster.jpg",
+    image: "/images/feature-01.jpg",
     imageAlt: "利用者と向き合うスタッフ。視線の先に注意点の表示がある。",
   },
   voice: {
@@ -115,7 +115,7 @@ export const landingContent = {
   },
   hero: {
     src: "/videos/hero.mp4",
-    poster: featureScenes.scouter.image,
+    poster: "/images/hero-poster.jpg",
     label: "KiDUKi 紹介動画",
   },
   contact: {

@@ -79,6 +79,16 @@ describe("KiDUKi landing copy", () => {
   });
 });
 
+describe("KiDUKi feature imagery", () => {
+  it("uses the scouter scene described by its alt without changing the hero poster", () => {
+    expect(landingContent.features.items[0].image).toBe("/images/feature-01.jpg");
+    expect(landingContent.features.items[0].imageAlt).toBe(
+      "利用者と向き合うスタッフ。視線の先に注意点の表示がある。",
+    );
+    expect(landingContent.hero.poster).toBe("/images/hero-poster.jpg");
+  });
+});
+
 describe("KiDUKi landing links", () => {
   it("points contact and the company site at the published addresses", () => {
     const contactPage = "https://codell.jp/contact.html";
