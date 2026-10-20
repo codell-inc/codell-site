@@ -23,7 +23,7 @@ local dev は port 4173。必要な場合だけ `LANDING_DEV_HOST` / `LANDING_DE
 
 ## Content and assets
 
-コピーとリンクは `src/lib/features/landing/content.ts`。コンポーネント・コピー・画像・動画は移管元のまま。元 monorepo のブランド palette を `src/brand.css` で所有し、package 間の依存を解消した。Svelte / Vite / Vitest は移管元の版を固定している。
+コピーとリンクは `src/lib/features/landing/content.ts`。コンポーネント・コピー・画像・動画は移管元のまま。元 monorepo のブランド palette を `src/brand.css` で所有し、package 間の依存を解消した。Svelte / Vite / Vitest は移管元の版を固定している。Vitest の推移依存も `overrides` で Vite 6.4.3 に揃え、親 Astro の依存なしで検証できる。
 
 `static/` の全 asset はバイト単位で引き継ぐ。Hero は `/videos/hero.mp4`（9,853,505 bytes）、ポスターは `/images/hero-poster.jpg`。`hero.webm`、`/kiduki-logo.svg`、`/manus-routes.json` と既存画像のパスも維持する。動画は 16:9、ミュート・ループ・自動再生。低モーション時も動画の挙動を維持する。固定ヘッダーは Hero の可視状態で背景を切り替える。メディア差し替え時は 25 MiB 上限を含むテストを実行する。
 

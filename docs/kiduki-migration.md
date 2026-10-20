@@ -1,5 +1,7 @@
 # KiDUKi LP のリポジトリ移管
 
+移管先 PR: https://github.com/codell-inc/codell-site/pull/14  /  受入後の旧 source cleanup: https://github.com/codell-inc/kiduki/pull/462
+
 ## Scope and acceptance
 
 KiDUKi の公開 LP を `codell-inc/kiduki/apps/landing/web` から `codell-inc/codell-site/kiduki` に移管する。会社サイト、Sonovade、問い合わせ、privacy と GitHub Pages `main/docs` は維持する。Care/Home のアプリ・Glass・リリース処理は移管しない。
@@ -59,4 +61,4 @@ KiDUKi の公開 LP を `codell-inc/kiduki/apps/landing/web` から `codell-inc/
 
 移管後の local screenshots: [desktop](../kiduki/evidence/after-1440.png)、[390px](../kiduki/evidence/after-390.png)、[320px](../kiduki/evidence/after-320.png)。移管前の公開受入 screenshots は [元の production 記録](https://github.com/codell-inc/kiduki/tree/8ed756558c3fc8c9d056eee4ba590043ba45f8ad/specs/20261020-landing-production-deploy/evidence) を参照。動画の frame は撮影時刻で異なる。
 
-ローカル shell の Node は 26.5.0、CI と配備 workflow は元の運用と同じ 22.22.2 に固定している。Vitest 実行時に既存 Svelte plugin の `optimizeDeps.esbuildOptions` deprecated warning が出るが、検査・build は成功している。Wrangler の local log は workspace 外書込を避けるため一時フォルダへ出力した。
+ローカル shell の Node は 26.5.0、CI と配備 workflow は元の運用と同じ 22.22.2 に固定している。初回 CI では Vitest の推移依存だけが Vite 8 に解決され、会社サイトの依存がない job で親 Astro tsconfig の読み込みに失敗した。LP の `overrides.vite=6.4.3` で build/test の Vite を統一した。会社サイトの node_modules を一時退避し、LP も新 lock からクリーン再 install して Red → Green（24テスト、check/build）を確認した。単独ビルドの config 探索時に親 Astro tsconfig の不在 warning は出るが、LP の型検査・build は成功する。Wrangler の local log は workspace 外書込を避けるため一時フォルダへ出力した。
