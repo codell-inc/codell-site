@@ -1,0 +1,62 @@
+name: Deploy KiDUKi (manual handover)
+
+# No push trigger: merging the source migration must not change live hosting.
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Existing KiDUKi target
+        required: true
+        type: choice
+        options: [staging, production]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kiduki-deploy-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    defaults:
+      run:
+        working-directory: kiduki
+    env:
+      KIDUKI_DEPLOY_OWNER: ${{ vars.KIDUKI_DEPLOY_OWNER }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Require the explicit handover gate
+        working-directory: .
+        run: |
+          test "$KIDUKI_DEPLOY_OWNER" = 'codell-site' || {
+            echo 'Complete docs/kiduki-migration.md before enabling this repository as deploy owner.'
+            exit 1
+          }
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run test
+      - run: bun run check
+      - name: Verify existing target without changing infrastructure
+        run: node scripts/preflight.mjs '${{ inputs.target }}'
+      - run: bun run build
+      - name: Prepare target output
+        run: node scripts/prepare-output.mjs '${{ inputs.target }}'
+      - name: Deploy existing staging Pages project
+        if: inputs.target == 'staging'
+        working-directory: kiduki/.pages-deploy
+        run: ../node_modules/.bin/wrangler pages deploy . --project-name kiduki-landing-staging --branch staging
+      - name: Deploy existing production Worker assets
+        if: inputs.target == 'production'
+        run: ./node_modules/.bin/wrangler deploy --config wrangler.production.jsonc
