@@ -1,5 +1,13 @@
 # 動画制作 LP の素材
 
+## 配信用ソノバデ動画（2026年10月21日）
+
+元の `/sonovade/assets/lp/sonovade-pr-v1.mp4` は変更せず、Cloudflare Static Assetsの1ファイル25 MiB上限に合わせて `sonovade-pr.mp4` を作成しました。映像内容・長さ・解像度は保持し、H.264/AAC・フルHD・31.6秒、10,084,150 bytesに再エンコードしました。
+
+```sh
+ffmpeg -i public/sonovade/assets/lp/sonovade-pr-v1.mp4 -c:v libx264 -preset medium -crf 23 -c:a aac -b:a 128k -movflags +faststart public/video-production/assets/sonovade-pr.mp4
+```
+
 画像3点は2026年10月20日に built-in imagegen で新規生成しました。クライアントや実在する納品事例を表す画像ではありません。WebP への変換・縮小は sharp で行い、元の生成画像は作業領域に保持しています。
 
 | 配置ファイル | 用途 | サイズ |

@@ -1,6 +1,6 @@
 # 動画制作サービス LP
 
-ルートは `/video-production/`、canonical は `https://codell.jp/video-production/`。既存Astro構成で `docs/video-production/index.html` に出力します。問い合わせは既存の `/contact.html` に接続します。
+公開URLとcanonicalは `https://video.codell.jp/`。既存Astro構成の `/video-production/` から専用配布物を `dist/video/index.html` に生成します。問い合わせは会社サイトの `https://codell.jp/contact.html` に接続します。
 
 ## 2026年10月21日のデザイン更新
 
@@ -18,7 +18,8 @@ PCでは制作事例と料金を2列、工程を5列に配置。スマートフ�
 
 ```sh
 npm run build
-node --test tests/*.test.mjs
+npm test
+npm run test:build
 npm run preview -- --host 127.0.0.1 --port 4324
 ```
 
@@ -33,4 +34,27 @@ npm run preview -- --host 127.0.0.1 --port 4324
 
 [更新後PC](evidence/redesign-desktop-1440.jpg) / [更新後390px](evidence/redesign-mobile-390.jpg) / [更新後320px](evidence/redesign-mobile-320.jpg)
 
-この作業はローカルの実装・検証までです。初版の検証画像と `browser-metrics.json` は2026年10月20日の記録として残しています。
+初版の検証画像と `browser-metrics.json` は2026年10月20日の記録として残しています。
+
+## video.codell.jp の自動公開
+
+`.github/workflows/video-production-ci.yml` はPRと作業ブランチでテスト・ビルド・公開設定の検査だけを実行します。mainへのpush、またはmainを選んだ手動実行では、検証済みの同一artifactをproduction環境からCloudflare Worker `codell-video` へ配備します。古いmainの再実行は停止します。
+
+`wrangler.video.jsonc` のCustom Domain設定により、初回の本番配備時に `video.codell.jp` の接続を作成します。`workers.dev` とプレビューURLは無効です。既存production環境の `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` を利用します。tokenには対象アカウントのWorkers Scripts編集と、codell.jpのWorkers Routes書き込み権限が必要です。設定方式は [Cloudflare公式Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) に準拠しています。
+
+```sh
+npm ci
+npm test
+npm run build:video
+npm run test:build
+npx wrangler deploy --dry-run --config wrangler.video.jsonc
+npx wrangler dev --local --config wrangler.video.jsonc --port 8788
+```
+
+配布物にはLPが参照する画像・CSS・動画だけを含め、会社ページやCNAME、生成プロンプト、未使用画像を含めません。robots.txtとsitemap.xmlは専用ドメインを指します。`/video-production` と `/video-production/` は `/` へ301で移動し、素材のURLは維持します。会社トップ・プライバシー・問い合わせは会社ドメインへのリンクです。
+
+元のソノバデ動画は保持し、配信用にH.264/AAC・フルHD・31.6秒、10,084,150 bytesの `sonovade-pr.mp4` を作成しました。2本とも1ファイル25 MiB以下です。サイズ超過や不足した素材があればビルドを失敗させます。
+
+本番配備後は、公開HTMLが同じartifactであること、CSS・ヒーロー画像・両動画の取得内容を自動検証します。動画のRange要求が200で返る場合も、全ファイルのバイト一致を確認します。初回のDNS・証明書反映を待って再確認します。
+
+2026年10月21日時点では、テスト32件、ビルド、Wrangler 4.151.3のdry-run、ローカルWorkerでの配布物一致・301・404・両動画の実再生を確認しました。production環境に既存のtokenとaccount IDがあることも確認しています。本番への配備とドメイン作成はmainへ反映された際に行います。

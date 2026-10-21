@@ -2,6 +2,9 @@ node_modules/
 .DS_Store
 .astro/
 dist/
+.wrangler/
+/docs/
+!/docs/*.md
 .env
 .env.*
 !.env.example

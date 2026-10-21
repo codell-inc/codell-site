@@ -1,4 +1,4 @@
-export const contactHref = "/contact.html";
+export const contactHref = "https://codell.jp/contact.html";
 
 export const useCases = [
   { icon: "screen", title: "Webサイト", text: "サービスの第一印象に" },

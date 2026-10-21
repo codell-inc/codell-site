@@ -1,0 +1,14 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "codell-video",
+  "compatibility_date": "2026-10-21",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "video.codell.jp", "custom_domain": true }
+  ],
+  "assets": {
+    "directory": "./dist/video",
+    "not_found_handling": "404-page"
+  }
+}

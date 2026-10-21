@@ -7,7 +7,11 @@
     "dev": "astro dev",
     "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "build:video": "npm run build && node scripts/prepare-video-site.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:build": "node --test tests/build/*.test.mjs",
+    "deploy:video": "npm run build:video && wrangler deploy --config wrangler.video.jsonc"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -15,6 +19,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "4.151.3"
   }
 }
