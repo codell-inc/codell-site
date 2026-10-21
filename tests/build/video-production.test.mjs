@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
-// Run after npm run build. Validate the actual GitHub Pages output, not source text.
-const outputRoot = new URL("../docs/", import.meta.url);
+// Run after npm run build. Validate the actual production build, not source text.
+const outputRoot = new URL("../../docs/", import.meta.url);
 const html = await readFile(new URL("video-production/index.html", outputRoot), "utf8");
 
 test("the built LP resolves every local asset, route and anchor", async () => {
@@ -43,14 +43,15 @@ test("both portfolio players have real MP4 bytes and remain opt-in", async () =>
 test("consultation uses the existing inquiry route and FAQs work without scripts", () => {
   const ctas = [...html.matchAll(/<a\b[^>]*class="[^"]*vp-button[^>]*href="([^"]+)"/g)];
   assert(ctas.length >= 4);
-  assert(ctas.every(([,href]) => href === "#works" || href === "/contact.html"));
+  assert(ctas.every(([,href]) => href === "#works" || href === "https://codell.jp/contact.html"));
   assert.doesNotMatch(html, /<form\b/);
-  const details = [...html.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)];
+  const details = [...html.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)]
+    .filter(([, attributes]) => !attributes.includes("vp-plan-details"));
   assert.equal(details.length, 8);
   for (const [,attributes,content] of details) {
     assert.doesNotMatch(attributes, /\bopen\b/);
     assert.match(content, /<summary>.+<\/summary>/);
     assert.match(content, /class="vp-faq-answer"/);
   }
-  assert.match(html, /rel="canonical" href="https:\/\/codell.jp\/video-production\/"/);
+  assert.match(html, /rel="canonical" href="https:\/\/video.codell.jp\/"/);
 });
