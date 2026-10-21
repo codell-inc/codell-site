@@ -45,7 +45,8 @@ test("consultation uses the existing inquiry route and FAQs work without scripts
   assert(ctas.length >= 4);
   assert(ctas.every(([,href]) => href === "#works" || href === "/contact.html"));
   assert.doesNotMatch(html, /<form\b/);
-  const details = [...html.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)];
+  const details = [...html.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/g)]
+    .filter(([, attributes]) => !attributes.includes("vp-plan-details"));
   assert.equal(details.length, 8);
   for (const [,attributes,content] of details) {
     assert.doesNotMatch(attributes, /\bopen\b/);

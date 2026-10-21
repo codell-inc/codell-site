@@ -1,45 +1,36 @@
-# 動画制作サービス LP（Draft）
+# 動画制作サービス LP
 
-## ルートと統合方針
+ルートは `/video-production/`、canonical は `https://codell.jp/video-production/`。既存Astro構成で `docs/video-production/index.html` に出力します。問い合わせは既存の `/contact.html` に接続します。
 
-- 提案ルート: `/video-production/`（canonical: `https://codell.jp/video-production/`）。この PR では公開していません。
-- main からの独立ブランチ `feat/video-production-landing`。作業開始時の `5351c6b` から、並行して追加された最新 main `104b9fe09cda32a5b7de59cfc808e8623b064fb4` へ rebase 済みです。PR #14 のマージや KiDUKi の配備切替は不要です。
-- 既存 Astro 構成を使い、`src/pages/video-production/index.astro` を `docs/video-production/index.html` に静的出力します。既存の会社・問い合わせ・プライバシー・ソノバデのページは変更していません。
-- 会社トップのサービスカード追加や KiDUKi LP 移管は別タスクです。本 PR は専用ページと sitemap のルート追加に限定します。
-- 別タスクの checkout は読み取りのみ。本作業は別 clone `/Users/kizuki/Documents/Codex/2026-10-20/task-2/codell-site` で実施しました。
-- 問い合わせ CTA はすべて既存の `/contact.html` に接続します。新規の送信処理や送信先は追加していません。
+## 2026年10月21日のデザイン更新
 
-## デザインと内容
+今回添付された縦長の参考画像に合わせ、全面写真のヒーロー、手書きの「想いを、もっと動かす。」、斜めの写真コラージュ、制作事例2本、夕景の料金表、写真付きの5段階の制作工程、納品物、FAQ、街の夕景の問い合わせ導線に再構成しました。
 
-添付 `image(6).png` を本作業の Mac に取得し、1536×1024 PNG の読み取りと目視確認を行ってから実装しました。4列の図は連続する4区間として扱い、LP を1ページに構成しています。白・ネイビー・青と、コーラルの相談・料金 CTA、大きな見出し、余白を継承しました。
+PCでは制作事例と料金を2列、工程を5列に配置。スマートフォンでは縦並びにし、人物写真の表示位置と見出しの大きさを調整しています。生成したコンセプト写真は制作事例の実動画と分けて使用しています。出典と生成プロンプトは [SOURCES.md](../../public/video-production/assets/SOURCES.md) に記載しました。
 
-制作例、商品／サービス紹介、6つの活用シーン、4つの強み、料金、5段階の進行、納品形式、FAQ、問い合わせを実装しています。自社サービスの実動画2本と、AI生成の静止画イメージを明確に区別しました。生成画像と動画の出所・生成プロンプトは [SOURCES.md](../../public/video-production/assets/SOURCES.md) に記載しています。
+書体は手書き見出しにYomogi（400）、本文にNoto Sans JP（400/500/700）、金額・補助表記にBarlow Condensed（600/700）。Klee Oneによる端正な表現、一般的なゴシックによる見出しも検討しましたが、参考画像の手書き感に合わせてYomogiを採用しました。本文16px、補助12–14px、セクション見出し24–36px、ヒーローは画面幅に応じて可変。Google Fontsから `display=swap` で読み込み、遅い回線では読み込み後に書体が切り替わる場合があります。
 
-動画は利用者の操作で再生するネイティブコントロールを使用します。自動再生はありません。概要テキスト、操作名、インライン再生、ダウンロードのフォールバックを用意しました。FAQ は JavaScript に依存しない `details` / `summary` で、Enter・Space の開閉とフォーカス表示を確認しました。ページ内ナビゲーションは小さな画面でも表示されます。
+ソノバデとKiDUKiは既存の実動画・サービス説明を保持しています。再生ボタンを押すとネイティブの動画操作を表示し、別の動画を再生した際には先の動画を停止します。JavaScriptが無効でも標準の動画操作とFAQが利用できます。アニメーションを減らす端末設定にも対応しています。
+
+料金条件は2026年10月31日までのお申し込みで50,000円（税別）、11月1日以降は70,000円（税別）。30秒・初稿確認後の修正1回・MP4フルHDなどの基本条件は料金表下の開閉欄に収めています。サムネイルや別サイズの制作は個別相談として表示します。日付による価格の自動切り替えはありません。
 
 ## 検証
 
 ```sh
-npm ci
 npm run build
 node --test tests/*.test.mjs
-npm run preview -- --host 127.0.0.1 --port 4323
+npm run preview -- --host 127.0.0.1 --port 4324
 ```
 
-- Astro check: 0 errors / 0 warnings / 0 hints。静的5ルートのビルド成功。
-- 最新 main の既存14件と、本番出力のリンク・素材・実動画・問い合わせ経路を検証する3件の合計17 tests 成功。
-- 本番出力をローカルで表示し、1440×1000、390×844、320×800 で目視確認。横はみ出し0、画像不良0。
-- 両動画の再生・停止を実操作。両方とも `readyState=4` / `error=null`、実再生中の `currentTime > 13` を確認。ソノバデ31.6秒、KiDUKi32.6秒。
-- 320px で料金アンカー到達時の section top は約150px、固定ヘッダー下端は約93px。見出しは隠れません。
-- FAQ の Enter 展開・Space 閉鎖、問い合わせ CTA の `/contact.html` 遷移と既存フォームの存在を確認。問い合わせの送信はしていません。
-- 公開済みの `https://codell.jp/contact.html` と `https://kiduki.codell.jp/` は読み取りで HTTP 200 を確認。ローカル MP4 の Range 取得は 206 / 1024 bytes を確認。
-- 既存4ページと互換問い合わせルートの生成 HTML、および既存 source・lockfile に差分がないことを確認。
-- PR 向けに `Video production landing checks` を追加。ビルドと全テストを実行し、デプロイ処理は含みません。
+- Astro check: 0 errors / 0 warnings / 0 hints。5ルートのビルド成功。
+- 既存17テスト成功。料金詳細用の開閉欄追加に合わせ、FAQの検査対象を区別しました。
+- 公開用ビルドを1440×1000、390×844、320×800で目視確認。768px・1024pxも含め横はみ出し0、画像不良0。
+- 両動画の操作による再生、再生位置の進行、別動画再生時の停止を確認。再生エラーなし。
+- FAQのEnter展開・Space閉鎖、JavaScript無効時の動画操作とFAQ展開を確認。
+- 問い合わせCTAから `/contact.html` に遷移し、既存フォーム1件の存在を確認。送信は行っていません。
+- ブラウザーのコンソールエラー0。
+- 会社トップ、問い合わせ、プライバシー、ソノバデの生成HTMLに差分なし。
 
-[PC 全体](evidence/desktop-1440.jpg) / [390px 全体](evidence/mobile-390.jpg) / [320px 全体](evidence/mobile-320.jpg) / [FAQ 320px](evidence/faq-320.jpg) / [動画再生 320px](evidence/video-playback-320.jpg) / [実測値](evidence/browser-metrics.json)
+[更新後PC](evidence/redesign-desktop-1440.jpg) / [更新後390px](evidence/redesign-mobile-390.jpg) / [更新後320px](evidence/redesign-mobile-320.jpg)
 
-## 公開前に確認する内容
-
-料金は提供された提案内容を保持しています。2026年10月31日までのお申し込みは50,000円（税別）、11月1日から70,000円（税別）、30秒・修正1回・MP4フルHDです。キャンペーン条件と提供範囲は事業側で最終確認してください。日付で自動切替する実装ではないため、11月以降に公開する場合はキャンペーン表示を更新します。
-
-納期や権利の扱い、追加制作・修正の費用、縦型対応は未確定の条件を約束せず、相談時に個別確認する文章にしています。架空の受託実績、顧客の声、効果数値は掲載していません。
+この作業はローカルの実装・検証までです。初版の検証画像と `browser-metrics.json` は2026年10月20日の記録として残しています。
