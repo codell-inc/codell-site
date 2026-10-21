@@ -85,6 +85,12 @@
 .vp-nav a { padding-block: var(--vp-space-3); transition: opacity var(--vp-transition); }
 .vp-nav a:hover { opacity: .7; }
 .vp-header-cta { min-height: 42px; min-width: 190px; padding-block: var(--vp-space-2); color: var(--vp-ink) !important; }
+.vp-header.is-fixed { position: fixed; z-index: 9; padding-block: var(--vp-space-3); background: #ffffffeb; color: var(--vp-ink); box-shadow: 0 1px 0 var(--vp-line), 0 8px 24px #0f1f2a14; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); animation: vp-header-in 360ms cubic-bezier(.22, 1, .36, 1) both; }
+.vp-header.is-fixed .vp-brand img { filter: none; }
+.vp-header.is-fixed .vp-header-cta { background: var(--vp-ink); color: var(--vp-white) !important; }
+.vp-header.is-fixed .vp-header-cta:hover { background: #2b3338; }
+@keyframes vp-header-in { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+html:has(.video-production) { scroll-padding-top: 5rem; }
 .vp-hero { position: relative; isolation: isolate; overflow: hidden; min-height: var(--vp-hero-height); color: var(--vp-white); background: #12384b; }
 .vp-hero-image, .vp-hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
 .vp-hero-image { object-fit: cover; object-position: center 45%; }
@@ -220,6 +226,8 @@
   .vp-brand img { width: 90px; height: 42px; }
   .vp-header-cta { min-width: 0; min-height: 38px; padding: var(--vp-space-2) var(--vp-space-4); font-size: var(--vp-text-xs); }
   .vp-nav { order: 3; justify-content: space-between; width: 100%; gap: var(--vp-space-2); font-size: .625rem; border-top: 1px solid #ffffff40; }
+  .vp-header.is-fixed .vp-nav { border-top-color: var(--vp-line); }
+  html:has(.video-production) { scroll-padding-top: 7rem; }
   .vp-hero-image { object-position: 78% center; }
   .vp-hero-shade { background: linear-gradient(0deg, #041c2ff2, #082a3f5c 57%, #082a3f18); }
   .vp-hero-content { padding-bottom: var(--vp-space-20); }
@@ -295,4 +303,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .video-production *, .video-production *::before, .video-production *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  /* The header slide-in is a short, one-off entrance that signals the bar is now fixed, so it keeps its animation. */
+  .video-production .vp-header.is-fixed { animation: vp-header-in 360ms cubic-bezier(.22, 1, .36, 1) both !important; }
 }
