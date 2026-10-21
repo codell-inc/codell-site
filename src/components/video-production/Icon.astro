@@ -1,0 +1,24 @@
+---
+interface Props { name: string; size?: number }
+const { name, size = 24 } = Astro.props;
+const paths: Record<string, string> = {
+  arrow: "M4 12h16m-6-6 6 6-6 6",
+  play: "m9 5 11 7-11 7V5Z",
+  mail: "M3 5h18v14H3V5Zm0 1 9 7 9-7",
+  spark: "m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z",
+  screen: "M3 4h18v13H3V4Zm5 17h8m-4-4v4",
+  chart: "M4 20V4m0 16h17M8 15l4-5 4 2 5-7",
+  booth: "M3 21V9h18v12M2 9l3-6h14l3 6M8 21v-7h8v7",
+  people: "M15 21v-2a5 5 0 0 0-10 0v2m5-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 1a5 5 0 0 1 3 6v2m-4-17a4 4 0 0 1 0 8",
+  message: "M3 3h18v14H9l-6 4V3Zm5 5h8m-8 4h5",
+  globe: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM3 12h18M12 3a19 19 0 0 1 0 18 19 19 0 0 1 0-18Z",
+  film: "M3 3h18v18H3V3Zm4 0v18M17 3v18M3 8h4m-4 8h4m10-8h4m-4 8h4",
+  layers: "m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5",
+  clock: "M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-5v6l4 2",
+  check: "m5 12 4 4L19 6",
+  file: "M14 2H5v20h14V7l-5-5Zm0 0v5h5M8 12h8m-8 4h6",
+  music: "M9 18V5l12-3v13M9 9l12-3M9 18c0 2-2 3-4 3s-3-1-3-2 2-3 4-3 3 1 3 2Zm12-3c0 2-2 3-4 3s-3-1-3-2 2-3 4-3 3 1 3 2Z",
+  mic: "M9 5a3 3 0 0 1 6 0v6a3 3 0 0 1-6 0V5Zm-4 5v1a7 7 0 0 0 14 0v-1m-7 8v4m-4 0h8",
+};
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={paths[name] ?? paths.arrow} /></svg>

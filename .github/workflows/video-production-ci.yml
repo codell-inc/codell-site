@@ -1,0 +1,40 @@
+name: Video production landing checks
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "public/**"
+      - "scripts/**"
+      - "tests/**"
+      - "package*.json"
+      - "astro.config.mjs"
+      - "tsconfig.json"
+      - ".github/workflows/video-production-ci.yml"
+  push:
+    branches: ["feat/video-production-landing"]
+    paths:
+      - "src/**"
+      - "public/**"
+      - "scripts/**"
+      - "tests/**"
+      - "package*.json"
+      - "astro.config.mjs"
+      - "tsconfig.json"
+      - ".github/workflows/video-production-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  company-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: node --test tests/*.test.mjs
