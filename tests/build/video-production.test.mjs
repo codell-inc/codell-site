@@ -25,7 +25,8 @@ test("the built LP resolves every local asset, route and anchor", async () => {
 });
 
 test("both portfolio players have real MP4 bytes and remain opt-in", async () => {
-  const players = [...html.matchAll(/<video\b([^>]*)>([\s\S]*?)<\/video>/g)];
+  const players = [...html.matchAll(/<video\b([^>]*)>([\s\S]*?)<\/video>/g)]
+    .filter(([, attributes]) => !attributes.includes("data-hero-video"));
   assert.equal(players.length, 2);
   for (const [, attributes, contents] of players) {
     assert.match(attributes, /\bcontrols\b/);
@@ -38,6 +39,19 @@ test("both portfolio players have real MP4 bytes and remain opt-in", async () =>
     assert((await stat(file)).size > 1_000_000, `missing video data: ${source}`);
     assert.equal((await readFile(file)).subarray(4, 8).toString(), "ftyp");
   }
+});
+
+test("the hero video is a muted, looping, decorative MP4 with a poster", async () => {
+  const [hero, ...rest] = [...html.matchAll(/<video\b([^>]*\bdata-hero-video\b[^>]*)>([\s\S]*?)<\/video>/g)];
+  assert(hero && rest.length === 0, "expected exactly one hero video");
+  const [, attributes, contents] = hero;
+  for (const attribute of ["autoplay", "muted", "loop", "playsinline"]) assert.match(attributes, new RegExp(`\\b${attribute}\\b`));
+  assert.doesNotMatch(attributes, /\bcontrols\b/);
+  assert.match(attributes, /\bposter="\/video-production\/assets\/hero-cinematic\.webp"/);
+  const source = contents.match(/<source\b[^>]*\bsrc="([^"]+\.mp4)"/)[1];
+  const file = new URL(`.${source}`, outputRoot);
+  assert((await stat(file)).size > 100_000, `missing video data: ${source}`);
+  assert.equal((await readFile(file)).subarray(4, 8).toString(), "ftyp");
 });
 
 test("consultation uses the existing inquiry route and FAQs work without scripts", () => {
