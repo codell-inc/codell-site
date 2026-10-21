@@ -1,0 +1,8 @@
+node_modules/
+.svelte-kit/
+build/
+.pages-deploy/
+.wrangler/
+.env
+.env.*
+.dev.vars*

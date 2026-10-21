@@ -1,0 +1,25 @@
+{
+  "environment": "Chrome on user's Mac, local production preview http://127.0.0.1:4173/",
+  "date": "2026-10-20",
+  "observations": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "brokenImages": 0,
+      "video": { "paused": false, "readyState": 4, "error": null }
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "brokenImages": 0,
+      "video": { "paused": false, "readyState": 4, "error": null }
+    },
+    {
+      "width": 320,
+      "scrollWidth": 320,
+      "brokenImages": 0,
+      "video": { "paused": false, "readyState": 4, "error": null }
+    }
+  ],
+  "method": "Read-only DOM inspection in Chrome DevTools via native UI; viewport screenshots saved by Chrome"
+}
