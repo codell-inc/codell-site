@@ -31,3 +31,10 @@ document.querySelectorAll<HTMLElement>("[data-video-card]").forEach((card) => {
   });
   video.addEventListener("error", showPlayer);
 });
+
+// The hero loop is decorative, so visitors who prefer reduced motion see its poster frame instead.
+const heroVideo = document.querySelector<HTMLVideoElement>("[data-hero-video]");
+if (heroVideo && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  heroVideo.removeAttribute("autoplay");
+  heroVideo.pause();
+}
