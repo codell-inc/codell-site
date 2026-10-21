@@ -82,4 +82,4 @@ Use case: photorealistic-natural. Asset type: full bleed 16:9 cinematic hero pho
 
 ## 2026年10月21日 ヒーロー動画の差し替え
 
-トップのヒーロー画像を、提供された `COUPAR_body_bloom.mp4`（1280×720、9.1秒）に差し替え。ヒーローでは音声なしのループ再生のため、`hero-body-bloom.mp4` は音声を除いてH.264（CRF 26）で再エンコードしています（約2.0 MB）。`hero-cinematic.webp` は動画の1フレーム目から作成した、読み込み前・動きを減らす設定時のポスター画像です（OG画像も兼ねます）。以前のヒーロー写真（imagegen生成の女性ポートレート）は使用していません。
+トップのヒーロー画像を、提供された `COUPAR_body_bloom.mp4`（1280×720、9.1秒）に差し替え。ヒーローでは音声なしのループ再生のため、`hero-body-bloom.mp4` は音声を除いてH.264（CRF 26）で再エンコードしています（約2.0 MB）。`hero-cinematic.webp` は動画の1フレーム目から作成した、読み込み前のポスター画像です（OG画像も兼ねます）。以前のヒーロー写真（imagegen生成の女性ポートレート）は使用していません。
