@@ -303,4 +303,6 @@ html:has(.video-production) { scroll-padding-top: 5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .video-production *, .video-production *::before, .video-production *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  /* The header slide-in is a short, one-off entrance that signals the bar is now fixed, so it keeps its animation. */
+  .video-production .vp-header.is-fixed { animation: vp-header-in 360ms cubic-bezier(.22, 1, .36, 1) both !important; }
 }
