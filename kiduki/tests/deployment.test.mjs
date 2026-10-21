@@ -54,18 +54,29 @@ test("publication jobs use repository credentials on main without GitHub Environ
     ["kiduki-deploy.yml", ["staging", "production"]],
     ["video-production-ci.yml", ["production"]],
   ]) {
-    const workflow = readFileSync(new URL(`../../.github/workflows/${filename}`, import.meta.url), "utf8");
+    const workflow = readFileSync(
+      new URL(`../../.github/workflows/${filename}`, import.meta.url),
+      "utf8",
+    );
     assert.doesNotMatch(workflow, /^\s+environment:/m);
     for (const job of jobs) {
-      const block = workflow.match(new RegExp(`^  ${job}:\\n([\\s\\S]*?)(?=^  [a-z][a-z_-]*:|$(?![\\s\\S]))`, "m"))?.[1];
+      const block = workflow.match(
+        new RegExp(`^  ${job}:\\n([\\s\\S]*?)(?=^  [a-z][a-z_-]*:|$(?![\\s\\S]))`, "m"),
+      )?.[1];
       assert(block, `${filename} must keep the ${job} publication job`);
-      assert.match(block, /^    if: github\.ref == 'refs\/heads\/main'/m);
-      assert.match(block, /CLOUDFLARE_ACCOUNT_ID: \$\{\{ vars\.CLOUDFLARE_ACCOUNT_ID \|\| secrets\.CLOUDFLARE_ACCOUNT_ID \}\}/);
+      assert.match(block, /^ {4}if: github\.ref == 'refs\/heads\/main'/m);
+      assert.match(
+        block,
+        /CLOUDFLARE_ACCOUNT_ID: \$\{\{ vars\.CLOUDFLARE_ACCOUNT_ID \|\| secrets\.CLOUDFLARE_ACCOUNT_ID \}\}/,
+      );
       assert.match(block, /CLOUDFLARE_API_TOKEN: \$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}/);
       assert.match(block, /Reject superseded main commits/);
     }
   }
-  const kiduki = readFileSync(new URL("../../.github/workflows/kiduki-deploy.yml", import.meta.url), "utf8");
+  const kiduki = readFileSync(
+    new URL("../../.github/workflows/kiduki-deploy.yml", import.meta.url),
+    "utf8",
+  );
   assert.match(kiduki, /name: Publish staging\.kiduki\.codell\.jp/);
   assert.match(kiduki, /name: Publish kiduki\.codell\.jp/);
   assert.match(kiduki, /staging:\n[\s\S]*?needs: verify/);
