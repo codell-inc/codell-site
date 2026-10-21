@@ -38,9 +38,9 @@ npm run preview -- --host 127.0.0.1 --port 4324
 
 ## video.codell.jp の自動公開
 
-`.github/workflows/video-production-ci.yml` はPRと作業ブランチでテスト・ビルド・公開設定の検査だけを実行します。mainへのpush、またはmainを選んだ手動実行では、検証済みの同一artifactをproduction環境からCloudflare Worker `codell-video` へ配備します。古いmainの再実行は停止します。
+`.github/workflows/video-production-ci.yml` はPRと作業ブランチでテスト・ビルド・公開設定の検査だけを実行します。mainへのpush、またはmainを選んだ手動実行では、検証済みの同一artifactをCloudflare Worker `codell-video` へ配備します。GitHub Environment は使用しません。古いmainの再実行は停止します。
 
-`wrangler.video.jsonc` のCustom Domain設定により、初回の本番配備時に `video.codell.jp` の接続を作成します。`workers.dev` とプレビューURLは無効です。既存production環境の `CLOUDFLARE_API_TOKEN` と `CLOUDFLARE_ACCOUNT_ID` を利用します。tokenには対象アカウントのWorkers Scripts編集と、codell.jpのWorkers Routes書き込み権限が必要です。設定方式は [Cloudflare公式Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) に準拠しています。
+`wrangler.video.jsonc` のCustom Domain設定により、初回の本番配備時に `video.codell.jp` の接続を作成します。`workers.dev` とプレビューURLは無効です。repository secret の `CLOUDFLARE_API_TOKEN` と repository variable の `CLOUDFLARE_ACCOUNT_ID` を利用します（Account ID は既存の repository secret も参照可能）。tokenには対象アカウントのWorkers Scripts編集と、codell.jpのWorkers Routes書き込み権限が必要です。設定方式は [Cloudflare公式Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/) に準拠しています。
 
 ```sh
 npm ci
@@ -57,4 +57,4 @@ npx wrangler dev --local --config wrangler.video.jsonc --port 8788
 
 本番配備後は、公開HTMLが同じartifactであること、CSS・ヒーロー画像・両動画の取得内容を自動検証します。動画のRange要求が200で返る場合も、全ファイルのバイト一致を確認します。初回のDNS・証明書反映を待って再確認します。
 
-2026年10月21日時点では、テスト32件、ビルド、Wrangler 4.151.3のdry-run、ローカルWorkerでの配布物一致・301・404・両動画の実再生を確認しました。production環境に既存のtokenとaccount IDがあることも確認しています。本番への配備とドメイン作成はmainへ反映された際に行います。
+初回公開設定時には、テスト32件、ビルド、Wrangler 4.151.3のdry-run、ローカルWorkerでの配布物一致・301・404・両動画の実再生を確認しました。当時は production GitHub Environment の既存 token と account ID を確認していましたが、2026年10月21日に同じ資格情報を repository の secret / variable に移しました。以後はこの repository scope の設定を使用します。
