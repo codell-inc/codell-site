@@ -55,10 +55,10 @@ jobs:
           retention-days: 7
 
   staging:
-    name: Deploy staging
+    if: github.ref == 'refs/heads/main'
+    name: Publish staging.kiduki.codell.jp
     needs: verify
     runs-on: ubuntu-latest
-    environment: staging
     defaults:
       run:
         working-directory: kiduki
@@ -92,10 +92,10 @@ jobs:
         run: node scripts/verify-publication.mjs staging
 
   production:
-    name: Deploy production
+    if: github.ref == 'refs/heads/main'
+    name: Publish kiduki.codell.jp
     needs: staging
     runs-on: ubuntu-latest
-    environment: production
     defaults:
       run:
         working-directory: kiduki

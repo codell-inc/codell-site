@@ -3,7 +3,7 @@ node_modules/
 .astro/
 dist/
 .wrangler/
-/docs/
+/docs/*
 !/docs/*.md
 .env
 .env.*

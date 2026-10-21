@@ -81,3 +81,11 @@ Vitest の推移依存を含め Vite 6.4.3 に固定し、親 Astro の node_mod
 [公式 Static Assets handler](https://github.com/cloudflare/workers-sdk/blob/main/packages/workers-shared/asset-worker/src/handler.ts) は asset body を200として構築している。この実装と実測から、汎用CDNのRange仕様だけをStatic Assetsの必須条件にした検証の前提が不適切と判断した。配信設定・動画・DNS・キャッシュルールは変更せず、200時にはContent-Type、Content-Length、実受信byte数、検証済みbuildのSHA-256をすべて確認する。途中切断・余分なbytes・同サイズの破損は拒否し、25MiBを超えるfallbackは許可しない。206時もContent-Rangeと実体1byteを確認する。バイト一致はブラウザでの再生・seek受入の代用にしない。
 
 `tests/publication.test.mjs` の完全応答acceptance testは旧コードでRed、修正後Greenを確認。既存の古いversion・認証不備・無検証200拒否を維持し、完全応答の破損・切断・MIME/長さ不一致も検証する。
+
+## GitHub Environment の使用終了（2026-10-21）
+
+現在の接続設定は、この節を正とする。上記の `staging` / `production` GitHub Environment への設定記録は初回移管時の履歴であり、今後の設定手順には使用しない。同じ既存の有効な `CLOUDFLARE_API_TOKEN` を repository secret、`CLOUDFLARE_ACCOUNT_ID` を repository variable に移した。新しい token の作成や権限拡張は行っていない。
+
+KiDUKi と動画 LP の公開 job は GitHub Environment を指定せず、main から repository の接続設定を参照する。workflow の反映後、旧 `staging` / `production` Environment を削除する。代わりの Environment は作成しない。GitHub Actions 上の KiDUKi job 名には公開先の `staging.kiduki.codell.jp` / `kiduki.codell.jp` を表示する。
+
+Cloudflare の配信先と順序は従来どおりであり、Basic 認証付き `staging.kiduki.codell.jp` の公開・検証が成功してから、同じ artifact を `kiduki.codell.jp` に公開する。Cloudflare Pages の staging branch、Basic 認証設定、Worker、DNS はこの変更の対象外。
