@@ -71,7 +71,8 @@ p { color: var(--text); }
 .site-header.is-scrolled,
 .site-header.is-open,
 .page-contact .site-header,
-.page-privacy .site-header {
+.page-privacy .site-header,
+.page-products .site-header {
   background: rgba(255, 255, 255, 0.94);
   border-bottom-color: var(--line);
   box-shadow: 0 8px 28px rgba(0, 0, 30, 0.06);
@@ -96,6 +97,7 @@ p { color: var(--text); }
 .site-header.is-open .brand-logo,
 .page-contact .brand-logo,
 .page-privacy .brand-logo,
+.page-products .brand-logo,
 .site-footer .brand-logo {
   filter: none;
 }
@@ -224,7 +226,8 @@ p { color: var(--text); }
 .site-header.is-scrolled .nav-contact,
 .site-header.is-open .nav-contact,
 .page-contact .nav-contact,
-.page-privacy .nav-contact {
+.page-privacy .nav-contact,
+.page-products .nav-contact {
   background: var(--ink);
   color: var(--paper) !important;
 }
@@ -860,6 +863,83 @@ h3 {
   border-top: 1px solid var(--line);
   font-size: 0.88rem;
   line-height: 1.8;
+}
+
+.products-directory {
+  padding-top: 132px;
+}
+
+.products-directory h1 {
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.4;
+}
+
+.products-back {
+  width: fit-content;
+  margin-bottom: 20px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.products-entry {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+}
+
+.products-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.products-entry .product-content {
+  flex: 1;
+}
+
+.products-entry .button {
+  margin-top: auto;
+}
+
+.products-entry .product-content > p:last-of-type {
+  margin-bottom: 28px;
+}
+
+.products-contact {
+  margin-top: 56px;
+  padding: clamp(24px, 4vw, 48px);
+  border-radius: var(--radius);
+  background: var(--soft);
+}
+
+.products-contact h2 {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+}
+
+.products-contact p {
+  color: var(--muted);
+}
+
+.products-index-link {
+  align-self: center;
+  margin-top: 28px;
+}
+
+@media (max-width: 700px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .products-directory { padding-top: 112px; }
 }
 
 .product {
