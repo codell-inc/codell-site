@@ -6,7 +6,7 @@ import WorkList from "../components/corporate/WorkList.astro";
 import CorporateLayout from "../layouts/CorporateLayout.astro";
 
 const title = "Codell | 社会の違和感を、前進する力に。";
-const description = "Codellは、社会の違和感を前進する力に変えるプロダクトカンパニーです。ARグラス × AI で、介護・家事代行の現場を支えるKiDUKiを紹介します。";
+const description = "Codellは、社会の違和感を前進する力に変えるプロダクトカンパニーです。介護・家事代行の現場を支えるKiDUKiと、介護保険住宅改修の見積・申請を支えるソノバデを紹介します。";
 ---
 
 <CorporateLayout {title} {description} isHome>
@@ -51,8 +51,22 @@ const description = "Codellは、社会の違和感を前進する力に変え�
   </section>
 
   <section class="section product" id="product" aria-labelledby="product-title">
-    <div class="section-heading"><p class="section-label">Product</p><h2 id="product-title">製品紹介</h2><p>KiDUKiは、ARグラス × AI で、介護・家事代行の現場を支えるプロダクトです。</p></div>
+    <div class="section-heading"><p class="section-label">Product</p><h2 id="product-title">製品紹介</h2><p>介護・家事代行の現場を支えるKiDUKiと、介護保険住宅改修の見積・申請を支えるソノバデを紹介します。</p></div>
     <ProductShowcase />
+    <article class="product-card product-card-sonovade" aria-labelledby="sonovade-title">
+      <div class="product-media">
+        <img class="is-active" src="/sonovade/assets/lp/hero.jpg" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" loading="lazy" />
+      </div>
+      <div class="product-content">
+        <p class="work-tag">介護保険住宅改修</p>
+        <h3 id="sonovade-title" class="sr-only">ソノバデ</h3>
+        <img class="product-logo" src="/sonovade/assets/lp/logo-wordmark.svg" alt="ソノバデ" width="254" height="56" loading="lazy" />
+        <p>図面に引いた手すりや扉を、そのまま見積に。介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成を、タブレットやPCで進める業務支援ソフトです。</p>
+        <ul class="product-tags" aria-label="ソノバデの分野"><li>#介護保険住宅改修</li><li>#図面作成</li><li>#見積作成</li><li>#申請書類</li></ul>
+        <a class="button secondary" href="/sonovade/">ソノバデのサイトへ</a>
+      </div>
+    </article>
+    <a class="button primary products-index-link" href="/products/">製品・サービス一覧を見る</a>
   </section>
 
   <section class="cta" id="contact" aria-labelledby="cta-title">
