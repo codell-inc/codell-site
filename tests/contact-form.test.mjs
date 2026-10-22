@@ -25,7 +25,7 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     reset() { this.resets++; },
     addEventListener(name, listener) { listeners[name] = listener; },
   };
-  const options = ["", "ソノバデについて", "KiDUKiについて", "プロダクト開発相談", "その他"].map((value) => ({ value, selected: value === "", defaultSelected: value === "" }));
+  const options = ["", "ソノバデについて", "ソノバデの見積もり依頼", "ソノバデの資料請求", "KiDUKiについて", "プロダクト開発相談", "その他"].map((value) => ({ value, selected: value === "", defaultSelected: value === "" }));
   const typeSelect = { options };
   const elements = { "#contact-form": form, "#contact-status": status, "#contact-submit": button, "#contact-type": typeSelect };
   const emailjs = {
@@ -40,7 +40,7 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     require: (name) => { assert.equal(name, "@emailjs/browser"); return emailjs; },
     TEST_ENV: { PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO: sendTo },
     document: { querySelector: (selector) => elements[selector] ?? null },
-    FormData: class { get(name) { return `${name}:private-input`; } },
+    FormData: class { get(name) { return name === "type" ? options.find((option) => option.defaultSelected)?.value : `${name}:private-input`; } },
     window,
     URLSearchParams,
     console: { error: (...args) => errors.push(args) },
@@ -127,9 +127,29 @@ test("Sonovade landing-page context preselects the product and its reset default
 });
 
 test("generic contact and unknown product keep the initial product prompt", () => {
-  for (const search of ["", "?product=unknown"]) {
+  for (const search of ["", "?product=unknown", "?request=quote", "?product=unknown&request=brochure"]) {
     const fixture = setup({ search });
     assert.equal(fixture.typeSelect.options[0].selected, true);
     assert.equal(fixture.typeSelect.options[1].selected, false);
+  }
+});
+
+for (const [request, type] of [["quote", "ソノバデの見積もり依頼"], ["brochure", "ソノバデの資料請求"]]) {
+  test(`${request} preselects its inquiry type and sends it through EmailJS`, async () => {
+    const fixture = setup({ search: `?product=sonovade&request=${request}` });
+    const selected = fixture.typeSelect.options.find((option) => option.value === type);
+    assert.equal(selected.selected, true);
+    assert.equal(selected.defaultSelected, true);
+    assert.equal(fixture.typeSelect.options.filter((option) => option.defaultSelected).length, 1);
+    await fixture.submit();
+    assert.equal(fixture.sends[0][2].type, type);
+    assert.equal(selected.defaultSelected, true);
+  });
+}
+
+test("unknown inquiry requests fall back to the Sonovade inquiry", () => {
+  for (const request of ["unknown", "__proto__", "constructor"]) {
+    const fixture = setup({ search: `?product=sonovade&request=${request}` });
+    assert.equal(fixture.typeSelect.options.find((option) => option.defaultSelected).value, "ソノバデについて");
   }
 });

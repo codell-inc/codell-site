@@ -30,6 +30,13 @@ h2 { font-size: 44px; line-height: 1.4; }
 .kicker { margin-bottom: 20px; color: var(--dark-teal); font-size: 13px; font-weight: 700; }
 .button { display: inline-flex; justify-content: center; align-items: center; min-height: 56px; padding: 16px 24px; border: 1px solid transparent; border-radius: 8px; background: var(--dark-teal); color: white; font-size: 16px; font-weight: 700; line-height: 1.4; text-align: center; transition: background 160ms, box-shadow 160ms; }
 .button:hover { color: white; background: #076d65; box-shadow: 0 4px 12px #141a1924; }
+.button--outline { background: white; color: var(--dark-teal); border-color: var(--dark-teal); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+.hero .hero-actions .button { min-width: 0; margin-top: 0; }
+.pricing { border-bottom: 1px solid var(--line); }
+.pricing-layout { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.pricing-actions { display: flex; flex-wrap: wrap; gap: 16px; }
+.pricing-actions .button { min-width: 240px; }
 .site-header { position: fixed; z-index: 50; inset: 0 0 auto; height: 88px; padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; background: transparent; transition: background 180ms, box-shadow 180ms; }
 .site-header.is-scrolled { background: white; box-shadow: 0 1px 0 var(--line); }
 .brand { display: inline-flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; padding: 10px 12px; background: white; }
@@ -162,6 +169,9 @@ body:has(.screen-dialog[open]) { overflow: hidden; }
   .hero-lead { margin-top: 16px; font-size: 15px; }
   .mobile-break { display: initial; }
   .hero .button { min-width: 0; width: 100%; margin-top: 24px; }
+  .hero-actions { margin-top: 24px; }
+  .pricing-actions { width: 100%; }
+  .pricing-actions .button { width: 100%; min-width: 0; }
   .movie-link { margin-top: 16px; }
   .scroll-cue { display: none; }
   .steps, .benefits-grid, .impact-grid, .photo-feature, .supporting-grid, .demo-grid { grid-template-columns: minmax(0, 1fr); }

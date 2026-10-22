@@ -4,6 +4,8 @@ import SonovadeLayout from "../../layouts/SonovadeLayout.astro";
 const title = "ソノバデ | 介護保険住宅改修の見積・図面作成ソフト";
 const description = "図面に引いた手すりや扉を、そのまま見積に。ソノバデは、介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成をタブレットやPCで進める業務支援ソフトです。30分の無料相談で実際の画面をご覧いただけます。";
 const contact = "/contact.html?product=sonovade";
+const quoteContact = `${contact}&request=quote`;
+const brochureContact = `${contact}&request=brochure`;
 const steps = [
   { number: "01", title: "引くだけ簡単手すり配置", image: "plan", alt: "図面上に手すりを配置するソノバデの画面" },
   { number: "02", title: "アプリ内で部材、施工費調整", image: "parts", alt: "手すりの部材と施工費を調整するソノバデの画面" },
@@ -19,7 +21,10 @@ const steps = [
       <div class="hero-copy">
         <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
         <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />住宅改修の新常識</p>
-        <a class="button" href={contact}>30分の無料相談を申し込む</a>
+        <div class="hero-actions">
+          <a class="button" href={contact}>30分の無料相談を申し込む</a>
+          <a class="button button--outline" href={brochureContact}>資料を請求する</a>
+        </div>
         <a class="movie-link" href="#movie">操作動画を見る（30秒）</a>
       </div>
     </div>
@@ -119,6 +124,17 @@ const steps = [
           <h3>氏名、住所...繰り返す手間を、一度の登録に！</h3>
           <p>利用者・物件情報を案件にまとめ、対応する書類の項目へ反映します。</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 料金を知りたい人と、まず資料で検討したい人の受け口を分ける。未確定の金額・条件は掲載しない。 -->
+  <section class="pricing band" id="pricing" aria-labelledby="pricing-title">
+    <div class="container pricing-layout">
+      <h2 id="pricing-title">料金について</h2>
+      <div class="pricing-actions">
+        <a class="button" href={quoteContact}>見積もりを依頼する</a>
+        <a class="button button--outline" href={brochureContact}>資料を請求する</a>
       </div>
     </div>
   </section>
