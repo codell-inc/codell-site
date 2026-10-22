@@ -863,7 +863,7 @@ h3 {
 }
 
 .product {
-  height: 100svh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -888,6 +888,14 @@ h3 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--paper);
+}
+
+.product-card + .product-card {
+  margin-top: 28px;
+}
+
+.product-card-sonovade .product-content {
+  min-height: 360px;
 }
 
 .product-media {
@@ -952,6 +960,17 @@ h3 {
   min-height: 0;
   flex-direction: column;
   padding: clamp(26px, 3vw, 40px);
+}
+
+.product-content .button.secondary {
+  margin-top: 24px;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.product-content .button.secondary:hover {
+  background: var(--soft);
+  border-color: var(--green-deep);
 }
 
 .work-tag {
