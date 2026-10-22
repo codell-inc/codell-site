@@ -7,7 +7,7 @@ const html = await readFile(new URL("products/index.html", output), "utf8");
 
 test("product directory links to both existing marketing pages and resolves its assets", async () => {
   assert.match(html, /rel="canonical" href="https:\/\/codell.jp\/products\/"/);
-  for (const href of ["/sonovade/", "https://kiduki.codell.jp/", "/contact.html"]) {
+  for (const href of ["/sonovade/", "https://kiduki.codell.jp/", "https://video.codell.jp/", "/#work", "/contact.html"]) {
     assert(html.includes(`href="${href}"`), `missing destination: ${href}`);
   }
   for (const [, src] of html.matchAll(/<img\b[^>]*src="(\/[^"]+)"/g)) {
@@ -17,4 +17,7 @@ test("product directory links to both existing marketing pages and resolves its 
   assert.match(home, /href="\/products\/"/);
   assert.match(home, /href="\/sonovade\/"/);
   assert.match(home, /href="https:\/\/kiduki.codell.jp\/"/);
+  assert.match(home, /id="work"/);
+  assert.match(html, /<h2 id="product-list-title">プロダクト<\/h2>/);
+  assert.match(html, /<h2 id="service-list-title">受託サービス<\/h2>/);
 });

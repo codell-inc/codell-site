@@ -917,6 +917,36 @@ h3 {
   margin-bottom: 28px;
 }
 
+.directory-group-heading {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.directory-group-heading h2 {
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.directory-group-heading > p:last-child {
+  margin: 0;
+  color: var(--muted);
+}
+
+.directory-services {
+  margin-top: 64px;
+}
+
+.services-entry .service-illustration {
+  padding: 32px;
+  object-fit: contain;
+  background: var(--soft);
+}
+
+.services-entry .product-content h3 {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.3;
+}
+
 .products-contact {
   margin-top: 56px;
   padding: clamp(24px, 4vw, 48px);

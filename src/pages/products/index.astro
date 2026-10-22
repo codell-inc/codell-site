@@ -1,8 +1,8 @@
 ---
 import CorporateLayout from "../../layouts/CorporateLayout.astro";
 
-const title = "プロダクト一覧 | Codell";
-const description = "介護・家事代行の現場を支えるKiDUKiと、介護保険住宅改修の見積・申請を支えるソノバデ。Codellのプロダクトをご紹介します。";
+const title = "プロダクト・サービス一覧 | Codell";
+const description = "KiDUKi・ソノバデのプロダクトと、動画制作・開発受託のサービスをご紹介します。各専用サイトや業務内容から、機能・支援内容をご確認いただけます。";
 const products = [
   {
     name: "KiDUKi",
@@ -23,23 +23,47 @@ const products = [
     href: "/sonovade/",
   },
 ];
+const services = [
+  {
+    name: "動画制作",
+    category: "動画 × AI",
+    image: "/video-production/assets/hero-cinematic.webp",
+    alt: "動画制作サイトの映像イメージ",
+    description: "動画 × AIで、伝わる映像を、もっと身近に。商品紹介・サービス紹介・アプリ紹介など、企画から納品までCodellが一貫してお手伝いします。",
+    href: "https://video.codell.jp/",
+    link: "動画制作のサイトへ",
+    illustration: false,
+  },
+  {
+    name: "開発受託",
+    category: "AR・スマホアプリ・AI",
+    image: "/assets/work-app.png",
+    alt: "スマートフォンを操作する人のイラスト",
+    description: "現場へのヒアリングと課題整理から、企画提案、ARアプリ・スマホアプリ・AIの開発、導入までを一体で進めます。",
+    href: "/#work",
+    link: "開発の業務内容を見る",
+    illustration: true,
+  },
+];
 ---
 
 <CorporateLayout {title} {description} bodyClass="page-products" canonicalPath="/products/">
   <section class="section products-directory" aria-labelledby="products-title">
     <div class="section-heading">
       <a class="products-back" href="/">Codell トップへ</a>
-      <p class="section-label">Products</p>
-      <h1 id="products-title">現場の課題から生まれた、<br />Codellのプロダクト。</h1>
-      <p>介護・家事代行の現場から、介護保険住宅改修の見積・申請まで。各プロダクトの機能や使い方は、専用サイトでご紹介しています。</p>
+      <p class="section-label">Products &amp; Services</p>
+      <h1 id="products-title">現場の課題に向き合う、<br />プロダクトとサービス。</h1>
+      <p>KiDUKi・ソノバデのプロダクトに加え、動画制作・開発受託もご相談いただけます。各専用サイトや業務内容から、機能や支援内容をご覧ください。</p>
     </div>
+    <section aria-labelledby="product-list-title">
+    <div class="directory-group-heading"><p class="section-label">Products</p><h2 id="product-list-title">プロダクト</h2><p>現場の業務を支える、自社プロダクト。</p></div>
     <div class="products-grid">
       {products.map((product) => (
         <article class="products-entry" aria-label={product.name}>
           <img class="products-image" src={product.image} alt={product.alt} width="1280" height="720" />
           <div class="product-content">
             <p class="work-tag">{product.category}</p>
-            <h2 class="sr-only">{product.name}</h2>
+            <h3 class="sr-only">{product.name}</h3>
             <img class="product-logo" src={product.logo} alt={product.name} width="254" height="56" />
             <p>{product.description}</p>
             <a class="button secondary" href={product.href}>{product.name}のサイトへ</a>
@@ -47,9 +71,26 @@ const products = [
         </article>
       ))}
     </div>
+    </section>
+    <section class="directory-services" aria-labelledby="service-list-title">
+      <div class="directory-group-heading"><p class="section-label">Services</p><h2 id="service-list-title">受託サービス</h2><p>伝えたい魅力や現場の課題に合わせて、制作・開発をお手伝いします。</p></div>
+      <div class="products-grid">
+        {services.map((service) => (
+          <article class="products-entry services-entry" aria-label={service.name}>
+            <img class:list={["products-image", { "service-illustration": service.illustration }]} src={service.image} alt={service.alt} width="1280" height="720" loading="lazy" />
+            <div class="product-content">
+              <p class="work-tag">{service.category}</p>
+              <h3>{service.name}</h3>
+              <p>{service.description}</p>
+              <a class="button secondary" href={service.href}>{service.link}</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
     <div class="products-contact">
-      <h2>導入や活用についてのご相談</h2>
-      <p>現場の課題や導入に関するご質問を、お気軽にお聞かせください。</p>
+      <h2>導入・制作・開発のご相談</h2>
+      <p>プロダクトの導入や、動画制作・開発受託に関するご質問を、お気軽にお聞かせください。</p>
       <a class="button primary" href="/contact.html">無料相談へ進む</a>
     </div>
   </section>
