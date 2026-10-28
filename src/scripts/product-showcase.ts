@@ -7,6 +7,9 @@ if (showcase) {
   const caption = showcase.querySelector<HTMLElement>("[data-product-caption]");
 
   if (features.length && media.length && captionIndex && caption) {
+    // Videos start only once the showcase is on screen so they do not compete with the first render.
+    let isVisible = false;
+
     const showFeature = (key: string, moveFocus = false) => {
       const activeIndex = features.findIndex((feature) => feature.dataset.productFeature === key);
       if (activeIndex < 0) return;
@@ -20,8 +23,9 @@ if (showcase) {
       media.forEach((item) => {
         const isActive = item.dataset.productMedia === key;
         item.classList.toggle("is-active", isActive);
+        if (isActive && !item.poster && item.dataset.poster) item.poster = item.dataset.poster;
         item.setAttribute("aria-hidden", String(!isActive));
-        if (isActive) item.play().catch(() => undefined);
+        if (isActive && isVisible) item.play().catch(() => undefined);
         else item.pause();
       });
 
@@ -42,6 +46,12 @@ if (showcase) {
       });
     });
     showFeature(features[0].dataset.productFeature ?? "");
+
+    new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      const active = features.find((feature) => feature.classList.contains("is-active"));
+      showFeature(active?.dataset.productFeature ?? "");
+    }, { rootMargin: "200px 0px" }).observe(showcase);
   }
 }
 

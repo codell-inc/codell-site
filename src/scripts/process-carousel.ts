@@ -9,7 +9,7 @@ if (carousel) {
   const status = carousel.querySelector<HTMLElement>("[data-process-status]");
 
   if (slides.length && images.length === slides.length && tabs.length === slides.length && previous && next && status) {
-    const titles = slides.map((slide) => slide.querySelector("h4")?.textContent ?? "");
+    const titles = slides.map((slide) => slide.querySelector("h3")?.textContent ?? "");
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const autoplayDelay = 3200;
     let activeIndex = 0;

@@ -11,13 +11,13 @@ async function fixture(t, { fullAssets = false, override, canonicalOrigin = "htt
   const html = (canonical, content) => Buffer.from(`<link href="${canonicalOrigin}${canonical}" rel="canonical">${content}`);
   const contact = html("/contact.html", "お問い合わせ");
   const files = new Map([
-    ["/", html("/", '社会の違和感を、前進する力に。<link rel="stylesheet" href="https://fonts.googleapis.com/example"><link rel="stylesheet" href="/_astro/company.css"><img src="/assets/codell-logo.svg"><style>--main-visual:url("/assets/main_visual.jpg")</style>')],
+    ["/", html("/", '社会の違和感を、前進する力に。<link rel="stylesheet" href="https://fonts.googleapis.com/example"><link rel="stylesheet" href="/_astro/company.css"><img src="/assets/codell-logo.svg"><style>--main-visual:url("/assets/main-visual-1920.webp")</style>')],
     ["/contact.html", contact], ["/contact/", contact],
     ["/privacy/", html("/privacy/", "プライバシーポリシー")],
     ["/sonovade/", html("/sonovade/", "ソノバデ")],
     ["/_astro/company.css", Buffer.from("body { color: black; }")],
     ["/assets/codell-logo.svg", Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>')],
-    ["/assets/main_visual.jpg", Buffer.alloc(2048, 47)],
+    ["/assets/main-visual-1920.webp", Buffer.alloc(2048, 47)],
   ]);
   for (const [pathname, body] of files) {
     const file = path.join(outputDir, pathname.endsWith("/") ? `${pathname}index.html` : pathname);
@@ -63,7 +63,7 @@ test("rejects missing home and stale HTML", async t => {
 });
 
 test("rejects missing CSS or homepage images", async t => {
-  for (const missing of ["/_astro/company.css", "/assets/codell-logo.svg", "/assets/main_visual.jpg"]) {
+  for (const missing of ["/_astro/company.css", "/assets/codell-logo.svg", "/assets/main-visual-1920.webp"]) {
     const f = await fixture(t, { override: ({ pathname }) => pathname === missing ? new Response("Missing", { status: 404 }) : null });
     await assert.rejects(f.verify(), /expected HTTP 206 or 200, received 404/);
   }
@@ -73,13 +73,13 @@ test("rejects wrong canonicals, redirects and invalid asset ranges", async t => 
   await assert.rejects((await fixture(t, { canonicalOrigin: "https://video.codell.jp" })).verify(), /incorrect canonical URL/);
   const redirect = await fixture(t, { override: ({ pathname }) => pathname === "/contact.html" ? new Response(null, { status: 301, headers: { Location: "/contact/" } }) : null });
   await assert.rejects(redirect.verify(), /contact.html: expected HTTP 200, received 301/);
-  const range = await fixture(t, { override: ({ pathname, body }) => pathname === "/assets/main_visual.jpg" ? new Response(body.subarray(0, 1024), { status: 206, headers: { "Content-Range": "bytes 0-1023/9999" } }) : null });
+  const range = await fixture(t, { override: ({ pathname, body }) => pathname === "/assets/main-visual-1920.webp" ? new Response(body.subarray(0, 1024), { status: 206, headers: { "Content-Range": "bytes 0-1023/9999" } }) : null });
   await assert.rejects(range.verify(), /expected Content-Range bytes 0-1023\/2048/);
 });
 
 test("rejects corrupted ranges and partial files incorrectly served as HTTP 200", async t => {
   for (const status of [206, 200]) {
-    const f = await fixture(t, { override: ({ pathname }) => pathname === "/assets/main_visual.jpg" ? new Response(Buffer.alloc(1024, 99), { status, headers: { "Content-Range": "bytes 0-1023/2048" } }) : null });
-    await assert.rejects(f.verify(), /main_visual.jpg: published bytes differ/);
+    const f = await fixture(t, { override: ({ pathname }) => pathname === "/assets/main-visual-1920.webp" ? new Response(Buffer.alloc(1024, 99), { status, headers: { "Content-Range": "bytes 0-1023/2048" } }) : null });
+    await assert.rejects(f.verify(), /main-visual-1920.webp: published bytes differ/);
   }
 });

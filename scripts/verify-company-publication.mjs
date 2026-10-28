@@ -68,7 +68,7 @@ export async function verifyCompanyPublication({ outputDir = defaultOutput, base
   const stylesheet = home.links.map(tag => ({ rel: attribute(tag, "rel"), href: attribute(tag, "href") }))
     .find(link => link.rel?.toLowerCase().split(/\s+/).includes("stylesheet") && link.href && new URL(link.href, base).origin === base.origin);
   if (!stylesheet) throw new Error("Homepage artifact does not reference a local stylesheet");
-  const assetPaths = [new URL(stylesheet.href, base).pathname, "/assets/codell-logo.svg", "/assets/main_visual.jpg"];
+  const assetPaths = [new URL(stylesheet.href, base).pathname, "/assets/codell-logo.svg", "/assets/main-visual-1920.webp"];
   for (const pathname of assetPaths) {
     if (pathname.startsWith("/assets/") && !home.html.includes(pathname)) throw new Error(`Homepage artifact does not reference ${pathname}`);
     checks.push(await verify(pathname, await artifact(decodeURIComponent(pathname.slice(1))), true));

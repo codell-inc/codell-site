@@ -3,5 +3,5 @@ interface Props { image: string; alt: string }
 const { image, alt } = Astro.props;
 ---
 <button class="tablet" type="button" data-screen aria-label={`${alt}を拡大`}>
-  <img src={`/sonovade/assets/lp/${image}.jpg`} alt={alt} width="1194" height="834" loading="lazy" decoding="async" />
+  <img src={`/sonovade/assets/lp/${image}-1194.webp`} srcset={`/sonovade/assets/lp/${image}-600.webp 600w, /sonovade/assets/lp/${image}-1194.webp 1194w`} sizes="(max-width: 760px) calc(100vw - 40px), 560px" alt={alt} width="1194" height="834" loading="lazy" decoding="async" data-full={`/sonovade/assets/lp/${image}-1194.webp`} />
 </button>

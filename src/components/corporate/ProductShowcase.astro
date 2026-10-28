@@ -5,7 +5,7 @@ import { productFeatures } from "../../data/home";
 <article class="product-card" data-product-showcase>
   <div class="product-media" aria-live="polite">
     {productFeatures.map((feature, index) => (
-      <video class:list={{ "is-active": index === 0 }} data-product-media={feature.key} width="1280" height="720" autoplay={index === 0} muted loop playsinline preload={index === 0 ? "metadata" : "none"} poster={feature.poster} aria-label={`${feature.title}のデモ動画`} aria-hidden={index === 0 ? undefined : "true"}>
+      <video class:list={{ "is-active": index === 0 }} data-product-media={feature.key} width="1280" height="720" muted loop playsinline preload="none" poster={index === 0 ? feature.poster : undefined} data-poster={feature.poster} aria-label={`${feature.title}のデモ動画`} aria-hidden={index === 0 ? undefined : "true"}>
         <source src={feature.video} type="video/mp4" />
       </video>
     ))}
