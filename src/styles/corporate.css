@@ -286,7 +286,7 @@ p { color: var(--text); }
   z-index: -1;
 }
 
-.hero-symbol img { filter: brightness(0) invert(1); }
+.hero-symbol img { display: block; width: 100%; height: auto; filter: brightness(0) invert(1); }
 
 .hero-inner {
   width: min(980px, calc(100% - 40px));
@@ -509,7 +509,7 @@ h3 {
 
 .strength-shape strong { font-size: clamp(1.5rem, 3vw, 2.5rem); }
 .strength-shape-knowledge { background: var(--ink); }
-.strength-shape-technology { margin-left: -58px; background: rgba(73, 175, 51, 0.92); }
+.strength-shape-technology { margin-left: -58px; background: rgba(46, 122, 30, 0.94); }
 
 .strength-cross {
   position: relative;
@@ -540,7 +540,7 @@ h3 {
 
 .flow-heading { margin-bottom: 38px; }
 
-.flow-heading h3 {
+.flow-heading h2 {
   margin-top: 14px;
   font-size: clamp(1.8rem, 3vw, 2.7rem);
 }
@@ -639,12 +639,16 @@ h3 {
   pointer-events: none;
 }
 
-.process-slide h4 {
+/* Decorative watermark number: drawn from CSS so it is not read as low-contrast text. */
+.process-index::before { content: attr(data-index); }
+
+.process-slide h3 {
   position: relative;
   z-index: 1;
   margin: 0;
   color: var(--paper);
   font-size: clamp(1.65rem, 2.6vw, 2.35rem);
+  font-weight: 700;
   word-break: keep-all;
 }
 
@@ -653,7 +657,7 @@ h3 {
   z-index: 1;
   max-width: 440px;
   margin: 18px 0 0;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.9;
 }
 
@@ -1830,7 +1834,7 @@ dd {
     right: 44px;
     font-size: 7.5rem;
   }
-  .process-slide h4 { font-size: clamp(1.45rem, 7vw, 1.8rem); }
+  .process-slide h3 { font-size: clamp(1.45rem, 7vw, 1.8rem); }
   .process-slide p { margin-top: 16px; font-size: 0.9rem; }
 
   .process-controls {

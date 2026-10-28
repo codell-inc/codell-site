@@ -16,7 +16,7 @@ const steps = [
   <!-- 文言はFigma 42:165を基準とし、CTAのみ最新指示を優先。削除済みの注記や独自の言い換えを追加しない。 -->
   <!-- PC版Figmaの編集内容を基準に実装。現場写真で対象業務を伝え、PCは100vh・透明ヘッダーにする。 -->
   <section class="hero" id="top" aria-labelledby="hero-title">
-    <img class="hero-photo" src="/sonovade/assets/lp/hero.jpg" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
+    <img class="hero-photo" src="/sonovade/assets/lp/hero-1920.webp" srcset="/sonovade/assets/lp/hero-640.webp 640w, /sonovade/assets/lp/hero-960.webp 960w, /sonovade/assets/lp/hero-1280.webp 1280w, /sonovade/assets/lp/hero-1920.webp 1920w" sizes="100vw" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
     <div class="hero-content container">
       <div class="hero-copy">
         <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
@@ -89,7 +89,7 @@ const steps = [
   <section class="movie band" id="movie" aria-label="動画でわかるソノバデ">
     <div class="container">
       <div class="movie-player" data-movie>
-        <video controls muted playsinline preload="metadata" poster="/sonovade/assets/lp/movie-poster.jpg" aria-label="約30秒でわかるソノバデの操作紹介">
+        <video controls muted playsinline preload="none" poster="/sonovade/assets/lp/movie-poster-1280.webp" aria-label="約30秒でわかるソノバデの操作紹介">
           <source src="/sonovade/assets/lp/sonovade-pr-v1.mp4" type="video/mp4" />
           <p>動画を再生できない場合は<a href="/sonovade/assets/lp/sonovade-pr-v1.mp4">動画ファイルを開いてください</a>。</p>
         </video>

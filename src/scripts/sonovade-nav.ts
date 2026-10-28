@@ -75,7 +75,7 @@ if (dialog && enlargedImage) {
     button.addEventListener("click", () => {
       const original = button.querySelector("img");
       if (!original) return;
-      enlargedImage.src = original.currentSrc;
+      enlargedImage.src = original.dataset.full ?? original.currentSrc;
       enlargedImage.alt = original.alt;
       dialog.showModal();
     });

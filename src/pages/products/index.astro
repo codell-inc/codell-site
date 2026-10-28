@@ -7,7 +7,8 @@ const products = [
   {
     name: "KiDUKi",
     category: "介護・家事代行 × AR・AI",
-    image: "/assets/kiduki-scouter-poster.jpg",
+    image: "/assets/kiduki-scouter-poster-1280.webp",
+    srcset: "/assets/kiduki-scouter-poster-640.webp 640w, /assets/kiduki-scouter-poster-1280.webp 1280w",
     alt: "ARグラスを使って介護現場を支えるKiDUKi",
     logo: "/assets/kiduki-logo.svg",
     description: "ARグラス × AI で、介護・家事代行の現場を支えるプロダクトです。利用者ごとの注意点の表示、音声記録、画面共有により、新人でも迷わず動ける現場を目指します。",
@@ -16,7 +17,8 @@ const products = [
   {
     name: "ソノバデ",
     category: "介護保険住宅改修",
-    image: "/sonovade/assets/lp/hero.jpg",
+    image: "/sonovade/assets/lp/hero-1280.webp",
+    srcset: "/sonovade/assets/lp/hero-640.webp 640w, /sonovade/assets/lp/hero-960.webp 960w, /sonovade/assets/lp/hero-1280.webp 1280w",
     alt: "住宅内で寸法を測り、タブレットで現地調査を行う担当者",
     logo: "/sonovade/assets/lp/logo-wordmark.svg",
     description: "図面に引いた手すりや扉を、そのまま見積に。介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成を、タブレットやPCで進める業務支援ソフトです。",
@@ -28,6 +30,7 @@ const services = [
     name: "動画制作",
     category: "動画 × AI",
     image: "/video-production/assets/hero-cinematic.webp",
+    srcset: "/video-production/assets/hero-cinematic-640.webp 640w, /video-production/assets/hero-cinematic.webp 1672w",
     alt: "動画制作サイトの映像イメージ",
     description: "動画 × AIで、伝わる映像を、もっと身近に。商品紹介・サービス紹介・アプリ紹介など、企画から納品までCodellが一貫してお手伝いします。",
     href: "https://video.codell.jp/",
@@ -37,7 +40,8 @@ const services = [
   {
     name: "開発受託",
     category: "AR・スマホアプリ・AI",
-    image: "/assets/work-app.png",
+    image: "/assets/work-app-640.webp",
+    srcset: "/assets/work-app-320.webp 320w, /assets/work-app-640.webp 640w",
     alt: "スマートフォンを操作する人のイラスト",
     description: "現場へのヒアリングと課題整理から、企画提案、ARアプリ・スマホアプリ・AIの開発、導入までを一体で進めます。",
     href: "/#work",
@@ -58,9 +62,9 @@ const services = [
     <section aria-labelledby="product-list-title">
     <div class="directory-group-heading"><p class="section-label">Products</p><h2 id="product-list-title">プロダクト</h2><p>現場の業務を支える、自社プロダクト。</p></div>
     <div class="products-grid">
-      {products.map((product) => (
+      {products.map((product, index) => (
         <article class="products-entry" aria-label={product.name}>
-          <img class="products-image" src={product.image} alt={product.alt} width="1280" height="720" />
+          <img class="products-image" src={product.image} srcset={product.srcset} sizes="(max-width: 980px) calc(100vw - 40px), 580px" alt={product.alt} width="1280" height="720" fetchpriority={index === 0 ? "high" : undefined} />
           <div class="product-content">
             <p class="work-tag">{product.category}</p>
             <h3 class="sr-only">{product.name}</h3>
@@ -77,7 +81,7 @@ const services = [
       <div class="products-grid">
         {services.map((service) => (
           <article class="products-entry services-entry" aria-label={service.name}>
-            <img class:list={["products-image", { "service-illustration": service.illustration }]} src={service.image} alt={service.alt} width="1280" height="720" loading="lazy" />
+            <img class:list={["products-image", { "service-illustration": service.illustration }]} src={service.image} srcset={service.srcset} sizes={service.illustration ? "220px" : "(max-width: 980px) calc(100vw - 40px), 580px"} alt={service.alt} width="1280" height="720" loading="lazy" decoding="async" />
             <div class="product-content">
               <p class="work-tag">{service.category}</p>
               <h3>{service.name}</h3>

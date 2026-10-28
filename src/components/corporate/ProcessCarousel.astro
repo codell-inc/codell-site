@@ -5,21 +5,21 @@ import { processSteps } from "../../data/home";
 <div class="development-flow" id="development-flow">
   <div class="flow-heading">
     <p class="section-label">Our Process</p>
-    <h3>業務プロセス</h3>
+    <h2>業務プロセス</h2>
   </div>
   <div class="process-carousel" data-process-carousel aria-roledescription="carousel" aria-label="Codellの開発プロセス">
     <div class="process-stage">
       <div class="process-image">
         {processSteps.map((step, index) => (
-          <img class:list={{ "is-active": index === 0 }} src={step.image} alt={step.alt} width={step.width} height={step.height} loading="lazy" data-process-image aria-hidden={index === 0 ? "false" : "true"} />
+          <img class:list={{ "is-active": index === 0 }} src={step.image} srcset={step.srcset} sizes="(max-width: 640px) 290px, 520px" alt={step.alt} width={step.width} height={step.height} loading="lazy" decoding="async" data-process-image aria-hidden={index === 0 ? "false" : "true"} />
         ))}
       </div>
       <div class="process-panel">
         <div class="process-track" data-process-track>
           {processSteps.map((step, index) => (
             <article class="process-slide" id={`process-slide-${index + 1}`} data-process-slide aria-hidden={index === 0 ? "false" : "true"}>
-              <span class="process-index">{String(index + 1).padStart(2, "0")}</span>
-              <h4>{step.title}</h4>
+              <span class="process-index" aria-hidden="true" data-index={String(index + 1).padStart(2, "0")}></span>
+              <h3>{step.title}</h3>
               <p>{step.description}</p>
             </article>
           ))}

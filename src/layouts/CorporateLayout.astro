@@ -17,7 +17,7 @@ const fontHref = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;60
 ---
 
 <BaseLayout {title} {description} {bodyClass} {fontHref} {canonicalPath}>
-  <style is:inline slot="head">:root { --main-visual: url("/assets/main_visual.jpg"); }</style>
+  <style is:inline slot="head">:root { --main-visual: url("/assets/main-visual-960.webp"); } @media (min-width: 961px) { :root { --main-visual: url("/assets/main-visual-1920.webp"); } }</style>
   <CorporateHeader {isHome} />
   <main id="top">
     <slot />
