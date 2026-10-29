@@ -68,7 +68,7 @@ export async function verifyCompanyPublication({ outputDir = defaultOutput, base
   const stylesheet = home.links.map(tag => ({ rel: attribute(tag, "rel"), href: attribute(tag, "href") }))
     .find(link => link.rel?.toLowerCase().split(/\s+/).includes("stylesheet") && link.href && new URL(link.href, base).origin === base.origin);
   if (!stylesheet) throw new Error("Homepage artifact does not reference a local stylesheet");
-  const assetPaths = [new URL(stylesheet.href, base).pathname, "/assets/codell-logo.svg", "/assets/main-visual-1920.webp"];
+  const assetPaths = [new URL(stylesheet.href, base).pathname, "/assets/codell-logo.svg", "/assets/main-visual-1920.webp", "/fonts/fonts.css", "/fonts/noto-sans-jp.woff2", "/fonts/inter.woff2"];
   for (const pathname of assetPaths) {
     if (pathname.startsWith("/assets/") && !home.html.includes(pathname)) throw new Error(`Homepage artifact does not reference ${pathname}`);
     checks.push(await verify(pathname, await artifact(decodeURIComponent(pathname.slice(1))), true));
@@ -79,7 +79,7 @@ export async function verifyCompanyPublication({ outputDir = defaultOutput, base
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   try {
     const result = await verifyCompanyPublication({ outputDir: process.argv[2] || defaultOutput, baseUrl: process.argv[3] || "https://codell.jp/" });
-    console.log(`Verified ${result.baseUrl}: 5 company pages and 3 homepage assets match the built artifact.`);
+    console.log(`Verified ${result.baseUrl}: 5 company pages and ${result.checks.length - 5} homepage assets match the built artifact.`);
   } catch (error) {
     console.error(`Company publication verification failed: ${error.message}`);
     process.exitCode = 1;

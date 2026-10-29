@@ -23,7 +23,7 @@ if (showcase) {
       media.forEach((item) => {
         const isActive = item.dataset.productMedia === key;
         item.classList.toggle("is-active", isActive);
-        if (isActive && !item.poster && item.dataset.poster) item.poster = item.dataset.poster;
+        if (isActive && isVisible && !item.poster && item.dataset.poster) item.poster = item.dataset.poster;
         item.setAttribute("aria-hidden", String(!isActive));
         if (isActive && isVisible) item.play().catch(() => undefined);
         else item.pause();
@@ -51,7 +51,7 @@ if (showcase) {
       isVisible = entry.isIntersecting;
       const active = features.find((feature) => feature.classList.contains("is-active"));
       showFeature(active?.dataset.productFeature ?? "");
-    }, { rootMargin: "200px 0px" }).observe(showcase);
+    }, { rootMargin: "600px 0px" }).observe(showcase);
   }
 }
 

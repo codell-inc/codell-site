@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs",
+    "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs && node scripts/build-fonts.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "build:video": "npm run build && node scripts/prepare-video-site.mjs",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "subset-font": "^2.9.0",
     "typescript": "^6.0.3",
     "wrangler": "4.151.3"
   }

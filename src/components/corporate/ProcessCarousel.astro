@@ -11,7 +11,7 @@ import { processSteps } from "../../data/home";
     <div class="process-stage">
       <div class="process-image">
         {processSteps.map((step, index) => (
-          <img class:list={{ "is-active": index === 0 }} src={step.image} srcset={step.srcset} sizes="(max-width: 640px) 290px, 520px" alt={step.alt} width={step.width} height={step.height} loading="lazy" decoding="async" data-process-image aria-hidden={index === 0 ? "false" : "true"} />
+          <img class:list={{ "is-active": index === 0 }} src={index === 0 ? step.image : undefined} srcset={index === 0 ? step.srcset : undefined} data-src={step.image} data-srcset={step.srcset} sizes="(max-width: 640px) 290px, 520px" alt={step.alt} width={step.width} height={step.height} loading="lazy" decoding="async" data-process-image aria-hidden={index === 0 ? "false" : "true"} />
         ))}
       </div>
       <div class="process-panel">
