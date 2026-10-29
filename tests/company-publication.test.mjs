@@ -18,6 +18,9 @@ async function fixture(t, { fullAssets = false, override, canonicalOrigin = "htt
     ["/_astro/company.css", Buffer.from("body { color: black; }")],
     ["/assets/codell-logo.svg", Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>')],
     ["/assets/main-visual-1920.webp", Buffer.alloc(2048, 47)],
+    ["/fonts/fonts.css", Buffer.from('@font-face{font-family:"Noto Sans JP";src:url("/fonts/noto-sans-jp.woff2")}')],
+    ["/fonts/noto-sans-jp.woff2", Buffer.alloc(2048, 48)],
+    ["/fonts/inter.woff2", Buffer.alloc(2048, 49)],
   ]);
   for (const [pathname, body] of files) {
     const file = path.join(outputDir, pathname.endsWith("/") ? `${pathname}index.html` : pathname);
@@ -41,10 +44,10 @@ async function fixture(t, { fullAssets = false, override, canonicalOrigin = "htt
   return { requests, verify: () => verifyCompanyPublication({ outputDir, baseUrl: "http://localhost:4321/", fetcher }) };
 }
 
-test("verifies five current pages, production canonicals and three ranged assets using only GET", async t => {
+test("verifies five current pages, production canonicals and six ranged assets using only GET", async t => {
   const f = await fixture(t);
   const result = await f.verify();
-  assert.deepEqual(result.checks.map(check => check.status), [200, 200, 200, 200, 200, 206, 206, 206]);
+  assert.deepEqual(result.checks.map(check => check.status), [200, 200, 200, 200, 200, 206, 206, 206, 206, 206, 206]);
   assert(f.requests.every(({ url, options }) => new URL(url).origin === "http://localhost:4321" && options.method === "GET" && options.redirect === "manual" && options.cache === "no-store"));
   assert(f.requests.slice(5).every(({ options }) => options.headers.Range === "bytes=0-1023"));
 });
@@ -62,8 +65,8 @@ test("rejects missing home and stale HTML", async t => {
   }
 });
 
-test("rejects missing CSS or homepage images", async t => {
-  for (const missing of ["/_astro/company.css", "/assets/codell-logo.svg", "/assets/main-visual-1920.webp"]) {
+test("rejects missing CSS, homepage images or fonts", async t => {
+  for (const missing of ["/_astro/company.css", "/assets/codell-logo.svg", "/assets/main-visual-1920.webp", "/fonts/noto-sans-jp.woff2"]) {
     const f = await fixture(t, { override: ({ pathname }) => pathname === missing ? new Response("Missing", { status: 404 }) : null });
     await assert.rejects(f.verify(), /expected HTTP 206 or 200, received 404/);
   }

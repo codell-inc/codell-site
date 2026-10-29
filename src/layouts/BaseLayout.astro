@@ -46,10 +46,28 @@ const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, A
     <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preload" href={fontHref} as="style" />
-    <link href={fontHref} rel="stylesheet" media="print" onload="this.media='all'" />
+    {fontHref.startsWith("https://fonts.googleapis.com/") && <link rel="preconnect" href="https://fonts.googleapis.com" />}
+    {fontHref.startsWith("https://fonts.googleapis.com/") && <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />}
+    <!-- Web fonts are requested only after the first paint, so they never delay it (text renders in a system font first) -->
+    <script is:inline define:vars={{ fontHref }}>
+      var fontsLoaded = false;
+      var loadFonts = function () {
+        if (fontsLoaded) return;
+        fontsLoaded = true;
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.setAttribute('href', fontHref);
+        document.head.appendChild(link);
+      };
+      try {
+        new PerformanceObserver(function (list) {
+          if (list.getEntriesByName('first-contentful-paint').length) loadFonts();
+        }).observe({ type: 'paint', buffered: true });
+      } catch (error) {
+        addEventListener('load', loadFonts);
+      }
+      setTimeout(loadFonts, 3000);
+    </script>
     <noscript><link href={fontHref} rel="stylesheet" /></noscript>
     <title>{title}</title>
     <slot name="head" />
