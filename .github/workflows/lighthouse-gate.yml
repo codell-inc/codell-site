@@ -17,7 +17,7 @@ concurrency:
 env:
   MIN_SCORE: "95"
   # Pinned commit of https://github.com/suzukihinata-dev/lighthouse-batch-executor
-  LIGHTHOUSE_BATCH_REF: a343f92c20ab8e3ae85531104ae48b2a01cf6367
+  LIGHTHOUSE_BATCH_REF: 672041cf2bbc4f748978ab8fe51bb3f4a195e3cd
 
 jobs:
   lighthouse:
