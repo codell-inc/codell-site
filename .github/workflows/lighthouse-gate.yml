@@ -1,0 +1,77 @@
+name: Lighthouse gate
+
+# Required check: every sitemap URL must score >= 95 in all four categories (mobile and desktop).
+# No path filter on purpose; a skipped required check would leave PRs pending forever.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MIN_SCORE: "95"
+  # Pinned commit of https://github.com/suzukihinata-dev/lighthouse-batch-executor
+  LIGHTHOUSE_BATCH_REF: 672041cf2bbc4f748978ab8fe51bb3f4a195e3cd
+
+jobs:
+  lighthouse:
+    name: Lighthouse >= 95 on every page
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.2"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+      - name: Check out lighthouse-batch-executor
+        uses: actions/checkout@v4
+        with:
+          repository: suzukihinata-dev/lighthouse-batch-executor
+          ref: ${{ env.LIGHTHOUSE_BATCH_REF }}
+          path: .lighthouse-batch-executor
+      - name: Install lighthouse-batch-executor
+        working-directory: .lighthouse-batch-executor
+        run: npm ci
+
+      # The sitemap lists production URLs; measure this PR's build on localhost instead.
+      - name: Serve the built site on localhost
+        run: |
+          sed 's#https://codell.jp/#http://localhost:8080/#g' docs/sitemap.xml > docs/sitemap-ci.xml
+          node scripts/serve-docs.mjs docs 8080 > serve.log 2>&1 &
+          for attempt in {1..30}; do
+            curl -fsS -o /dev/null http://localhost:8080/sitemap-ci.xml && exit 0
+            sleep 1
+          done
+          cat serve.log
+          exit 1
+
+      - name: Run Lighthouse on every sitemap URL
+        run: |
+          node .lighthouse-batch-executor/dist/cli.js run \
+            --site http://localhost:8080/ \
+            --sitemap http://localhost:8080/sitemap-ci.xml \
+            --strategy both \
+            --runs 3 \
+            --output-dir lighthouse-output \
+            --view
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: lighthouse-output/
+          if-no-files-found: ignore
+
+      - name: Require every score >= ${{ env.MIN_SCORE }}
+        run: node scripts/check-lighthouse-scores.mjs lighthouse-output/*/results.csv "$MIN_SCORE"
