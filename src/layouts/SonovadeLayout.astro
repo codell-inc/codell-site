@@ -1,6 +1,7 @@
 ---
 import SonovadeFooter from "../components/sonovade/SonovadeFooter.astro";
 import SonovadeHeader from "../components/sonovade/SonovadeHeader.astro";
+import { organizationId, websiteId } from "../data/structured-data";
 import "../styles/sonovade.css";
 import BaseLayout from "./BaseLayout.astro";
 
@@ -10,47 +11,43 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const pageUrl = new URL("/sonovade/", Astro.site).href;
-const companyUrl = new URL("/", Astro.site).href;
-const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", Astro.site).href;
-const structuredData = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": `${companyUrl}#organization`,
-      name: "株式会社Codell",
-      url: companyUrl,
-      logo: new URL("/assets/codell-favicon.png", Astro.site).href,
+const site = Astro.site!;
+const pageUrl = new URL("/sonovade/", site).href;
+const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", site).href;
+const structuredData = [
+  {
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: "ja",
+    isPartOf: { "@id": websiteId(site) },
+    publisher: { "@id": organizationId(site) },
+    about: { "@id": `${pageUrl}#software` },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: imageUrl,
+      width: 1194,
+      height: 834,
     },
-    {
-      "@type": "WebPage",
-      "@id": `${pageUrl}#webpage`,
-      url: pageUrl,
-      name: title,
-      description,
-      inLanguage: "ja",
-      publisher: { "@id": `${companyUrl}#organization` },
-      about: {
-        "@type": "Thing",
-        name: "ソノバデ",
-        description: "介護保険住宅改修の見積・図面・申請書類作成ソフト",
-        url: pageUrl,
-      },
-      primaryImageOfPage: {
-        "@type": "ImageObject",
-        url: imageUrl,
-        width: 1194,
-        height: 834,
-      },
-    },
-  ],
-};
+  },
+  {
+    "@type": "SoftwareApplication",
+    "@id": `${pageUrl}#software`,
+    name: "ソノバデ",
+    description: "介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成をタブレットやPCで進める業務支援ソフト",
+    applicationCategory: "BusinessApplication",
+    url: pageUrl,
+    image: imageUrl,
+    publisher: { "@id": organizationId(site) },
+  },
+];
 // Subset fonts generated at build time by scripts/build-fonts.mjs.
 const fontHref = "/fonts/fonts.css";
 ---
 
-<BaseLayout {title} {description} {fontHref} canonicalPath="/sonovade/">
+<BaseLayout {title} {description} {fontHref} {structuredData} canonicalPath="/sonovade/">
   <Fragment slot="head">
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Codell" />
@@ -64,7 +61,6 @@ const fontHref = "/fonts/fonts.css";
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content="ソノバデの住宅改修図面作成画面" />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")} />
   </Fragment>
   <SonovadeHeader />
   <main>

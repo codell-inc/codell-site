@@ -1,4 +1,5 @@
 ---
+import { websiteId } from "../../data/structured-data";
 import CorporateLayout from "../../layouts/CorporateLayout.astro";
 
 const title = "プロダクト・サービス一覧 | Codell";
@@ -49,9 +50,31 @@ const services = [
     illustration: true,
   },
 ];
+const site = Astro.site!;
+const pageUrl = new URL("/products/", site).href;
+const structuredData = [
+  {
+    "@type": "CollectionPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: "ja",
+    isPartOf: { "@id": websiteId(site) },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: [...products, ...services].map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        url: new URL(item.href, site).href,
+      })),
+    },
+  },
+];
 ---
 
-<CorporateLayout {title} {description} bodyClass="page-products" canonicalPath="/products/">
+<CorporateLayout {title} {description} {structuredData} bodyClass="page-products" canonicalPath="/products/">
   <section class="section products-directory" aria-labelledby="products-title">
     <div class="section-heading">
       <a class="products-back" href="/">Codell トップへ</a>

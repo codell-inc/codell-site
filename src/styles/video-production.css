@@ -195,6 +195,7 @@ html:has(.video-production) { scroll-padding-top: 5rem; }
 .vp-footer a:hover { opacity: .7; }
 .vp-footer-legal { margin-left: auto; text-align: right; font-size: .625rem; color: #c2c7ca; }
 .vp-footer-legal small { display: block; font-size: inherit; margin-top: var(--vp-space-2); }
+.vp-footer-legal a + a { margin-left: var(--vp-space-4); }
 
 @media (min-width: 1600px) {
   .vp-service-copy { width: 68%; }
