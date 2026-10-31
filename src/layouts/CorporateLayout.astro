@@ -1,6 +1,7 @@
 ---
 import CorporateFooter from "../components/corporate/CorporateFooter.astro";
 import CorporateHeader from "../components/corporate/CorporateHeader.astro";
+import type { StructuredDataNode } from "../data/structured-data";
 import "../styles/corporate.css";
 import BaseLayout from "./BaseLayout.astro";
 
@@ -10,14 +11,15 @@ interface Props {
   isHome?: boolean;
   bodyClass?: string;
   canonicalPath?: string;
+  structuredData?: StructuredDataNode[];
 }
 
-const { title, description, isHome = false, bodyClass, canonicalPath } = Astro.props;
+const { title, description, isHome = false, bodyClass, canonicalPath, structuredData } = Astro.props;
 // Subset fonts generated at build time by scripts/build-fonts.mjs.
 const fontHref = "/fonts/fonts.css";
 ---
 
-<BaseLayout {title} {description} {bodyClass} {fontHref} {canonicalPath}>
+<BaseLayout {title} {description} {bodyClass} {fontHref} {canonicalPath} {structuredData}>
   <style is:inline slot="head">:root { --main-visual: url("/assets/main-visual-960.webp"); } @media (min-width: 961px) { :root { --main-visual: url("/assets/main-visual-1920.webp"); } }</style>
   <CorporateHeader {isHome} />
   <main id="top">
