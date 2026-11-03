@@ -25,7 +25,7 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     reset() { this.resets++; },
     addEventListener(name, listener) { listeners[name] = listener; },
   };
-  const options = ["", "ソノバデについて", "ソノバデの見積もり依頼", "ソノバデの資料請求", "KiDUKiについて", "プロダクト開発相談", "その他"].map((value) => ({ value, selected: value === "", defaultSelected: value === "" }));
+  const options = ["", "ソノバデについて", "KiDUKiについて", "動画制作について", "その他"].map((value) => ({ value, selected: value === "", defaultSelected: value === "" }));
   const typeSelect = { options };
   const elements = { "#contact-form": form, "#contact-status": status, "#contact-submit": button, "#contact-type": typeSelect };
   const emailjs = {
@@ -134,8 +134,9 @@ test("generic contact and unknown product keep the initial product prompt", () =
   }
 });
 
-for (const [request, type] of [["quote", "ソノバデの見積もり依頼"], ["brochure", "ソノバデの資料請求"]]) {
-  test(`${request} preselects its inquiry type and sends it through EmailJS`, async () => {
+for (const request of ["quote", "brochure"]) {
+  test(`${request} preselects Sonovade and sends the product through EmailJS`, async () => {
+    const type = "ソノバデについて";
     const fixture = setup({ search: `?product=sonovade&request=${request}` });
     const selected = fixture.typeSelect.options.find((option) => option.value === type);
     assert.equal(selected.selected, true);

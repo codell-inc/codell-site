@@ -34,13 +34,7 @@ const discoveryOtherInput = document.querySelector<HTMLInputElement>("#contact-d
 if (form && status && submitButton) {
   const params = new URLSearchParams(window.location.search);
   if (typeSelect && params.get("product") === "sonovade") {
-    const requestTypes: Record<string, string> = {
-      quote: "ソノバデの見積もり依頼",
-      brochure: "ソノバデの資料請求",
-    };
-    const request = params.get("request") ?? "";
-    const type = Object.hasOwn(requestTypes, request) ? requestTypes[request] : "ソノバデについて";
-    const option = Array.from(typeSelect.options).find((option) => option.value === type);
+    const option = Array.from(typeSelect.options).find((option) => option.value === "ソノバデについて");
     if (option) {
       for (const candidate of Array.from(typeSelect.options)) candidate.defaultSelected = candidate === option;
       option.selected = true;
