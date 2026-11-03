@@ -1,0 +1,55 @@
+{
+  "observedAt": "2026-10-20T15:05:08.734Z",
+  "origin": "https://staging.kiduki.codell.jp",
+  "credentialSource": "Infisical staging /kiduki/landing",
+  "browser": "Chrome via Playwright CLI",
+  "sourceSha": "600942a828f18d543aa1960fe4f2e10e202cf6db",
+  "pageErrors": [],
+  "consoleErrors": [],
+  "layouts": [
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "title": "KiDUKi | ARグラス × 独自のソフトウェアで、業界を支える新たなインフラを作る",
+      "hasKidukiText": true,
+      "brokenImages": [],
+      "pendingImages": 0,
+      "screenshot": "staging-authenticated-1440.png"
+    },
+    {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "title": "KiDUKi | ARグラス × 独自のソフトウェアで、業界を支える新たなインフラを作る",
+      "hasKidukiText": true,
+      "brokenImages": [],
+      "pendingImages": 0,
+      "screenshot": "staging-authenticated-390.png"
+    }
+  ],
+  "networkResponseMocking": false,
+  "storageStateOrTraceSaved": false,
+  "documentStatus": 200,
+  "versionStatus": 200,
+  "version": "1792499914494",
+  "autoplay": {
+    "paused": false,
+    "readyState": 4,
+    "duration": 32.6,
+    "currentTime": 18.378166,
+    "videoWidth": 1920,
+    "videoHeight": 1080,
+    "error": null,
+    "source": "https://staging.kiduki.codell.jp/videos/hero.mp4",
+    "decodedFrames": 557
+  },
+  "seek": {
+    "targetSeconds": 5,
+    "currentTime": 5.404418,
+    "seeking": false,
+    "paused": false,
+    "error": null,
+    "decodedFrames": 724
+  },
+  "passed": true,
+  "contextClosed": true
+}
