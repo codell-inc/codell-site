@@ -10,7 +10,7 @@ function attribute(tag, name) {
   return match ? (match[1] ?? match[2] ?? match[3]).replaceAll("&amp;", "&") : null;
 }
 
-function references(html, base) {
+export function references(html, base) {
   const css = new Map();
   const media = new Map();
   function local(reference) {
@@ -20,14 +20,17 @@ function references(html, base) {
     url.hash = "";
     return url;
   }
-  for (const [tag] of html.replace(/<!--[\s\S]*?-->/g, "").matchAll(/<(?:link|img|source)\b[^>]*>/gi)) {
+  for (const [tag] of html.replace(/<!--[\s\S]*?-->/g, "").matchAll(/<(?:link|img|source|video)\b[^>]*>/gi)) {
     if (/^<link\b/i.test(tag) && attribute(tag, "rel")?.toLowerCase().split(/\s+/).includes("stylesheet")) {
       const url = local(attribute(tag, "href"));
       if (url) css.set(url.href, { url, type: "CSS" });
     }
     const url = local(attribute(tag, "src"));
-    if (url?.pathname.endsWith("/hero-cinematic.webp")) media.set(url.href, { url, type: "hero image" });
-    if (/^<source\b/i.test(tag) && /\.mp4$/i.test(url?.pathname ?? "")) media.set(url.href, { url, type: "MP4" });
+    const poster = /^<video\b/i.test(tag) ? local(attribute(tag, "poster")) : null;
+    for (const image of [url, poster]) {
+      if (image?.pathname.endsWith("/hero-cinematic.webp")) media.set(image.href, { url: image, type: "hero image" });
+    }
+    if (/^<(?:source|video)\b/i.test(tag) && /\.mp4$/i.test(url?.pathname ?? "")) media.set(url.href, { url, type: "MP4" });
   }
   if (!css.size) throw new Error("The video artifact does not reference a local stylesheet");
   if (![...media.values()].some(asset => asset.type === "hero image")) throw new Error("The video artifact does not reference hero-cinematic.webp");

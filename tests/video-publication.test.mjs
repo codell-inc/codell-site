@@ -4,7 +4,7 @@ import os from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { pathToFileURL } from "node:url";
-import { verifyVideoPublication } from "../scripts/verify-video-publication.mjs";
+import { references, verifyVideoPublication } from "../scripts/verify-video-publication.mjs";
 
 const baseUrl = "https://video.codell.jp/";
 const heroPath = "/video-production/assets/hero-cinematic.webp";
@@ -14,7 +14,7 @@ async function fixture(t, { fullMedia = false, override } = {}) {
   const outputDir = await mkdtemp(path.join(os.tmpdir(), "codell-video-publication-"));
   t.after(() => rm(outputDir, { recursive: true, force: true }));
   const files = new Map([
-    ["/", Buffer.from(`<!doctype html><link rel="canonical" href="${baseUrl}"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Example"><link href="/_astro/video.css" rel="stylesheet"><img src="${heroPath}"><video><source src="${moviePath}" type="video/mp4"></video><video><source src="/video-production/assets/kiduki-pr.mp4" type="video/mp4"></video>`)],
+    ["/", Buffer.from(`<!doctype html><link rel="canonical" href="${baseUrl}"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Example"><link href="/_astro/video.css" rel="stylesheet"><video poster="${heroPath}"><source src="${moviePath}" type="video/mp4"></video><video><source src="/video-production/assets/kiduki-pr.mp4" type="video/mp4"></video>`)],
     ["/_astro/video.css", Buffer.from(".hero { display: block; }")],
     [heroPath, Buffer.alloc(1536, 23)],
     [moviePath, Buffer.alloc(4096, 45)],
@@ -95,4 +95,17 @@ test("rejects a range with corrupted bytes or a short payload", async t => {
 test("rejects redirects instead of silently following them", async t => {
   const f = await fixture(t, { override: ({ pathname }) => pathname === "/" ? new Response(null, { status: 302, headers: { Location: "https://codell.jp/" } }) : null });
   await assert.rejects(f.verify(), /\/: expected HTTP 200, received 302/);
+});
+
+test("finds the hero image as a video poster or an img src, and an MP4 as a video src", () => {
+  const base = new URL(baseUrl);
+  const css = '<link rel="stylesheet" href="/_astro/video.css">';
+  const types = html => references(css + html, base).map(({ url, type }) => `${type} ${url.pathname}`);
+  assert.deepEqual(types(`<video poster="${heroPath}"><source src="${moviePath}" type="video/mp4"></video>`), ["CSS /_astro/video.css", `hero image ${heroPath}`, `MP4 ${moviePath}`]);
+  assert.deepEqual(types(`<img src="${heroPath}"><video src="${moviePath}"></video>`), ["CSS /_astro/video.css", `hero image ${heroPath}`, `MP4 ${moviePath}`]);
+});
+
+test("rejects an artifact with no hero image, ignoring posters on other tags and comments", () => {
+  const html = `<link rel="stylesheet" href="/a.css"><!-- <video poster="${heroPath}"> --><div poster="${heroPath}"></div><video><source src="${moviePath}"></video>`;
+  assert.throws(() => references(html, new URL(baseUrl)), /does not reference hero-cinematic\.webp/);
 });
