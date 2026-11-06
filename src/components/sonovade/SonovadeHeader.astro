@@ -1,10 +1,14 @@
 ---
 import Brand from "./Brand.astro";
+const isLanding = Astro.url.pathname === "/sonovade/";
+const sectionLink = (id: string) => `${isLanding ? "" : "/sonovade/"}#${id}`;
 ---
-<header class="site-header" data-header>
+<header class:list={["site-header", { "site-header--solid": !isLanding }]} data-header>
   <Brand />
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="メニューを開く"><span></span><span></span></button>
   <nav class="site-nav" id="site-nav" data-nav>
-    <a href="#workflow">使い方</a><a href="#movie">動画</a><a href="#features">できること</a><a href="#pricing">料金</a><a class="button nav-cta" href="/contact.html?product=sonovade">30分の無料相談を申し込む</a>
+    <a href={sectionLink("workflow")}>使い方</a><a href={sectionLink("movie")}>動画</a><a href={sectionLink("features")}>できること</a><a href="/sonovade/pricing/" aria-current={Astro.url.pathname === "/sonovade/pricing/" ? "page" : undefined}>料金</a>
+    <a class="button nav-cta" href="/sonovade/contact/?request=consultation">無料相談を申し込む</a>
+    <a class="button button--outline nav-brochure" href="/sonovade/contact/?request=brochure">資料を請求する</a>
   </nav>
 </header>
