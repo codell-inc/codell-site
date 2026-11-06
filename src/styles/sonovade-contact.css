@@ -1,0 +1,42 @@
+.sonovade-contact { padding-block: 152px 88px; background: var(--mist); }
+.sonovade-contact-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 72px; align-items: start; }
+.sonovade-contact-intro { padding-block: 24px; }
+.sonovade-contact h1 { font-size: 36px; line-height: 1.5; }
+.contact-description { margin-top: 24px; line-height: 1.9; }
+.sonovade-contact h2 { font-size: 18px; line-height: 1.7; margin-top: 40px; }
+.contact-topics { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 24px; }
+.contact-topics li { display: flex; align-items: flex-start; gap: 14px; }
+.contact-topics svg { flex-shrink: 0; color: var(--dark-teal); margin-top: 2px; }
+.sonovade-contact-fields { background: var(--paper); padding: 40px; }
+.contact-required-note { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+.sonovade-contact .contact-form { display: grid; gap: 24px; }
+.sonovade-contact .field { display: grid; gap: 10px; }
+.sonovade-contact .field > label, .inquiry-options legend { font-size: 15px; font-weight: 700; }
+.sonovade-contact .field input, .sonovade-contact select, .sonovade-contact textarea { width: 100%; min-width: 0; min-height: 48px; border: 1px solid var(--line); border-radius: 4px; background: var(--paper); color: var(--ink); padding: 12px; font: inherit; font-size: 16px; }
+.sonovade-contact textarea { resize: vertical; }
+.inquiry-options { border: 0; padding: 0; margin: 0; min-width: 0; }
+.inquiry-options legend { margin-bottom: 12px; }
+.inquiry-option { display: flex; align-items: center; gap: 12px; min-height: 48px; cursor: pointer; }
+.inquiry-option input { width: 20px; height: 20px; margin: 0; flex-shrink: 0; accent-color: var(--dark-teal); }
+.sonovade-contact .form-privacy { font-size: 13px; color: var(--muted); line-height: 1.9; }
+.sonovade-contact .form-privacy a { color: var(--dark-teal); text-decoration: underline; text-underline-offset: 3px; }
+.sonovade-contact .form-foot { display: grid; gap: 16px; }
+.sonovade-contact .form-status:empty { display: none; }
+.sonovade-contact .form-status { padding: 12px; background: var(--mist); }
+.sonovade-contact .form-status[data-state="error"] { border-left: 3px solid #c43c3c; font-weight: 700; }
+.sonovade-contact .button:disabled { opacity: .6; cursor: wait; }
+@media (max-width: 1100px) {
+  .sonovade-contact-layout { gap: 36px; }
+  .sonovade-contact-fields { padding: 28px; }
+}
+@media (max-width: 760px) {
+  .sonovade-contact { padding-block: 108px 48px; }
+  .sonovade-contact-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .sonovade-contact-intro { padding-block: 0; }
+  .sonovade-contact h1 { font-size: 28px; }
+  .sonovade-contact .kicker { margin-bottom: 12px; }
+  .contact-description { margin-top: 16px; }
+  .sonovade-contact h2 { margin-top: 24px; font-size: 16px; }
+  .contact-topics { margin-top: 16px; gap: 16px; font-size: 14px; }
+  .sonovade-contact-fields { padding: 24px 20px; }
+}

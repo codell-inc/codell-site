@@ -9,6 +9,7 @@ const routes = [
   ["/contact/", "contact/index.html", "/contact.html", "お問い合わせ"],
   ["/privacy/", "privacy/index.html", "/privacy/", "プライバシーポリシー"],
   ["/sonovade/", "sonovade/index.html", "/sonovade/", "ソノバデ"],
+  ["/sonovade/pricing/", "sonovade/pricing/index.html", "/sonovade/pricing/", "料金について"],
 ];
 
 function attribute(tag, name) {
@@ -79,7 +80,7 @@ export async function verifyCompanyPublication({ outputDir = defaultOutput, base
 if (process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   try {
     const result = await verifyCompanyPublication({ outputDir: process.argv[2] || defaultOutput, baseUrl: process.argv[3] || "https://codell.jp/" });
-    console.log(`Verified ${result.baseUrl}: 5 company pages and ${result.checks.length - 5} homepage assets match the built artifact.`);
+    console.log(`Verified ${result.baseUrl}: 6 company pages and ${result.checks.length - 6} homepage assets match the built artifact.`);
   } catch (error) {
     console.error(`Company publication verification failed: ${error.message}`);
     process.exitCode = 1;

@@ -7,10 +7,11 @@ import BaseLayout from "./BaseLayout.astro";
 interface Props {
   title: string;
   description: string;
+  canonicalPath?: string;
 }
 
-const { title, description } = Astro.props;
-const pageUrl = new URL("/sonovade/", Astro.site).href;
+const { title, description, canonicalPath = "/sonovade/" } = Astro.props;
+const pageUrl = new URL(canonicalPath, Astro.site).href;
 const companyUrl = new URL("/", Astro.site).href;
 const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", Astro.site).href;
 const structuredData = {
@@ -35,7 +36,7 @@ const structuredData = {
         "@type": "Thing",
         name: "ソノバデ",
         description: "介護保険住宅改修の見積・図面・申請書類作成ソフト",
-        url: pageUrl,
+        url: new URL("/sonovade/", Astro.site).href,
       },
       primaryImageOfPage: {
         "@type": "ImageObject",
@@ -50,7 +51,7 @@ const structuredData = {
 const fontHref = "/fonts/fonts.css";
 ---
 
-<BaseLayout {title} {description} {fontHref} canonicalPath="/sonovade/">
+<BaseLayout {title} {description} {fontHref} {canonicalPath}>
   <Fragment slot="head">
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Codell" />

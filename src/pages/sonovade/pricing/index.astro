@@ -1,0 +1,21 @@
+---
+import SonovadeLayout from "../../../layouts/SonovadeLayout.astro";
+import { MessageSquare, FileText } from "@lucide/astro";
+const title = "料金について | ソノバデ";
+const description = "ソノバデの料金に関する見積もり依頼・資料請求はこちらから。";
+---
+<SonovadeLayout {title} {description} canonicalPath="/sonovade/pricing/">
+  <!-- 見積もり相談と、その前の資料請求を、文言とアイコンで区別する。 -->
+  <section class="pricing pricing-page" aria-labelledby="pricing-title">
+    <div class="container pricing-layout">
+      <div class="pricing-intro">
+        <h1 id="pricing-title">料金について</h1>
+        <p>見積もりについては、まずはこちらからご相談ください。</p>
+      </div>
+      <div class="pricing-actions">
+        <a class="button" href="/sonovade/contact/?request=quote"><MessageSquare size={22} aria-hidden="true" /><span>見積もりを依頼する</span></a>
+        <a class="button button--outline" href="/sonovade/contact/?request=brochure"><FileText size={22} aria-hidden="true" /><span>見積もりの前に資料請求する</span></a>
+      </div>
+    </div>
+  </section>
+</SonovadeLayout>

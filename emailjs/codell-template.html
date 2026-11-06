@@ -1,0 +1,21 @@
+<div style="font-family: Arial, sans-serif; color: #202827; font-size: 15px; line-height: 1.8; max-width: 640px; margin: 0 auto;">
+  <h1 style="font-size: 22px; border-bottom: 2px solid #087f76; padding-bottom: 12px;">Codell お問い合わせ</h1>
+  <p>Webサイトよりお問い合わせを受け付けました。</p>
+  {{#form_summary}}
+  <div style="white-space: pre-wrap; overflow-wrap: anywhere;">{{form_summary}}</div>
+  {{/form_summary}}
+  {{^form_summary}}
+  <p><strong>お問い合わせの種類</strong><br>{{type}}</p>
+  <p><strong>会社名</strong><br>{{company_name}}</p>
+  <p><strong>姓名</strong><br>{{name}}</p>
+  <p><strong>メールアドレス</strong><br>{{email}}</p>
+  {{#employee_count}}<p><strong>従業員数</strong><br>{{employee_count}}</p>{{/employee_count}}
+  {{#department}}<p><strong>部署</strong><br>{{department}}</p>{{/department}}
+  {{#job_title}}<p><strong>役職</strong><br>{{job_title}}</p>{{/job_title}}
+  <p><strong>知ったきっかけ</strong><br>{{discovery_source}}</p>
+  {{#discovery_other}}<p><strong>その他のきっかけ</strong><br>{{discovery_other}}</p>{{/discovery_other}}
+  <p><strong>問い合わせ内容</strong></p>
+  <div style="white-space: pre-wrap; overflow-wrap: anywhere;">{{message}}</div>
+  {{/form_summary}}
+  <p style="border-top: 1px solid #d7e1de; padding-top: 16px; color: #687472; font-size: 13px;">このメールへの返信で、お問い合わせいただいた方へ連絡できます。</p>
+</div>
