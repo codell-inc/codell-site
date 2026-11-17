@@ -12,14 +12,15 @@ const steps = [
 ];
 ---
 <SonovadeLayout {title} {description}>
-  <!-- 文言はFigma 42:165を基準とし、CTAのみ最新指示を優先。削除済みの注記や独自の言い換えを追加しない。 -->
+  <!-- 文言はFigma 42:165を基準とし、CTAのみ最新指示を優先。削除済みの注記や独自の言い換えを追加しない。
+       例外: 検索で見つかるよう、本文にも「介護保険住宅改修」を入れる（2026-11-17 依頼者指示）。 -->
   <!-- PC版Figmaの編集内容を基準に実装。現場写真で対象業務を伝え、PCは100vh・透明ヘッダーにする。 -->
   <section class="hero" id="top" aria-labelledby="hero-title">
     <img class="hero-photo" src="/sonovade/assets/lp/hero-1920.webp" srcset="/sonovade/assets/lp/hero-640.webp 640w, /sonovade/assets/lp/hero-960.webp 960w, /sonovade/assets/lp/hero-1280.webp 1280w, /sonovade/assets/lp/hero-1920.webp 1920w" sizes="100vw" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
     <div class="hero-content container">
       <div class="hero-copy">
         <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
-        <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />住宅改修の新常識</p>
+        <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />介護保険住宅改修の新常識</p>
         <div class="hero-actions">
           <a class="button" href={contact}>30分の無料相談を申し込む</a>
           <a class="button button--outline" href={brochureContact}>資料を請求する</a>
@@ -100,7 +101,7 @@ const steps = [
   <!-- 写真整理を大きく、申請書類と基本情報を同じサイズで並べ、周辺業務とのつながりを実画面で示す。 -->
   <section class="capabilities band band--mist" id="features" aria-labelledby="features-title">
     <div class="container">
-      <p class="kicker">住宅改修の書類作成を、ひとつに。</p>
+      <p class="kicker">介護保険住宅改修の書類作成を、ひとつに。</p>
       <h2 id="features-title">申請書類作成に必要な<wbr />機能が勢揃い</h2>
       <div class="photo-feature">
         <Tablet image="photo" alt="施工箇所にひもづけた改修前後の写真を管理する画面" />
@@ -113,9 +114,9 @@ const steps = [
       <div class="supporting-grid">
         <article>
           <p class="feature-label"><img src="/sonovade/assets/lp/document-icon.svg" width="28" height="28" alt="" loading="lazy" />自治体の申請書類</p>
-          <Tablet image="forms" alt="登録済み自治体の住宅改修申請書類を作成する画面" />
+          <Tablet image="forms" alt="登録済み自治体の介護保険住宅改修費支給申請書を作成する画面" />
           <h3>お客様情報を、そのまま申請書類へ！</h3>
-          <p>登録済みの自治体様式に合わせて作成。様式ごとの追加項目も入力できます。</p>
+          <p>介護保険の住宅改修費支給申請書などを、登録済みの自治体様式に合わせて作成。様式ごとの追加項目も入力できます。</p>
         </article>
         <article>
           <p class="feature-label"><img src="/sonovade/assets/lp/plan-icon.svg" width="28" height="28" alt="" loading="lazy" />基本情報の反映</p>
