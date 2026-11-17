@@ -122,6 +122,7 @@ h2 { font-size: 44px; line-height: 1.4; }
 .demo-booking .button { width: 100%; }
 .demo-booking p { color: var(--muted); font-size: 13px; margin-top: 20px; }
 .site-footer { padding-block: 32px; background: var(--mist); }
+.footer-tagline { margin-bottom: 4px; color: var(--ink); font-size: 13px; font-weight: 700; }
 .brand--footer { background: transparent; padding: 0; transform-origin: left center; transform: scale(.81); }
 .footer-legal { display: flex; flex-wrap: wrap; gap: 12px; margin-block: 24px; color: var(--muted); font-size: 12px; }
 .footer-legal a:hover { text-decoration: underline; }
