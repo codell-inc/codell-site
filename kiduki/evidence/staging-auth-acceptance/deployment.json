@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-20T15:03:38.073Z",
+  "sourceSha": "600942a828f18d543aa1960fe4f2e10e202cf6db",
+  "project": "kiduki-landing-staging",
+  "branch": "staging",
+  "deployExitCode": 0,
+  "canonicalDeploymentId": "f6d144f4-a9f3-4afe-aad6-be65f88ae09a",
+  "deploymentStage": {
+    "name": "deploy",
+    "started_on": null,
+    "ended_on": "2026-10-20T15:03:34.861666Z",
+    "status": "success"
+  },
+  "deploymentCommit": "600942a828f18d543aa1960fe4f2e10e202cf6db",
+  "deployedArtifactVersion": "1792499914494",
+  "productionDeployExecuted": false
+}

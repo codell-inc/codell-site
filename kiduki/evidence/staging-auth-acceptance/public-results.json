@@ -1,0 +1,115 @@
+{
+  "observedAt": "2026-10-20T15:08:38.822Z",
+  "sourceSha": "600942a828f18d543aa1960fe4f2e10e202cf6db",
+  "buildRun": "https://github.com/codell-inc/codell-site/actions/runs/39423761360",
+  "expectedVersion": "1792499914494",
+  "expectedMp4": {
+    "bytes": 9853505,
+    "sha256": "c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9"
+  },
+  "checks": [
+    {
+      "url": "https://kiduki.codell.jp/",
+      "method": "GET",
+      "status": 200,
+      "contentType": "text/html",
+      "challenge": null,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "passed": true
+    },
+    {
+      "url": "https://kiduki.codell.jp/_app/version.json",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json",
+      "challenge": null,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "version": "1792499914494",
+      "passed": true
+    },
+    {
+      "url": "https://kiduki.codell.jp/images/hero-poster.jpg",
+      "method": "HEAD",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "challenge": null,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "passed": true
+    },
+    {
+      "url": "https://kiduki.codell.jp/kiduki-logo.svg",
+      "method": "HEAD",
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "challenge": null,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "passed": true
+    },
+    {
+      "url": "https://kiduki.codell.jp/videos/hero.mp4",
+      "method": "GET",
+      "status": 200,
+      "contentType": "video/mp4",
+      "challenge": null,
+      "cacheControl": null,
+      "bytes": 9853505,
+      "receivedBytes": 9853505,
+      "sha256": "c72df40bd9ce398454a42397a8a99edbe2c4574ab859948f5044076b4b4554d9",
+      "passed": true
+    },
+    {
+      "url": "https://kiduki.codell.jp/videos/hero.webm",
+      "method": "HEAD",
+      "status": 200,
+      "contentType": "video/webm",
+      "challenge": null,
+      "cacheControl": "public, max-age=0, must-revalidate",
+      "passed": true
+    },
+    {
+      "url": "https://staging.kiduki.codell.jp/",
+      "method": "GET",
+      "status": 401,
+      "contentType": "text/plain; charset=utf-8",
+      "challenge": "Basic realm=\"KiDUKi staging\", charset=\"UTF-8\"",
+      "cacheControl": "no-store",
+      "passed": true
+    },
+    {
+      "url": "https://staging.kiduki.codell.jp/_app/version.json",
+      "method": "GET",
+      "status": 401,
+      "contentType": "text/plain; charset=utf-8",
+      "challenge": "Basic realm=\"KiDUKi staging\", charset=\"UTF-8\"",
+      "cacheControl": "no-store",
+      "passed": true
+    },
+    {
+      "url": "https://staging.kiduki.codell.jp/images/hero-poster.jpg",
+      "method": "GET",
+      "status": 401,
+      "contentType": "text/plain; charset=utf-8",
+      "challenge": "Basic realm=\"KiDUKi staging\", charset=\"UTF-8\"",
+      "cacheControl": "no-store",
+      "passed": true
+    },
+    {
+      "url": "https://staging.kiduki.codell.jp/videos/hero.mp4",
+      "method": "GET",
+      "status": 401,
+      "contentType": "text/plain; charset=utf-8",
+      "challenge": "Basic realm=\"KiDUKi staging\", charset=\"UTF-8\"",
+      "cacheControl": "no-store",
+      "passed": true
+    }
+  ],
+  "authenticatedStaging": {
+    "status": "not-assessed-by-this-probe",
+    "reason": "This public-only probe sends no credentials; see the separate authenticated HTTP result."
+  },
+  "browserAcceptance": {
+    "status": "not-assessed-by-this-probe",
+    "reason": "See the separate actual-browser result; public HTTP checks do not prove rendering or playback."
+  },
+  "httpChecks": "passed"
+}

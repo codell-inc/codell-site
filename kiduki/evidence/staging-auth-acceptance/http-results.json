@@ -1,0 +1,39 @@
+{
+  "observedAt": "2026-10-20T15:03:47.856Z",
+  "credentialSource": "Infisical staging /kiduki/landing",
+  "checks": [
+    {
+      "resource": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "hasBasicChallenge": false,
+      "containsKidukiHtml": true
+    },
+    {
+      "resource": "/_app/version.json",
+      "status": 200,
+      "contentType": "application/json",
+      "hasBasicChallenge": false,
+      "version": "1792499914494"
+    },
+    {
+      "resource": "/images/hero-poster.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "hasBasicChallenge": false
+    },
+    {
+      "resource": "/videos/hero.mp4",
+      "status": 200,
+      "contentType": "video/mp4",
+      "hasBasicChallenge": false
+    }
+  ],
+  "anonymous": {
+    "status": 401,
+    "hasBasicChallenge": true,
+    "cacheControl": "no-store"
+  },
+  "authenticatedPassed": true,
+  "protectionPassed": true
+}
