@@ -9,9 +9,11 @@ const compiled = ts.transpileModule(source.replaceAll("import.meta.env.", "TEST_
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true },
 }).outputText;
 const destination = "AW-18448674355/test-success-label";
+const measurementId = "G-TEST000000";
 
-function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination, search = "", dedicated = false, values = {} } = {}) {
+function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination, ga4Id = measurementId, search = "", dedicated = false, values = {} } = {}) {
   const conversions = [];
+  const leads = [];
   const sends = [];
   const errors = [];
   const listeners = {};
@@ -35,19 +37,19 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
     send(...args) { sends.push(args); return send(...args); },
   };
   const window = { location: { search } };
-  if (tag === "present") window.gtag = (...args) => conversions.push(JSON.parse(JSON.stringify(args)));
+  if (tag === "present") window.gtag = (...args) => (args[1] === "conversion" ? conversions : leads).push(JSON.parse(JSON.stringify(args)));
   if (tag === "throws") window.gtag = () => { throw new Error("Tracking unavailable"); };
   vm.runInNewContext(compiled, {
     exports: {},
     require: (name) => { assert.equal(name, "@emailjs/browser"); return emailjs; },
-    TEST_ENV: { PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO: sendTo },
+    TEST_ENV: { PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO: sendTo, PUBLIC_GA4_MEASUREMENT_ID: ga4Id },
     document: { querySelector: (selector) => elements[selector] ?? null, querySelectorAll: () => dedicated ? radios : [] },
     FormData: class { get(name) { return Object.hasOwn(values, name) ? values[name] : name === "type" ? (dedicated ? radios.find(radio => radio.checked)?.value : options.find((option) => option.defaultSelected)?.value) : `${name}:private-input`; } },
     window,
     URLSearchParams,
     console: { error: (...args) => errors.push(args) },
   });
-  return { typeSelect, radios, form, status, button, conversions, sends, errors, submit: () => listeners.submit({ preventDefault() {} }) };
+  return { typeSelect, radios, form, status, button, conversions, leads, sends, errors, submit: () => listeners.submit({ preventDefault() {} }) };
 }
 
 test("conversion occurs once after email resolves, with only the destination", async () => {
@@ -117,6 +119,39 @@ test("default destination matches the configured Google Ads action", async () =>
   assert.deepEqual(fixture.conversions, [["event", "conversion", {
     send_to: "AW-18448674355/3cp0COiC5ZAdELPcgd1E",
   }]]);
+});
+
+test("GA4 lead carries only the inquiry category and discovery source", async () => {
+  const fixture = setup({ search: "?product=sonovade&request=brochure" });
+  await fixture.submit();
+  assert.deepEqual(fixture.leads, [["event", "generate_lead", {
+    send_to: measurementId,
+    inquiry_type: "ソノバデの資料請求",
+    discovery_source: "discovery_source:private-input",
+  }]]);
+  assert.doesNotMatch(JSON.stringify(fixture.leads), /(name|email|message|company_name):private-input/);
+});
+
+test("GA4 lead is sent without an Ads destination and never on failure", async () => {
+  const withoutAds = setup({ sendTo: "" });
+  await withoutAds.submit();
+  assert.deepEqual(withoutAds.conversions, []);
+  assert.equal(withoutAds.leads.length, 1);
+
+  const failed = setup({ send: async () => { throw new Error("Email rejected"); } });
+  await failed.submit();
+  assert.deepEqual(failed.leads, []);
+
+  const unconfigured = setup({ ga4Id: "" });
+  await unconfigured.submit();
+  assert.deepEqual(unconfigured.leads, []);
+  assert.equal(unconfigured.conversions.length, 1);
+});
+
+test("default GA4 destination matches the site's measurement ID", async () => {
+  const fixture = setup({ ga4Id: null });
+  await fixture.submit();
+  assert.equal(fixture.leads[0][2].send_to, "G-NQRKD9GH73");
 });
 
 // Product context must survive the form reset after a successful submission.

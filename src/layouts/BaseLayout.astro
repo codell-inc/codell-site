@@ -1,14 +1,21 @@
 ---
+import { organizationNode, serializeGraph, websiteNode, type StructuredDataNode } from "../data/structured-data";
+
 interface Props {
   title: string;
   description: string;
   bodyClass?: string;
   fontHref: string;
   canonicalPath?: string;
+  structuredData?: StructuredDataNode[];
 }
 
-const { title, description, bodyClass, fontHref, canonicalPath } = Astro.props;
+const { title, description, bodyClass, fontHref, canonicalPath, structuredData = [] } = Astro.props;
 const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, Astro.site) : undefined;
+// The company node goes on every page; the WebSite node only on pages that live on codell.jp itself.
+const graph = Astro.site
+  ? [organizationNode(Astro.site), ...(canonicalUrl?.origin === Astro.site.origin ? [websiteNode(Astro.site)] : []), ...structuredData]
+  : structuredData;
 ---
 
 <!doctype html>
@@ -70,6 +77,7 @@ const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, A
     </script>
     <noscript><link href={fontHref} rel="stylesheet" /></noscript>
     <title>{title}</title>
+    {graph.length > 0 && <script is:inline type="application/ld+json" set:html={serializeGraph(graph)} />}
     <slot name="head" />
   </head>
   <body class={bodyClass}>
