@@ -151,7 +151,7 @@ test("GA4 lead is sent without an Ads destination and never on failure", async (
 test("default GA4 destination matches the site's measurement ID", async () => {
   const fixture = setup({ ga4Id: null });
   await fixture.submit();
-  assert.equal(fixture.leads[0][2].send_to, "G-NQRKD9GH73");
+  assert.equal(fixture.leads[0][2].send_to, "G-35VTG4Z2NT");
 });
 
 // Product context must survive the form reset after a successful submission.

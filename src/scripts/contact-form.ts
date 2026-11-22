@@ -8,7 +8,7 @@ const EMAILJS_CONFIG = {
 
 const GOOGLE_ADS_CONTACT_SEND_TO =
   import.meta.env.PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO ?? "AW-18448674355/3cp0COiC5ZAdELPcgd1E";
-const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? "G-NQRKD9GH73";
+const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? "G-35VTG4Z2NT";
 
 type Gtag = (command: "event", event: string, parameters: Record<string, string>) => void;
 
