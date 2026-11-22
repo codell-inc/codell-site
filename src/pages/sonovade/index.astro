@@ -4,7 +4,6 @@ import SonovadeLayout from "../../layouts/SonovadeLayout.astro";
 const title = "ソノバデ | 介護保険住宅改修の見積・図面作成ソフト";
 const description = "図面に引いた手すりや扉を、そのまま見積に。ソノバデは、介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成をタブレットやPCで進める業務支援ソフトです。30分の無料相談で実際の画面をご覧いただけます。";
 const contact = "/sonovade/contact/?request=consultation";
-const brochureContact = "/sonovade/contact/?request=brochure";
 const steps = [
   { number: "01", title: "引くだけ簡単手すり配置", image: "plan", alt: "図面上に手すりを配置するソノバデの画面" },
   { number: "02", title: "アプリ内で部材、施工費調整", image: "parts", alt: "手すりの部材と施工費を調整するソノバデの画面" },
@@ -12,23 +11,22 @@ const steps = [
 ];
 ---
 <SonovadeLayout {title} {description}>
-  <!-- 文言はFigma 42:165を基準とし、CTAのみ最新指示を優先。削除済みの注記や独自の言い換えを追加しない。 -->
-  <!-- PC版Figmaの編集内容を基準に実装。現場写真で対象業務を伝え、PCは100vh・透明ヘッダーにする。 -->
-  <section class="hero" id="top" aria-labelledby="hero-title">
-    <img class="hero-photo" src="/sonovade/assets/lp/hero-1920.webp" srcset="/sonovade/assets/lp/hero-640.webp 640w, /sonovade/assets/lp/hero-960.webp 960w, /sonovade/assets/lp/hero-1280.webp 1280w, /sonovade/assets/lp/hero-1920.webp 1920w" sizes="100vw" alt="住宅内で寸法を測り、タブレットで現地調査を行う担当者" width="1920" height="1080" fetchpriority="high" />
-    <div class="hero-content container">
-      <div class="hero-copy">
-        <p class="hero-service">介護保険の住宅改修で、書類づくりに手間を感じている事業者の方へ</p>
-        <h1 id="hero-title">現地調査中に、<br />即・申請書類作成</h1>
-        <p class="hero-lead">タブレットで申請業務を完結。<br class="mobile-break" />住宅改修の新常識</p>
-        <div class="hero-actions">
-          <a class="button" href={contact}>30分の無料相談を申し込む</a>
-          <a class="button button--outline" href={brochureContact}>資料を請求する</a>
-        </div>
-        <a class="movie-link" href="#movie">操作動画を見る（30秒）</a>
+  <section class="product-hero" id="top" aria-labelledby="hero-title">
+    <div class="container">
+      <p class="kicker">介護保険の住宅改修</p>
+      <h1 id="hero-title">現地調査中に<wbr />即申請書類作成</h1>
+      <p class="product-hero-lead">図面に入れた手すりを、見積と申請書類に。</p>
+      <ol class="product-hero-screens">
+        <li><strong>施工図</strong><img src="/sonovade/assets/lp/workflow-plan.webp" alt="施工図のソノバデ実画面" width="1376" height="727" /></li>
+        <li><strong>見積明細</strong><img src="/sonovade/assets/lp/workflow-estimate.webp" alt="見積明細のソノバデ実画面" width="1371" height="728" /></li>
+        <li><strong>申請書類</strong><img src="/sonovade/assets/lp/workflow-application.webp" alt="申請書類のソノバデ実画面" width="1371" height="728" /></li>
+      </ol>
+      <div class="product-hero-actions">
+        <a class="button" href={contact}>無料相談を申し込む</a>
+        <a class="button button--outline" href="#movie">操作動画を見る</a>
       </div>
+      <p class="product-hero-note">実際の画面で、図面から見積までご案内します。</p>
     </div>
-    <a class="scroll-cue" href="#workflow" aria-label="使い方を見る"><span aria-hidden="true">↓</span></a>
   </section>
 
   <!-- 同じ横タブレット枠と最新実画面で、操作の順序を比べられるようにする。 -->
@@ -124,6 +122,24 @@ const steps = [
           <h3>氏名、住所...繰り返す手間を、一度の登録に！</h3>
           <p>利用者・物件情報を案件にまとめ、対応する書類の項目へ反映します。</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="team-intro band band--mist" aria-labelledby="team-intro-title">
+    <div class="container">
+      <h2 id="team-intro-title">なぜ、私たちはソノバデをつくるのか</h2>
+      <div class="team-intro-grid">
+        <img class="team-intro-group" src="/sonovade/assets/lp/team-group.webp" alt="ソノバデの開発メンバー4人" width="612" height="402" loading="lazy" decoding="async" />
+        <div class="team-intro-message">
+          <div class="team-intro-person">
+            <img src="/sonovade/assets/lp/team-eda.webp" alt="江田岬毅" width="303" height="303" loading="lazy" decoding="async" />
+            <div><p class="kicker">代表</p><h3>江田岬毅</h3></div>
+          </div>
+          <p>大切な人との思い出が詰まった、住み慣れた家で、その人らしい暮らしを少しでも長く続けてほしい。</p>
+          <p>だから私たちは、住宅改修の書類づくりをもっと簡単にしたいと考えています。現場で集めた情報を書き写す手間を減らし、一人ひとりに合った住まいを考える時間を増やしたい。それが、ソノバデをつくる理由です。</p>
+          <a class="button" href={contact}>無料相談を申し込む</a>
+        </div>
       </div>
     </div>
   </section>
