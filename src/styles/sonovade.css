@@ -162,8 +162,8 @@ body:has(.screen-dialog[open]) { overflow: hidden; }
   .kicker { margin-bottom: 12px; }
   .site-header { height: 76px; padding: 8px 16px; background: white; }
   .brand { padding: 4px 0; gap: 8px; }
-  .brand img:first-child { height: 30px; }
-  .brand img:last-child { height: 23px; }
+  .brand img:first-child { height: 30px; width: 25px; aspect-ratio: 29 / 35; }
+  .brand img:last-child { height: 23px; width: 108px; aspect-ratio: 127 / 27; }
   .nav-toggle { display: block; width: 44px; height: 44px; border: 0; background: transparent; padding: 10px; }
   .nav-toggle span { display: block; height: 2px; background: var(--ink); margin: 6px 0; transition: transform 160ms; }
   .nav-toggle[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
@@ -183,7 +183,9 @@ body:has(.screen-dialog[open]) { overflow: hidden; }
   .hero .button { min-width: 0; width: 100%; margin-top: 24px; }
   .hero-actions { margin-top: 24px; }
   .pricing-actions { width: 100%; }
-  .pricing-page { padding-block: 124px 48px; }
+  /* Short pages push the footer just past the first viewport: the deferred web font
+     reflows wrapped lines, and a footer inside the viewport turns that into CLS. */
+  .pricing-page { padding-block: 124px 48px; min-height: 100svh; }
   .pricing-page h1 { font-size: 29px; }
   .pricing-actions .button { width: 100%; min-width: 0; }
   .movie-link { margin-top: 16px; }
