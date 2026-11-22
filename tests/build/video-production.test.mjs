@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { access, readFile, stat } from "node:fs/promises";
 import test from "node:test";
+import { references } from "../../scripts/verify-video-publication.mjs";
 
 // Run after npm run build. Validate the actual production build, not source text.
 const outputRoot = new URL("../../docs/", import.meta.url);
@@ -68,4 +69,10 @@ test("consultation uses the existing inquiry route and FAQs work without scripts
     assert.match(content, /class="vp-faq-answer"/);
   }
   assert.match(html, /rel="canonical" href="https:\/\/video.codell.jp\/"/);
+});
+
+test("the built LP satisfies the public verifier's reference checks", () => {
+  // Fails in the verify job, before deploy, if the page and the publish-time verifier drift apart.
+  const types = references(html, new URL("https://video.codell.jp/")).map(asset => asset.type);
+  for (const type of ["CSS", "hero image", "MP4"]) assert(types.includes(type), `missing ${type}`);
 });

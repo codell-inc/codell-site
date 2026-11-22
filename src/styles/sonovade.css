@@ -34,28 +34,37 @@ h2 { font-size: 44px; line-height: 1.4; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
 .hero .hero-actions .button { min-width: 0; margin-top: 0; }
 .pricing { border-bottom: 1px solid var(--line); }
-.pricing-layout { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.pricing-page { padding-block: 160px 80px; min-height: calc(100svh - 220px); }
+.pricing-page h1 { font-size: 44px; line-height: 1.4; }
+.pricing-layout { display: flex; flex-direction: column; align-items: flex-start; gap: 32px; }
 .pricing-actions { display: flex; flex-wrap: wrap; gap: 16px; }
-.pricing-actions .button { min-width: 240px; }
+.pricing-intro p { margin-top: 20px; line-height: 1.8; }
+.pricing-actions .button { min-width: 240px; gap: 12px; }
+.pricing-actions .button svg { flex-shrink: 0; }
 .site-header { position: fixed; z-index: 50; inset: 0 0 auto; height: 88px; padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; background: transparent; transition: background 180ms, box-shadow 180ms; }
 .site-header.is-scrolled { background: white; box-shadow: 0 1px 0 var(--line); }
+.site-header--solid { background: white; box-shadow: 0 1px 0 var(--line); }
+.site-nav a[aria-current="page"] { color: var(--dark-teal); text-decoration: underline; text-underline-offset: 6px; }
 .brand { display: inline-flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; padding: 10px 12px; background: white; }
 .brand img { width: auto; flex-shrink: 0; }
 .site-nav { display: flex; flex: 1; align-items: center; gap: 32px; font-size: 14px; font-weight: 500; }
 .site-nav > a:not(.button) { padding-block: 12px; }
 .site-nav > a:not(.button):hover { color: var(--dark-teal); text-decoration: underline; text-underline-offset: 6px; }
-.nav-cta { min-width: 240px; margin-left: auto; }
+.nav-cta { margin-left: auto; }
+.site-nav > a { white-space: nowrap; }
+.nav-brochure { margin-left: -16px; }
 .nav-toggle { display: none; }
 /* Only the logo retains its white backing. The photo extends behind the fixed header. */
 .hero { position: relative; height: 100vh; }
 .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 .hero-content { position: relative; display: flex; align-items: center; height: 100%; padding-block: 120px 80px; }
 .hero-copy { width: 100%; max-width: 640px; }
+.hero-service { margin-bottom: 12px; font-size: 18px; font-weight: 700; letter-spacing: .04em; color: var(--dark-teal); }
 .hero h1 { font-size: 48px; line-height: 1.4; }
 .hero-lead { margin-top: 24px; font-size: 20px; font-weight: 500; }
 /* Keep the approved white text strips over the photo; only the top header is transparent. */
 @media (min-width: 761px) {
-  .hero h1, .hero-lead { width: fit-content; max-width: 100%; padding: 8px 16px; background: var(--paper); }
+  .hero-service, .hero h1, .hero-lead { width: fit-content; max-width: 100%; padding: 8px 16px; background: var(--paper); }
 }
 .hero .button { min-width: 360px; margin-top: 40px; }
 .movie-link { display: block; width: fit-content; margin-top: 12px; font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
@@ -114,6 +123,7 @@ h2 { font-size: 44px; line-height: 1.4; }
 .demo-booking .button { width: 100%; }
 .demo-booking p { color: var(--muted); font-size: 13px; margin-top: 20px; }
 .site-footer { padding-block: 32px; background: var(--mist); }
+.footer-tagline { margin-bottom: 4px; color: var(--ink); font-size: 13px; font-weight: 700; }
 .brand--footer { background: transparent; padding: 0; transform-origin: left center; transform: scale(.81); }
 .footer-legal { display: flex; flex-wrap: wrap; gap: 12px; margin-block: 24px; color: var(--muted); font-size: 12px; }
 .footer-legal a:hover { text-decoration: underline; }
@@ -130,8 +140,9 @@ body:has(.screen-dialog[open]) { overflow: hidden; }
 @media (max-width: 1100px) {
   .container { width: calc(100% - 64px); }
   .site-header { padding-inline: 24px; gap: 16px; }
-  .site-nav { gap: 24px; }
-  .nav-cta { min-width: 200px; }
+  .site-nav { gap: 12px; }
+  .site-nav .button { padding-inline: 12px; font-size: 14px; }
+  .nav-brochure { margin-left: 0; }
   .steps { gap: 24px; }
   .step-heading h3 { font-size: 19px; }
   .benefits-grid { gap: 24px; }
@@ -165,12 +176,15 @@ body:has(.screen-dialog[open]) { overflow: hidden; }
   .hero { height: auto; min-height: 0; padding-top: 76px; }
   .hero-photo { position: static; height: 228px; object-position: 65% 50%; }
   .hero-content { height: auto; padding-block: 24px 36px; }
+  .hero-service { margin-bottom: 8px; font-size: 14px; }
   .hero h1 { font-size: 32px; }
   .hero-lead { margin-top: 16px; font-size: 15px; }
   .mobile-break { display: initial; }
   .hero .button { min-width: 0; width: 100%; margin-top: 24px; }
   .hero-actions { margin-top: 24px; }
   .pricing-actions { width: 100%; }
+  .pricing-page { padding-block: 124px 48px; }
+  .pricing-page h1 { font-size: 29px; }
   .pricing-actions .button { width: 100%; min-width: 0; }
   .movie-link { margin-top: 16px; }
   .scroll-cue { display: none; }

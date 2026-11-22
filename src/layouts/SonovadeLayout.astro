@@ -8,11 +8,13 @@ import BaseLayout from "./BaseLayout.astro";
 interface Props {
   title: string;
   description: string;
+  canonicalPath?: string;
 }
 
-const { title, description } = Astro.props;
+const { title, description, canonicalPath = "/sonovade/" } = Astro.props;
 const site = Astro.site!;
-const pageUrl = new URL("/sonovade/", site).href;
+const pageUrl = new URL(canonicalPath, site).href;
+const productUrl = new URL("/sonovade/", site).href;
 const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", site).href;
 const structuredData = [
   {
@@ -24,7 +26,7 @@ const structuredData = [
     inLanguage: "ja",
     isPartOf: { "@id": websiteId(site) },
     publisher: { "@id": organizationId(site) },
-    about: { "@id": `${pageUrl}#software` },
+    about: { "@id": `${productUrl}#software` },
     primaryImageOfPage: {
       "@type": "ImageObject",
       url: imageUrl,
@@ -34,11 +36,11 @@ const structuredData = [
   },
   {
     "@type": "SoftwareApplication",
-    "@id": `${pageUrl}#software`,
+    "@id": `${productUrl}#software`,
     name: "ソノバデ",
     description: "介護保険住宅改修の図面作成・部材計算・見積書出力・申請書類作成をタブレットやPCで進める業務支援ソフト",
     applicationCategory: "BusinessApplication",
-    url: pageUrl,
+    url: productUrl,
     image: imageUrl,
     publisher: { "@id": organizationId(site) },
   },
@@ -47,7 +49,7 @@ const structuredData = [
 const fontHref = "/fonts/fonts.css";
 ---
 
-<BaseLayout {title} {description} {fontHref} {structuredData} canonicalPath="/sonovade/">
+<BaseLayout {title} {description} {fontHref} {structuredData} {canonicalPath}>
   <Fragment slot="head">
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Codell" />

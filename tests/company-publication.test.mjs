@@ -15,6 +15,7 @@ async function fixture(t, { fullAssets = false, override, canonicalOrigin = "htt
     ["/contact.html", contact], ["/contact/", contact],
     ["/privacy/", html("/privacy/", "プライバシーポリシー")],
     ["/sonovade/", html("/sonovade/", "ソノバデ")],
+    ["/sonovade/pricing/", html("/sonovade/pricing/", "料金について")],
     ["/_astro/company.css", Buffer.from("body { color: black; }")],
     ["/assets/codell-logo.svg", Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"></svg>')],
     ["/assets/main-visual-1920.webp", Buffer.alloc(2048, 47)],
@@ -44,12 +45,12 @@ async function fixture(t, { fullAssets = false, override, canonicalOrigin = "htt
   return { requests, verify: () => verifyCompanyPublication({ outputDir, baseUrl: "http://localhost:4321/", fetcher }) };
 }
 
-test("verifies five current pages, production canonicals and six ranged assets using only GET", async t => {
+test("verifies six current pages, production canonicals and six ranged assets using only GET", async t => {
   const f = await fixture(t);
   const result = await f.verify();
-  assert.deepEqual(result.checks.map(check => check.status), [200, 200, 200, 200, 200, 206, 206, 206, 206, 206, 206]);
+  assert.deepEqual(result.checks.map(check => check.status), [200, 200, 200, 200, 200, 200, 206, 206, 206, 206, 206, 206]);
   assert(f.requests.every(({ url, options }) => new URL(url).origin === "http://localhost:4321" && options.method === "GET" && options.redirect === "manual" && options.cache === "no-store"));
-  assert(f.requests.slice(5).every(({ options }) => options.headers.Range === "bytes=0-1023"));
+  assert(f.requests.slice(6).every(({ options }) => options.headers.Range === "bytes=0-1023"));
 });
 
 test("accepts HTTP 200 assets only when their entire bytes match", async t => {
