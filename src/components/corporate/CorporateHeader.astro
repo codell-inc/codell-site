@@ -16,16 +16,10 @@ const sectionHref = (id: string) => isHome ? `#${id}` : `/#${id}`;
     <span></span><span></span><span></span>
   </button>
   <nav class="site-nav" id="site-nav" data-nav>
-    <details class="nav-services" data-nav-services>
-      <summary>サービス</summary>
-      <div class="nav-services-menu">
-        <a href="/sonovade/"><strong>ソノバデ</strong><span>介護住宅改修の見積・申請</span></a>
-      </div>
-    </details>
     <a href={sectionHref("business")}>事業</a>
     <a href={sectionHref("work")}>業務内容</a>
     <a href={sectionHref("members")}>メンバー</a>
-    <a href={sectionHref("product")}>制作物</a>
+    <a href="/products/">製品・サービス</a>
     <a href={sectionHref("development-flow")}>開発の流れ</a>
     <a href={sectionHref("company")}>会社概要</a>
     <a class="nav-contact" href="/contact.html">無料相談</a>

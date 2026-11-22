@@ -1,0 +1,33 @@
+---
+import { MonitorPlay, Calculator, FileText } from "@lucide/astro";
+import ContactForm from "../../../components/contact/ContactForm.astro";
+import SonovadeLayout from "../../../layouts/SonovadeLayout.astro";
+import "../../../styles/sonovade-contact.css";
+const title = "お問い合わせ | ソノバデ";
+const description = "ソノバデの無料相談、見積もり依頼、資料請求はこちらから。介護保険住宅改修の図面・見積・申請書類作成についてご相談ください。";
+---
+<SonovadeLayout {title} {description} canonicalPath="/sonovade/contact/">
+  <!-- 左に相談内容の見通し、右に入力欄を配置。スマホでは案内を短くまとめてフォームへつなぐ。 -->
+  <section class="sonovade-contact" aria-labelledby="contact-title">
+    <div class="container sonovade-contact-layout">
+      <div class="sonovade-contact-intro">
+        <p class="kicker">ソノバデの導入をご検討の方へ</p>
+        <h1 id="contact-title">お問い合わせ</h1>
+        <p class="contact-description">無料相談・見積もり依頼・資料請求を承ります。内容を確認のうえ、担当者よりご連絡いたします。</p>
+        <h2>こんなことをご相談いただけます</h2>
+        <ul class="contact-topics">
+          <li><MonitorPlay aria-hidden="true" size={24} /><span>30分で、実際の画面を見てみたい</span></li>
+          <li><Calculator aria-hidden="true" size={24} /><span>自社で利用する場合の見積もりがほしい</span></li>
+          <li><FileText aria-hidden="true" size={24} /><span>資料を見て、社内で検討したい</span></li>
+        </ul>
+      </div>
+      <div class="sonovade-contact-fields">
+        <p class="contact-required-note"><span aria-hidden="true">*</span> は必須項目です。</p>
+        <ContactForm product="sonovade" />
+      </div>
+    </div>
+  </section>
+</SonovadeLayout>
+<script>
+  import "../../../scripts/contact-form";
+</script>

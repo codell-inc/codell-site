@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/video-production/Icon.astro";
+import { contactHref, faqs, steps } from "../../data/video-production";
+import "../../styles/video-production.css";
+
+const title = "動画制作 | 想いを、もっと動かす。 | Codell";
+const description = "動画 × AIで、伝わる映像を、もっと身近に。商品紹介・サービス紹介・アプリ紹介など、企画から納品までCodellが一貫してお手伝いします。";
+const fontHref = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&family=Yomogi&display=swap";
+const navigation = [
+  { href: "#service", label: "サービス" },
+  { href: "#works", label: "制作事例" },
+  { href: "#pricing", label: "料金" },
+  { href: "#process", label: "制作の流れ" },
+  { href: "#faq", label: "よくある質問" },
+];
+const works = [
+  { id: "sonovade", title: "ソノバデ", subtitle: "Sonovade", category: "住宅改修を、もっとスムーズに。", text: "現場調査から見積・申請書類まで。住宅改修を支える自社サービスの紹介動画。", poster: "/sonovade/assets/lp/movie-poster.jpg", src: "/video-production/assets/sonovade-pr.mp4", duration: "0:32", label: "ソノバデのサービス紹介動画、約32秒" },
+  { id: "kiduki", title: "KiDUKi（キヅキ）", subtitle: "KiDUKi", category: "気づきが変わる。ケアが変わる。", text: "必要な情報を、目の前に。ARグラスで介護の現場を支える自社サービスの紹介動画。", poster: "/video-production/assets/kiduki-poster.jpg", src: "/video-production/assets/kiduki-pr.mp4", duration: "0:33", label: "KiDUKiのサービス紹介動画、約33秒" },
+];
+const deliveries = [
+  { icon: "film", title: "動画ファイル", format: "MP4 / フルHD", text: "30秒の本編動画。すぐに使えるデータで納品します。" },
+  { icon: "image", title: "サムネイル画像", format: "JPG / PNG", text: "SNSやWebで使う画像の制作もご相談いただけます。" },
+  { icon: "file", title: "構成案", format: "制作時の確認資料", text: "制作のコンセプトや、映像の流れを共有します。" },
+  { icon: "settings", title: "その他", format: "用途に合わせて", text: "縦型・正方形など、各種サイズは別途ご相談ください。" },
+];
+---
+
+<BaseLayout {title} {description} {fontHref} bodyClass="video-production" canonicalPath="https://video.codell.jp/">
+  <meta slot="head" property="og:image" content="https://video.codell.jp/video-production/assets/hero-cinematic.webp" />
+  <a class="vp-skip" href="#main">本文へスキップ</a>
+  <header class="vp-header">
+    <a class="vp-brand" href="https://codell.jp/" aria-label="Codell 会社サイトへ"><img src="/assets/codell-logo.svg" alt="Codell" width="120" height="50" /></a>
+    <nav class="vp-nav" aria-label="ページ内ナビゲーション">{navigation.map(({href, label}) => <a href={href}>{label}</a>)}</nav>
+    <a class="vp-button vp-header-cta" href={contactHref}>お問い合わせ <Icon name="arrow" size={17} /></a>
+  </header>
+
+  <main id="main">
+    <section class="vp-hero" aria-labelledby="hero-title">
+      <video class="vp-hero-image" data-hero-video autoplay muted loop playsinline preload="auto" poster="/video-production/assets/hero-cinematic.webp" aria-label="月面を走り、宙に浮かぶ白いスポーツカーのイメージ映像" width="1280" height="720"><source src="/video-production/assets/hero-body-bloom.mp4" type="video/mp4" /></video>
+      <div class="vp-hero-shade"></div>
+      <div class="vp-container vp-hero-content">
+        <h1 id="hero-title"><span>想いを、</span><span>もっと動かす。</span></h1>
+        <p class="vp-hero-lead">動画 × AI で、<br />伝わる映像を、もっと身近に。</p>
+        <a class="vp-button vp-movie-link" href="#works"><span class="vp-play-circle"><Icon name="play" size={22} /></span><span>制作事例のムービーを見る</span></a>
+      </div>
+      <div class="vp-hero-signature"><p>AIで、<br />ビジネスの映像力を解き放つ。</p><span>Codell</span></div>
+    </section>
+
+    <section class="vp-service" id="service" aria-labelledby="service-title">
+      <div class="vp-container vp-service-inner">
+        <div class="vp-service-copy">
+          <p class="vp-eyebrow">AI VIDEO PRODUCTION</p>
+          <h2 id="service-title">動画を、もっと手軽に。<br class="vp-mobile-break" />もっと効果的に。</h2>
+          <p class="vp-service-lead">Codellは、最新の動画AI技術を活用して、<br class="vp-desktop-break" />商品紹介・サービス紹介・アプリ紹介などの映像を、<br class="vp-desktop-break" />企画から編集まで、一貫して制作します。</p>
+          <div class="vp-service-types">{[{icon: "box", title: "商品紹介"}, {icon: "settings", title: "サービス紹介"}, {icon: "phone", title: "アプリ紹介"}].map(({icon, title}) => <div><Icon name={icon} size={46} /><h3>{title}</h3></div>)}</div>
+        </div>
+      </div>
+      <div class="vp-service-collage" aria-label="商品・風景・アプリの映像表現イメージ">
+        <img class="vp-collage-product" src="/video-production/assets/design/service-product.webp" alt="水しぶきに包まれるボトルの商品表現イメージ" width="440" height="440" loading="lazy" />
+        <img class="vp-collage-landscape" src="/video-production/assets/design/service-landscape.webp" alt="雄大な山々と森の風景イメージ" width="440" height="440" loading="lazy" />
+        <img class="vp-collage-app" src="/sonovade/assets/lp/movie-poster.jpg" alt="ソノバデの間取り作成画面" width="1280" height="720" loading="lazy" />
+      </div>
+    </section>
+
+    <section class="vp-works vp-section" id="works" aria-labelledby="works-title"><div class="vp-container">
+      <div class="vp-section-heading"><h2 id="works-title">制作事例</h2><p>AIの力で、伝えたい魅力を映像に。</p></div>
+      <div class="vp-work-grid">{works.map(work => <article class="vp-work" data-video-card>
+        <div class="vp-player">
+          <video id={`${work.id}-video`} controls playsinline preload="none" poster={work.poster} aria-label={work.label} aria-describedby={`${work.id}-description`}><source src={work.src} type="video/mp4" /><p><a href={work.src}>{work.title}の紹介動画をダウンロード</a></p></video>
+          <button class="vp-video-cover" type="button" data-video-play aria-controls={`${work.id}-video`} aria-label={`${work.title}の動画を再生`} hidden><span class="vp-film-title">{work.subtitle}<small>{work.category}</small></span><span class="vp-play-circle"><Icon name="play" size={24} /></span><span class="vp-duration">{work.duration}</span></button>
+        </div>
+        <h3>{work.title}</h3><p id={`${work.id}-description`}>{work.text}</p>
+        <button class="vp-text-link" type="button" data-video-play aria-controls={`${work.id}-video`}>動画を見る <Icon name="arrow" size={17} /></button>
+      </article>)}</div>
+      <p class="vp-play-note">自社サービスの紹介動画です。再生すると音声が流れます。</p>
+    </div></section>
+
+    <section class="vp-pricing vp-section" id="pricing" aria-labelledby="pricing-title">
+      <div class="vp-container">
+        <div class="vp-section-heading"><h2 id="pricing-title">料金プラン</h2><p>高品質なAI動画を、わかりやすい料金で。</p></div>
+        <div class="vp-price-grid">
+          <article class="vp-price-card vp-price-special"><h3>30秒の動画制作</h3><p class="vp-price"><span>¥</span>70,000</p><p class="vp-price-tax">（税込 ¥77,000）</p></article>
+        </div>
+        <p class="vp-pricing-note">※ 30秒を超える尺や、複数パターンの制作もご相談いただけます。</p>
+        <details class="vp-plan-details"><summary>基本プランに含まれるもの <span aria-hidden="true">＋</span></summary><div><ul>{["企画・構成・シナリオ", "AI映像の生成・編集", "BGM（著作権フリー音源の一部から選定）", "AI音声ナレーション、またはナレーションなし", "初稿確認後の修正1回", "MP4・フルHD（1920×1080）での納品"].map(item => <li><Icon name="check" size={17} />{item}</li>)}</ul><p>企画や演出の複雑さ、追加修正・仕様変更などにより別途費用が発生する場合があります。内容を伺い、対応範囲とお見積もりをご案内します。</p><a class="vp-button" href={contactHref}>このプランについて相談する <Icon name="arrow" size={17} /></a></div></details>
+      </div>
+    </section>
+
+    <section class="vp-process-section vp-section" id="process" aria-labelledby="process-title"><div class="vp-container vp-container-wide">
+      <div class="vp-section-heading"><h2 id="process-title">制作の流れ</h2><p>企画から納品まで、スピーディーに対応します。</p></div>
+      <ol class="vp-process">{steps.map(({title, text}, index) => <li><div class="vp-step-image"><img src={`/video-production/assets/design/process-0${index + 1}.webp`} alt="" width="438" height="292" loading="lazy" /><span class="vp-step-number">0{index + 1}</span></div><div class="vp-step-copy"><h3>{title}</h3><p>{text}</p></div></li>)}</ol>
+    </div></section>
+
+    <section class="vp-delivery vp-section" aria-labelledby="delivery-title"><div class="vp-container vp-container-wide">
+      <div class="vp-section-heading"><h2 id="delivery-title">納品物</h2><p>すぐに使える、高品質な動画データをお渡しします。</p></div>
+      <div class="vp-delivery-grid">{deliveries.map(({icon, title, format, text}) => <article><Icon name={icon} size={46} /><div><h3>{title}</h3><p class="vp-delivery-format">{format}</p><p>{text}</p></div></article>)}</div>
+    </div></section>
+
+    <section class="vp-faq vp-section" id="faq" aria-labelledby="faq-title"><div class="vp-container">
+      <div class="vp-section-heading"><h2 id="faq-title">よくある質問</h2><p>はじめての動画制作も、お気軽に。</p></div>
+      <div class="vp-faq-list">{faqs.map(({question, answer}) => <details><summary><span class="vp-q">Q.</span><span>{question}</span><span class="vp-faq-plus" aria-hidden="true"></span></summary><div class="vp-faq-answer"><span>A.</span><p>{answer}</p></div></details>)}</div>
+    </div></section>
+
+    <section class="vp-contact" id="contact" aria-labelledby="contact-title"><div class="vp-container">
+      <h2 id="contact-title">まずはお気軽にご相談ください</h2>
+      <p>企画のご相談・お見積もりは無料です。<br />貴社のサービスに最適な動画プランをご提案します。</p>
+      <a class="vp-button vp-contact-cta" href={contactHref}>お問い合わせする <Icon name="arrow" size={21} /></a>
+    </div></section>
+  </main>
+
+  <footer class="vp-footer"><div class="vp-footer-inner">
+    <a class="vp-brand" href="https://codell.jp/" aria-label="Codell 会社サイトへ"><img src="/assets/codell-logo.svg" alt="Codell" width="120" height="50" /></a>
+    <nav aria-label="フッターナビゲーション">{navigation.map(({href, label}) => <a href={href}>{label}</a>)}</nav>
+    <div class="vp-footer-legal"><a href="https://codell.jp/privacy/">プライバシーポリシー</a><small>© 2026 Codell. All rights reserved.</small></div>
+  </div></footer>
+
+  <script>
+    import "../../scripts/video-production";
+    import "../../scripts/video-header";
+  </script>
+</BaseLayout>

@@ -9,14 +9,22 @@ if (carousel) {
   const status = carousel.querySelector<HTMLElement>("[data-process-status]");
 
   if (slides.length && images.length === slides.length && tabs.length === slides.length && previous && next && status) {
-    const titles = slides.map((slide) => slide.querySelector("h4")?.textContent ?? "");
+    const titles = slides.map((slide) => slide.querySelector("h3")?.textContent ?? "");
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const autoplayDelay = 3200;
     let activeIndex = 0;
     let autoplayTimer: number | undefined;
 
+    // Only the first image ships with a source; the others load once the carousel is near the screen.
+    const loadImages = () => images.forEach((image) => {
+      if (image.getAttribute("src")) return;
+      if (image.dataset.srcset) image.srcset = image.dataset.srcset;
+      if (image.dataset.src) image.src = image.dataset.src;
+    });
+
     const showProcess = (index: number, moveFocus = false) => {
       activeIndex = Math.max(0, Math.min(index, slides.length - 1));
+      if (activeIndex > 0) loadImages();
       carousel.style.setProperty("--process-index", String(activeIndex));
 
       slides.forEach((slide, slideIndex) => slide.setAttribute("aria-hidden", String(slideIndex !== activeIndex)));
@@ -69,6 +77,11 @@ if (carousel) {
     });
     document.addEventListener("visibilitychange", () => document.hidden ? stopAutoplay() : startAutoplay());
     prefersReducedMotion.addEventListener("change", startAutoplay);
+    new IntersectionObserver((entries, observer) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      loadImages();
+      observer.disconnect();
+    }, { rootMargin: "400px 0px" }).observe(carousel);
     showProcess(0);
     startAutoplay();
   }

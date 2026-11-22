@@ -1,0 +1,48 @@
+name: KiDUKi migration checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  company:
+    name: Company site regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/*.test.mjs
+      - run: npm run build
+  kiduki:
+    name: KiDUKi LP
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: kiduki
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.22.2'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - run: bun run test
+      - run: bun run check
+      - run: bun run build
+      - run: bun run prepare:staging
+      - name: Compile staging auth locally
+        run: ./node_modules/.bin/wrangler pages functions build .pages-deploy/functions --outfile .pages-deploy/_worker.js
+      - run: bun run prepare:production
+      - name: Validate static Worker without deploying
+        run: ./node_modules/.bin/wrangler deploy --dry-run --config wrangler.production.jsonc

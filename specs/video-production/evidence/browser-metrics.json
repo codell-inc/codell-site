@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-20",
+  "target": "local production output via astro preview",
+  "viewports": [
+    {
+      "brokenImages": [],
+      "documentWidth": 1440,
+      "overflowing": [],
+      "viewport": {
+        "height": 1000,
+        "width": 1440
+      }
+    },
+    {
+      "brokenImages": [],
+      "documentWidth": 390,
+      "overflowing": [],
+      "viewport": {
+        "height": 844,
+        "width": 390
+      }
+    },
+    {
+      "brokenImages": [],
+      "documentWidth": 320,
+      "overflowing": [],
+      "viewport": {
+        "height": 800,
+        "width": 320
+      }
+    }
+  ],
+  "faq": {
+    "keyboardOpen": "Enter",
+    "keyboardClose": "Space",
+    "openStateVerified": true,
+    "focusVisible": true
+  },
+  "anchor320": {
+    "pricingTop": 150.1328125,
+    "headerBottom": 92.796875
+  },
+  "contact": {
+    "href": "/contact.html",
+    "navigationVerified": true,
+    "formCount": 1,
+    "submitted": false
+  },
+  "videos": [
+    {
+      "name": "Sonovade",
+      "duration": 31.6,
+      "currentTime": 13.818506,
+      "paused": false,
+      "readyState": 4,
+      "error": null
+    },
+    {
+      "name": "KiDUKi",
+      "duration": 32.6,
+      "currentTime": 13.989193,
+      "paused": false,
+      "readyState": 4,
+      "error": null
+    }
+  ],
+  "nativePauseVerifiedForBoth": true
+}

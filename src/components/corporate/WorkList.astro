@@ -7,7 +7,7 @@ import { workItems } from "../../data/home";
     <li>
       <h3>{item.title}</h3>
       <div class="work-description"><p>{item.description}</p></div>
-      <img src={item.image} alt={item.alt} width="1080" height="1080" loading="lazy" />
+      <img src={item.image} srcset={item.srcset} sizes="220px" alt={item.alt} width="1080" height="1080" loading="lazy" decoding="async" />
     </li>
   ))}
 </ol>

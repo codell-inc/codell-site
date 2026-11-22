@@ -1,0 +1,86 @@
+name: Company site (codell.jp)
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "public/**"
+      - "scripts/**"
+      - "tests/**"
+      - "package*.json"
+      - "astro.config.mjs"
+      - "tsconfig.json"
+      - ".github/workflows/company-pages.yml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: company-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build company site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.2"
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run test:build
+      - name: Upload built company site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/
+
+  deploy:
+    name: Publish codell.jp
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: https://codell.jp/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.22.2"
+      - name: Download the verified site
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: .company-pages-artifact/
+      - name: Unpack publication checks
+        run: |
+          mkdir -p docs
+          tar -xf .company-pages-artifact/artifact.tar -C docs
+      - name: Reject superseded main commits
+        run: |
+          latest="$(git ls-remote origin refs/heads/main | cut -f1)"
+          test "$GITHUB_SHA" = "$latest" || { echo 'Main advanced; deploy the newer run.'; exit 1; }
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Publish the built artifact
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify codell.jp pages and assets
+        run: |
+          for attempt in {1..20}; do
+            if node scripts/verify-company-publication.mjs; then exit 0; fi
+            sleep 10
+          done
+          exit 1

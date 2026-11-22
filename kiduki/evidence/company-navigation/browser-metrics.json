@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-20",
+  "browser": "Google Chrome on connected Mac; DevTools Responsive with Desktop input to avoid retained touch pinch zoom",
+  "company_after": [
+    {
+      "width": 1440,
+      "scrollWidth": 1440,
+      "visualViewportScale": 1,
+      "brokenImages": 0
+    },
+    {
+      "width": 390,
+      "scrollWidth": 390,
+      "visualViewportScale": 1,
+      "brokenImages": 0
+    },
+    {
+      "width": 320,
+      "scrollWidth": 327,
+      "visualViewportScale": 1,
+      "brokenImages": 0,
+      "serviceMenuBounds": {
+        "left": 37,
+        "right": 283,
+        "width": 246
+      },
+      "productElementsOutsideViewport": 0
+    }
+  ],
+  "company_before_origin_main": {
+    "width": 320,
+    "scrollWidth": 327,
+    "visualViewportScale": 1,
+    "note": "Identical existing 7px overflow; no CSS changes in this feature."
+  },
+  "navigation": {
+    "serviceLabel": "KiDUKi",
+    "description": "ARグラス × AI で、介護・家事代行の現場を支える",
+    "href": "https://kiduki.codell.jp/",
+    "actualClick": "Opened existing public LP with KiDUKi heading and current product copy"
+  },
+  "lp_image_regression": {
+    "scouter": "/images/feature-01.jpg",
+    "heroPoster": "/images/hero-poster.jpg",
+    "validation": "Existing assets visually inspected; failing imagery regression confirmed before fix, passed after."
+  },
+  "remoteDeployment": "not performed"
+}
