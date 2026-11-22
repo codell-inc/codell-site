@@ -1,7 +1,7 @@
 ---
 import SonovadeFooter from "../components/sonovade/SonovadeFooter.astro";
 import SonovadeHeader from "../components/sonovade/SonovadeHeader.astro";
-import { organizationId, websiteId } from "../data/structured-data";
+import { organizationId, websiteId, type StructuredDataNode } from "../data/structured-data";
 import "../styles/sonovade.css";
 import BaseLayout from "./BaseLayout.astro";
 
@@ -9,9 +9,10 @@ interface Props {
   title: string;
   description: string;
   canonicalPath?: string;
+  extraStructuredData?: StructuredDataNode[];
 }
 
-const { title, description, canonicalPath = "/sonovade/" } = Astro.props;
+const { title, description, canonicalPath = "/sonovade/", extraStructuredData = [] } = Astro.props;
 const site = Astro.site!;
 const pageUrl = new URL(canonicalPath, site).href;
 const productUrl = new URL("/sonovade/", site).href;
@@ -44,6 +45,7 @@ const structuredData = [
     image: imageUrl,
     publisher: { "@id": organizationId(site) },
   },
+  ...extraStructuredData,
 ];
 // Subset fonts generated at build time by scripts/build-fonts.mjs.
 const fontHref = "/fonts/fonts.css";

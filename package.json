@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs && node scripts/build-fonts.mjs",
+    "build": "astro check && node scripts/prepare-build.mjs && astro build && node scripts/preserve-routes.mjs && node scripts/generate-sitemap.mjs && node scripts/build-fonts.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "build:video": "npm run build && node scripts/prepare-video-site.mjs",
