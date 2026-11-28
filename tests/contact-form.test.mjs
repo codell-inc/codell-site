@@ -10,8 +10,9 @@ const compiled = ts.transpileModule(source.replaceAll("import.meta.env.", "TEST_
 }).outputText;
 const destination = "AW-18448674355/test-success-label";
 const measurementId = "G-TEST000000";
+const sonovadeMeasurementId = "G-TESTSONOVA";
 
-function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination, ga4Id = measurementId, search = "", dedicated = false, values = {} } = {}) {
+function setup({ valid = true, send = async () => {}, tag = "present", sendTo = destination, ga4Id = measurementId, sonovadeId = sonovadeMeasurementId, search = "", dedicated = false, values = {} } = {}) {
   const conversions = [];
   const leads = [];
   const sends = [];
@@ -42,7 +43,7 @@ function setup({ valid = true, send = async () => {}, tag = "present", sendTo = 
   vm.runInNewContext(compiled, {
     exports: {},
     require: (name) => { assert.equal(name, "@emailjs/browser"); return emailjs; },
-    TEST_ENV: { PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO: sendTo, PUBLIC_GA4_MEASUREMENT_ID: ga4Id },
+    TEST_ENV: { PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO: sendTo, PUBLIC_GA4_MEASUREMENT_ID: ga4Id, PUBLIC_GA4_SONOVADE_MEASUREMENT_ID: sonovadeId },
     document: { querySelector: (selector) => elements[selector] ?? null, querySelectorAll: () => dedicated ? radios : [] },
     FormData: class { get(name) { return Object.hasOwn(values, name) ? values[name] : name === "type" ? (dedicated ? radios.find(radio => radio.checked)?.value : options.find((option) => option.defaultSelected)?.value) : `${name}:private-input`; } },
     window,
@@ -152,6 +153,37 @@ test("default GA4 destination matches the site's measurement ID", async () => {
   const fixture = setup({ ga4Id: null });
   await fixture.submit();
   assert.equal(fixture.leads[0][2].send_to, "G-35VTG4Z2NT");
+});
+
+test("dedicated Sonovade form reports its lead to both the site and Sonovade properties", async () => {
+  const fixture = setup({ dedicated: true, search: "?request=quote" });
+  await fixture.submit();
+  assert.deepEqual(fixture.leads, [
+    ["event", "generate_lead", { send_to: measurementId, inquiry_type: "ソノバデの見積もり依頼", discovery_source: "discovery_source:private-input" }],
+    ["event", "generate_lead", { send_to: sonovadeMeasurementId, inquiry_type: "ソノバデの見積もり依頼", discovery_source: "discovery_source:private-input" }],
+  ]);
+  assert.doesNotMatch(JSON.stringify(fixture.leads), /(name|email|message|company_name):private-input/);
+});
+
+test("corporate form reports its lead only to the site property", async () => {
+  const fixture = setup();
+  await fixture.submit();
+  assert.equal(fixture.leads.length, 1);
+  assert.equal(fixture.leads[0][2].send_to, measurementId);
+});
+
+test("unconfigured Sonovade destination leaves the site-property lead in place", async () => {
+  const fixture = setup({ dedicated: true, sonovadeId: "" });
+  await fixture.submit();
+  assert.equal(fixture.conversions.length, 1);
+  assert.equal(fixture.leads.length, 1);
+  assert.equal(fixture.leads[0][2].send_to, measurementId);
+});
+
+test("default Sonovade destination matches its measurement ID", async () => {
+  const fixture = setup({ dedicated: true, ga4Id: null, sonovadeId: null });
+  await fixture.submit();
+  assert.deepEqual(fixture.leads.map((lead) => lead[2].send_to), ["G-35VTG4Z2NT", "G-G2KCPE6MTE"]);
 });
 
 // Product context must survive the form reset after a successful submission.
