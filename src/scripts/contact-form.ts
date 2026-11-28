@@ -9,11 +9,13 @@ const EMAILJS_CONFIG = {
 const GOOGLE_ADS_CONTACT_SEND_TO =
   import.meta.env.PUBLIC_GOOGLE_ADS_CONTACT_SEND_TO ?? "AW-18448674355/3cp0COiC5ZAdELPcgd1E";
 const GA4_MEASUREMENT_ID = import.meta.env.PUBLIC_GA4_MEASUREMENT_ID ?? "G-35VTG4Z2NT";
+const GA4_SONOVADE_MEASUREMENT_ID =
+  import.meta.env.PUBLIC_GA4_SONOVADE_MEASUREMENT_ID ?? "G-G2KCPE6MTE";
 
 type Gtag = (command: "event", event: string, parameters: Record<string, string>) => void;
 
 // Only the inquiry category and discovery source are sent; never the visitor's name, email, or message.
-const trackContactConversion = (inquiryType: string, discoverySource: string) => {
+const trackContactConversion = (inquiryType: string, discoverySource: string, product?: string) => {
   const gtag = (window as Window & { gtag?: Gtag }).gtag;
   if (typeof gtag !== "function") return;
   try {
@@ -24,6 +26,13 @@ const trackContactConversion = (inquiryType: string, discoverySource: string) =>
   try {
     if (GA4_MEASUREMENT_ID) {
       gtag("event", "generate_lead", { send_to: GA4_MEASUREMENT_ID, inquiry_type: inquiryType, discovery_source: discoverySource });
+    }
+  } catch {
+    // Tracking must not change the result of a completed email submission.
+  }
+  try {
+    if (product === "sonovade" && GA4_SONOVADE_MEASUREMENT_ID) {
+      gtag("event", "generate_lead", { send_to: GA4_SONOVADE_MEASUREMENT_ID, inquiry_type: inquiryType, discovery_source: discoverySource });
     }
   } catch {
     // Tracking must not change the result of a completed email submission.
@@ -140,7 +149,7 @@ if (form && status && submitButton) {
       setStatus("送信が完了しました。担当者よりご連絡いたします。", "success");
       form.reset();
       updateDiscoveryOther();
-      trackContactConversion(String(formData.get("type") ?? ""), String(formData.get("discovery_source") ?? ""));
+      trackContactConversion(String(formData.get("type") ?? ""), String(formData.get("discovery_source") ?? ""), form.dataset.product);
     } catch (error) {
       console.error("EmailJS send failed", error);
       setStatus("送信に失敗しました。時間をおいて再度お試しください。", "error");

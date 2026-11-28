@@ -8,9 +8,11 @@ interface Props {
   fontHref: string;
   canonicalPath?: string;
   structuredData?: StructuredDataNode[];
+  /** Additional GA4 properties (e.g. the Sonovade property) that receive the same page_view. */
+  extraGa4Ids?: string[];
 }
 
-const { title, description, bodyClass, fontHref, canonicalPath, structuredData = [] } = Astro.props;
+const { title, description, bodyClass, fontHref, canonicalPath, structuredData = [], extraGa4Ids = [] } = Astro.props;
 const canonicalUrl = Astro.site ? new URL(canonicalPath ?? Astro.url.pathname, Astro.site) : undefined;
 // The company node goes on every page; the WebSite node only on pages that live on codell.jp itself.
 const graph = Astro.site
@@ -23,12 +25,13 @@ const graph = Astro.site
   <head>
     <meta charset="utf-8" />
     <!-- Google tag (gtag.js): loaded on the first interaction so it does not compete with the first render -->
-    <script is:inline>
+    <script is:inline define:vars={{ extraGa4Ids }}>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'AW-18448674355');
       gtag('config', 'G-35VTG4Z2NT');
+      for (var i = 0; i < extraGa4Ids.length; i++) { gtag('config', extraGa4Ids[i]); }
       (function () {
         var events = ['pointerdown', 'keydown', 'touchstart', 'scroll', 'wheel'];
         var load = function () {
