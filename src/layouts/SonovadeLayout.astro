@@ -51,7 +51,8 @@ const structuredData = [
 const fontHref = "/fonts/fonts.css";
 ---
 
-<BaseLayout {title} {description} {fontHref} {structuredData} {canonicalPath}>
+<!-- Sonovade pages report to their own GA4 property in addition to the site-wide one. -->
+<BaseLayout {title} {description} {fontHref} {structuredData} {canonicalPath} extraGa4Ids={["G-G2KCPE6MTE"]}>
   <Fragment slot="head">
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content="Codell" />
