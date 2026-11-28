@@ -1,0 +1,110 @@
+---
+import { getCollection, render } from "astro:content";
+import SonovadeLayout from "../../../layouts/SonovadeLayout.astro";
+import { organizationId, websiteId, type StructuredDataNode } from "../../../data/structured-data";
+import "../../../styles/sonovade-articles.css";
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  return articles.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, description, pubDate, updatedAt, faqs } = entry.data;
+const site = Astro.site!;
+const pageUrl = new URL(`/sonovade/articles/${entry.id}/`, site).href;
+const productUrl = new URL("/sonovade/", site).href;
+const imageUrl = new URL("/sonovade/assets/lp/plan.jpg", site).href;
+const fmt = (date: Date) => new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "long", day: "numeric" }).format(date);
+
+const extraStructuredData: StructuredDataNode[] = [
+  {
+    "@type": "Article",
+    "@id": `${pageUrl}#article`,
+    headline: title,
+    description,
+    inLanguage: "ja",
+    datePublished: pubDate.toISOString(),
+    dateModified: (updatedAt ?? pubDate).toISOString(),
+    author: { "@id": organizationId(site) },
+    publisher: { "@id": organizationId(site) },
+    image: [imageUrl],
+    mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+    isPartOf: { "@id": websiteId(site) },
+    about: { "@id": `${productUrl}#software` },
+  },
+];
+if (faqs.length > 0) {
+  extraStructuredData.push({
+    "@type": "FAQPage",
+    "@id": `${pageUrl}#faq`,
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  });
+}
+
+const siblings = (await getCollection("articles"))
+  .filter((other) => other.id !== entry.id)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<SonovadeLayout {title} {description} {extraStructuredData} canonicalPath={`/sonovade/articles/${entry.id}/`}>
+  <article class="article-page">
+    <header class="article-header">
+      <p class="article-kicker">ソノバデ実務ガイド</p>
+      <h1>{title}</h1>
+      <p class="article-meta">
+        <span>公開: <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time></span>
+        {updatedAt && <span>更新: <time datetime={updatedAt.toISOString()}>{fmt(updatedAt)}</time></span>}
+        <span>執筆: ソノバデ開発チーム（株式会社Codell）</span>
+      </p>
+    </header>
+
+    <div class="article-body">
+      <Content />
+    </div>
+
+    {
+      faqs.length > 0 && (
+        <section class="article-faq" aria-labelledby="article-faq-title">
+          <h2 id="article-faq-title">よくある質問</h2>
+          {faqs.map((faq) => (
+            <details>
+              <summary>{faq.question}</summary>
+              <p>{faq.answer}</p>
+            </details>
+          ))}
+        </section>
+      )
+    }
+
+    <aside class="article-cta" aria-labelledby="article-cta-title">
+      <h2 id="article-cta-title">書類作成の時間を、現場に戻しませんか</h2>
+      <p>ソノバデは、介護保険住宅改修の図面作成・見積書作成・申請書類作成をタブレットひとつで完結できる業務支援ソフトです。紙・Excelでの作業が2時間かかっていた案件を10分に短縮できます（想定値）。</p>
+      <div class="article-cta-actions">
+        <a class="button" href="/sonovade/contact/?request=brochure">資料を請求する</a>
+        <a class="button button--outline" href="/sonovade/contact/?request=consultation">30分の無料相談を申し込む</a>
+      </div>
+    </aside>
+
+    {
+      siblings.length > 0 && (
+        <section class="related-articles" aria-labelledby="related-title">
+          <h2 id="related-title">その他の記事</h2>
+          <ul>
+            {siblings.map((other) => (
+              <li>
+                <a href={`/sonovade/articles/${other.id}/`}>{other.data.title}</a>
+                <p>{other.data.description}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+  </article>
+</SonovadeLayout>

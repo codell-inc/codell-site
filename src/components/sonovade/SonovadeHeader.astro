@@ -7,7 +7,7 @@ const sectionLink = (id: string) => `${isLanding ? "" : "/sonovade/"}#${id}`;
   <Brand />
   <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" data-nav-toggle aria-label="メニューを開く"><span></span><span></span></button>
   <nav class="site-nav" id="site-nav" data-nav>
-    <a href={sectionLink("workflow")}>使い方</a><a href={sectionLink("movie")}>動画</a><a href={sectionLink("features")}>できること</a><a href="/sonovade/pricing/" aria-current={Astro.url.pathname === "/sonovade/pricing/" ? "page" : undefined}>料金</a>
+    <a href={sectionLink("workflow")}>使い方</a><a href={sectionLink("movie")}>動画</a><a href={sectionLink("features")}>できること</a><a href="/sonovade/articles/" aria-current={Astro.url.pathname.startsWith("/sonovade/articles/") ? "page" : undefined}>記事</a><a href="/sonovade/pricing/" aria-current={Astro.url.pathname === "/sonovade/pricing/" ? "page" : undefined}>料金</a>
     <a class="button nav-cta" href="/sonovade/contact/?request=consultation">無料相談を申し込む</a>
     <a class="button button--outline nav-brochure" href="/sonovade/contact/?request=brochure">資料を請求する</a>
   </nav>

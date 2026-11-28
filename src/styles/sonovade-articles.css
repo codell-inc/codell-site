@@ -1,0 +1,78 @@
+/* 記事ページ・一覧ページ。長文の可読性を最優先し、LPと同じ色・角・余白の体系に揃える。 */
+
+.article-kicker { margin: 0 0 8px; color: var(--dark-teal); font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+
+/* --- 個別記事 -------------------------------------------------- */
+
+.article-page { background: white; }
+.article-header { max-width: 760px; margin: 0 auto; padding: 148px 24px 24px; }
+.article-header h1 { margin: 0; font-size: 32px; line-height: 1.5; letter-spacing: .01em; }
+.article-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 20px; color: var(--muted, #5b6a67); font-size: 13px; }
+
+.article-body { max-width: 760px; margin: 0 auto; padding: 24px 24px 40px; font-size: 16px; line-height: 1.9; }
+.article-body h2 { margin: 56px 0 16px; padding-left: 14px; border-left: 4px solid var(--teal); font-size: 24px; line-height: 1.5; }
+.article-body h3 { margin: 40px 0 12px; font-size: 19px; line-height: 1.5; }
+.article-body p { margin: 0 0 20px; }
+.article-body ul, .article-body ol { margin: 0 0 20px; padding-left: 1.4em; }
+.article-body li { margin-bottom: 8px; }
+.article-body a { color: var(--dark-teal); text-underline-offset: 4px; }
+.article-body table { width: 100%; margin: 0 0 24px; border-collapse: collapse; font-size: 14.5px; line-height: 1.6; }
+.article-body th, .article-body td { padding: 10px 12px; border: 1px solid var(--line, #dfe7e5); text-align: left; vertical-align: top; }
+.article-body th { background: var(--mist); font-weight: 700; }
+.article-body blockquote { margin: 0 0 20px; padding: 12px 20px; border-left: 4px solid var(--mint); background: var(--mist); color: var(--ink); }
+.article-body strong { font-weight: 700; }
+.article-body dl { margin: 0 0 20px; }
+.article-body dt { margin-top: 12px; font-weight: 700; }
+.article-body dd { margin: 4px 0 0 1.2em; }
+
+/* 回答ブロック（本文冒頭の要約） */
+.article-body .article-answer { margin: 0 0 28px; padding: 16px 20px; border: 1px solid var(--mint); border-radius: 8px; background: var(--mist); }
+
+/* --- FAQ / CTA / 関連記事 -------------------------------------- */
+
+.article-faq { max-width: 760px; margin: 0 auto; padding: 8px 24px 32px; }
+.article-faq h2 { margin: 32px 0 16px; padding-left: 14px; border-left: 4px solid var(--teal); font-size: 24px; line-height: 1.5; }
+.article-faq details { border: 1px solid var(--line, #dfe7e5); border-radius: 8px; background: white; }
+.article-faq details + details { margin-top: 10px; }
+.article-faq summary { padding: 14px 44px 14px 16px; font-size: 15.5px; font-weight: 700; line-height: 1.6; cursor: pointer; list-style: none; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v12M2 8h12" stroke="%23087f76" stroke-width="2"/></svg>') no-repeat right 16px center; }
+.article-faq details[open] summary { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path d="M2 8h12" stroke="%23087f76" stroke-width="2"/></svg>'); }
+.article-faq details p { margin: 0; padding: 0 16px 16px; font-size: 15px; line-height: 1.9; }
+
+.article-cta { max-width: 760px; margin: 24px auto 0; padding: 32px 24px 48px; }
+.article-cta-inner { padding: 28px 24px; border-radius: 12px; background: var(--mist); }
+.article-cta h2 { margin: 0 0 12px; font-size: 21px; line-height: 1.5; }
+.article-cta p { margin: 0 0 20px; font-size: 15px; line-height: 1.8; }
+.article-cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.related-articles { max-width: 760px; margin: 0 auto; padding: 0 24px 72px; }
+.related-articles h2 { margin: 0 0 16px; padding-left: 14px; border-left: 4px solid var(--teal); font-size: 21px; line-height: 1.5; }
+.related-articles ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.related-articles a { display: block; padding: 16px 20px; border: 1px solid var(--line, #dfe7e5); border-radius: 8px; font-weight: 700; color: var(--ink); text-decoration: none; }
+.related-articles a:hover { border-color: var(--teal); color: var(--dark-teal); }
+.related-articles p { margin: 6px 0 0; font-weight: 400; font-size: 14px; line-height: 1.7; color: var(--muted, #5b6a67); }
+
+/* --- 一覧ページ ------------------------------------------------ */
+
+.articles-index { padding-block: 0 80px; background: white; }
+.articles-index-header { max-width: 760px; margin: 0 auto; padding: 148px 24px 24px; }
+.articles-index-header h1 { margin: 0; font-size: 32px; line-height: 1.5; }
+.articles-index-header > p { margin: 16px 0 0; font-size: 15.5px; line-height: 1.8; }
+.articles-list { max-width: 760px; margin: 24px auto 0; padding: 0 24px; display: grid; gap: 14px; list-style: none; }
+.articles-list a { display: block; padding: 20px 24px; border: 1px solid var(--line, #dfe7e5); border-radius: 10px; text-decoration: none; color: var(--ink); }
+.articles-list a:hover { border-color: var(--teal); }
+.articles-list h2 { margin: 0; font-size: 18.5px; line-height: 1.6; }
+.articles-list a:hover h2 { color: var(--dark-teal); }
+.articles-list p { margin: 8px 0 0; font-size: 14.5px; line-height: 1.75; color: var(--muted, #5b6a67); }
+.articles-list-date { font-size: 13px !important; }
+
+@media (max-width: 979px) {
+  .article-header { padding-top: 116px; }
+  .article-header h1 { font-size: 25px; }
+  .articles-index-header { padding-top: 116px; }
+  .articles-index-header h1 { font-size: 25px; }
+  .article-body { font-size: 15.5px; }
+  .article-body h2 { font-size: 21px; }
+  .article-body h3 { font-size: 17.5px; }
+  .article-body table { display: block; overflow-x: auto; }
+  .article-cta-actions .button { width: 100%; }
+}

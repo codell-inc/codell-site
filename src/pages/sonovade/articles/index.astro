@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import SonovadeLayout from "../../../layouts/SonovadeLayout.astro";
+import type { StructuredDataNode } from "../../../data/structured-data";
+import "../../../styles/sonovade-articles.css";
+
+const title = "住宅改修の実務記事一覧 | ソノバデ";
+const description = "介護保険住宅改修の理由書の書き方・見積書の様式・事前申請の必要書類など、ケアマネジャーと工事担当者の事務作業をわかりやすく解説する記事一覧です。";
+const site = Astro.site!;
+const pageUrl = new URL("/sonovade/articles/", site).href;
+const articles = (await getCollection("articles")).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const fmt = (date: Date) => new Intl.DateTimeFormat("ja-JP", { year: "numeric", month: "long", day: "numeric" }).format(date);
+
+const extraStructuredData: StructuredDataNode[] = [
+  {
+    "@type": "ItemList",
+    "@id": `${pageUrl}#list`,
+    itemListElement: articles.map((entry, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: new URL(`/sonovade/articles/${entry.id}/`, site).href,
+      name: entry.data.title,
+    })),
+  },
+];
+---
+
+<SonovadeLayout {title} {description} {extraStructuredData} canonicalPath="/sonovade/articles/">
+  <section class="articles-index" aria-labelledby="articles-title">
+    <div class="container">
+      <header class="articles-index-header">
+        <p class="article-kicker">ソノバデ実務ガイド</p>
+        <h1 id="articles-title">住宅改修の実務記事一覧</h1>
+        <p>介護保険住宅改修の申請に必要な書類の書き方や制度のしくみを、現場ですぐ使える形で解説します。</p>
+      </header>
+      <ul class="articles-list">
+        {
+          articles.map((entry) => (
+            <li>
+              <a href={`/sonovade/articles/${entry.id}/`}>
+                <h2>{entry.data.title}</h2>
+                <p>{entry.data.description}</p>
+                <p class="articles-list-date">
+                  公開: <time datetime={entry.data.pubDate.toISOString()}>{fmt(entry.data.pubDate)}</time>
+                  {entry.data.updatedAt && (
+                    <>
+                      ／更新: <time datetime={entry.data.updatedAt.toISOString()}>{fmt(entry.data.updatedAt)}</time>
+                    </>
+                  )}
+                </p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</SonovadeLayout>
